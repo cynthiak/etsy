@@ -7,7 +7,6 @@ class CreateOrderItems < ActiveRecord::Migration
       t.text :item_name
       t.text :buyer
 
-
       t.integer :quantity
       t.float :price
 

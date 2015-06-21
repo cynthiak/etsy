@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150621154325) do
+ActiveRecord::Schema.define(version: 20150621173514) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -76,8 +76,8 @@ ActiveRecord::Schema.define(version: 20150621154325) do
     t.float    "order_sales_tax"
     t.float    "item_total"
     t.string   "currency"
-    t.string   "transaction_id"
-    t.string   "listing_id"
+    t.string   "transaction_number"
+    t.string   "listing_number"
     t.date     "date_paid"
     t.date     "date_shipped"
     t.text     "ship_name"
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 20150621154325) do
     t.text     "ship_state"
     t.text     "ship_zipcode"
     t.text     "ship_country"
-    t.string   "order_id"
+    t.string   "order_number"
     t.text     "variations"
     t.string   "order_type"
     t.string   "listings_type"
@@ -96,14 +96,14 @@ ActiveRecord::Schema.define(version: 20150621154325) do
     t.text     "inperson_location"
     t.float    "etsy_fee"
     t.text     "notes"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "orders", force: :cascade do |t|
     t.date     "sale_date"
-    t.string   "order_id"
-    t.string   "buyer_user_id"
+    t.string   "order_number"
+    t.string   "username"
     t.string   "full_name"
     t.string   "first_name"
     t.string   "last_name"

@@ -1,0 +1,5 @@
+%h1 Order Items
+%h2 Import Order Items
+= form_tag import_order_items_path, multipart: true do
+  = file_field_tag :file
+  = submit_tag "Import"

@@ -1,0 +1,44 @@
+%h1 Orders
+
+%p
+  Total Orders:
+  =@orders.count
+
+%p
+  Orders Left to Ship:
+  =@orders_left_to_ship.count
+
+
+%p
+  Total Revenue:
+  =@total_revenue
+
+%p
+  Average Revenue Per Order:
+  =@average_revenue_per_order
+
+%p
+  Total Order Items:
+  =@total_order_items
+
+%p
+  Average Items Per Order:
+  =@average_items_per_order
+
+%p
+  Total Buyers:
+  =@total_buyers
+
+
+%ul
+- @orders.each do |order|
+  %li
+    =order.sale_date
+    |
+    =order.username
+
+
+%h2 Import Orders
+= form_tag import_orders_path, multipart: true do
+  = file_field_tag :file
+  = submit_tag "Import"

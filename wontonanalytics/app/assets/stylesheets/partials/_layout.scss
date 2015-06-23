@@ -1,0 +1,58 @@
+/*************************************************
+LAYOUT:
+Setting a fixed/sticky left sidebar that takes up
+the entire vertical window
+**************************************************/
+
+body {
+  background: #F0F0F0;
+}
+
+#wrapper {
+  padding-left: 250px;
+  transition: all 0.4s ease 0s;
+  width: auto;
+}
+
+#sidebar-wrapper {
+  margin-left: -250px;
+  margin-top: 100px;
+  left: 250px;
+  width: 250px;
+  background: #1D2027;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1500;
+  transition: all 0.4s ease 0s;
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+.page-content .col-md-12{
+  padding: 100px 0 0;
+}
+
+@media (max-width:767px) {
+
+    #wrapper {
+      padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+      left: 0;
+    }
+
+    #wrapper.active {
+      position: relative;
+      left: 250px;
+    }
+
+    #wrapper.active #sidebar-wrapper {
+      left: 250px;
+      width: 250px;
+      transition: all 0.4s ease 0s;
+    }
+}

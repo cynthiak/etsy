@@ -1,0 +1,28 @@
+#sidebar
+  %ul.nav.nav-pills.nav-stacked
+
+
+
+    - if (params[:controller] == 'orders')
+      %li.active
+        = link_to orders_path do
+          %span.glyphicon.glyphicon-shopping-cart
+          Orders
+    - else
+      %li
+        = link_to orders_path do
+          %span.glyphicon.glyphicon-shopping-cart
+          Orders
+
+
+
+    - if (params[:controller] == 'order_items')
+      %li.active
+        = link_to order_items_path do
+          %span.glyphicon.glyphicon-th-list
+          Order Items
+    - else
+      %li
+        = link_to order_items_path do
+          %span.glyphicon.glyphicon-th-list
+          Order Items

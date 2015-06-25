@@ -38,7 +38,7 @@
     =order.username
 
 
-%h2 Import Orders
+%h1 Import Orders
 = form_tag import_orders_path, multipart: true do
   = file_field_tag :file
   = submit_tag "Import"

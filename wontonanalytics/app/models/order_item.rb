@@ -34,7 +34,8 @@ class OrderItem < ActiveRecord::Base
             :listings_type=> row[26],
             :payment_type=> row[27],
             :inperson_discount=> row[28],
-            :inperson_location=> row[29]
+            :inperson_location=> row[29],
+            :etsy_listing_variation=> row[24].nil? ? row[13] : row[13] + "_" + row[24]
           })
       else
         order_item = OrderItem.create({
@@ -67,7 +68,8 @@ class OrderItem < ActiveRecord::Base
             :listings_type=> row[26],
             :payment_type=> row[27],
             :inperson_discount=> row[28],
-            :inperson_location=> row[29]
+            :inperson_location=> row[29],
+            :etsy_listing_variation=> row[24].nil? ? row[13] : row[13] + "_" + row[24]
           })
       end
       order_item.save!

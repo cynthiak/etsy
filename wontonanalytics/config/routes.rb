@@ -25,6 +25,14 @@ Rails.application.routes.draw do
     collection { post :import }
   end
 
+  resources :products do
+    collection { post :import }
+  end
+
+  resources :customers do
+    collection { post :import }
+  end
+
   # Example resource route with options:
   #   resources :products do
   #     member do

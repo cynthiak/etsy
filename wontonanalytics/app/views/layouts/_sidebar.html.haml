@@ -26,3 +26,27 @@
         = link_to order_items_path do
           %span.glyphicon.glyphicon-th-list
           Order Items
+
+
+    - if (params[:controller] == 'products')
+      %li.active
+        = link_to products_path do
+          %span.glyphicon.glyphicon-th-large
+          Products
+    - else
+      %li
+        = link_to products_path do
+          %span.glyphicon.glyphicon-th-large
+          Products
+
+
+    - if (params[:controller] == 'customers')
+      %li.active
+        = link_to customers_path do
+          %span.glyphicon.glyphicon-user
+          Customers
+    - else
+      %li
+        = link_to customers_path do
+          %span.glyphicon.glyphicon-user
+          Customers

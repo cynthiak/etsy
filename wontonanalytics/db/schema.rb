@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150621173514) do
+ActiveRecord::Schema.define(version: 20150625154105) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 20150621173514) do
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
 
   create_table "customers", force: :cascade do |t|
-    t.text     "firstname"
-    t.text     "lastname"
+    t.text     "first_name"
+    t.text     "last_name"
     t.text     "etsy_username"
     t.text     "email"
     t.text     "source"
@@ -61,6 +61,11 @@ ActiveRecord::Schema.define(version: 20150621173514) do
     t.text     "ship_country"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.string "listing_type"
+    t.text   "etsy_listing_variation"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -96,8 +101,9 @@ ActiveRecord::Schema.define(version: 20150621173514) do
     t.text     "inperson_location"
     t.float    "etsy_fee"
     t.text     "notes"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.text     "etsy_listing_variation"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -143,15 +149,22 @@ ActiveRecord::Schema.define(version: 20150621173514) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.text     "name"
+    t.text     "product_name"
     t.text     "description"
     t.text     "file"
     t.string   "product_type"
     t.text     "occasion"
-    t.text     "color"
-    t.text     "size"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.text     "dimsum"
+  end
+
+  create_table "variations", force: :cascade do |t|
+    t.string "variation_name"
+    t.string "style"
+    t.string "gender"
+    t.string "color"
+    t.string "size"
   end
 
 end

@@ -1,5 +1,16 @@
 class Order < ActiveRecord::Base
 
+  #######################################################
+  # Specifies Associations
+  # Read more about Rails Associations here: http://guides.rubyonrails.org/association_basics.html
+  belongs_to :customer
+  has_many :order_items
+
+  #######################################################
+  # Makes it so that when you print the object, you print a display name instead of the "#<ActiveRecord>blahblah" object name
+  alias_attribute :name, :order_number
+
+
   def self.import(file)
     CSV.foreach(file.path, headers:true) do |row|
       order = Order.find_by(order_number: row[1])

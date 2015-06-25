@@ -1,4 +1,16 @@
 class Product < ActiveRecord::Base
+
+  #######################################################
+  # Specifies Associations
+  # Read more about Rails Associations here: http://guides.rubyonrails.org/association_basics.html
+  has_many :variations
+  has_many :listings
+
+  #######################################################
+  # Makes it so that when you print the object, you print a display name instead of the "#<ActiveRecord>blahblah" object name
+  alias_attribute :name, :product_name
+
+
   def self.import(file)
     CSV.foreach(file.path, headers:true) do |row|
       product = Product.find_by(product_name: row[0])

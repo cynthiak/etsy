@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625154105) do
+ActiveRecord::Schema.define(version: 20150625221243) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -64,9 +64,14 @@ ActiveRecord::Schema.define(version: 20150625154105) do
   end
 
   create_table "listings", force: :cascade do |t|
-    t.string "listing_type"
-    t.text   "etsy_listing_variation"
+    t.string  "listing_type"
+    t.text    "etsy_listing_variation"
+    t.integer "product_id"
+    t.integer "variation_id"
   end
+
+  add_index "listings", ["product_id"], name: "index_product_id"
+  add_index "listings", ["variation_id"], name: "index_variation_id"
 
   create_table "order_items", force: :cascade do |t|
     t.date     "sale_date"
@@ -104,7 +109,12 @@ ActiveRecord::Schema.define(version: 20150625154105) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.text     "etsy_listing_variation"
+    t.integer  "order_id"
+    t.integer  "listing_id"
   end
+
+  add_index "order_items", ["listing_id"], name: "index_listing_id"
+  add_index "order_items", ["order_id"], name: "index_order_id"
 
   create_table "orders", force: :cascade do |t|
     t.date     "sale_date"
@@ -146,7 +156,10 @@ ActiveRecord::Schema.define(version: 20150625154105) do
     t.text     "notes"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.integer  "customer_id"
   end
+
+  add_index "orders", ["customer_id"], name: "index_customer_id"
 
   create_table "products", force: :cascade do |t|
     t.text     "product_name"
@@ -160,11 +173,14 @@ ActiveRecord::Schema.define(version: 20150625154105) do
   end
 
   create_table "variations", force: :cascade do |t|
-    t.string "variation_name"
-    t.string "style"
-    t.string "gender"
-    t.string "color"
-    t.string "size"
+    t.string  "variation_name"
+    t.string  "style"
+    t.string  "gender"
+    t.string  "color"
+    t.string  "size"
+    t.integer "product_id"
   end
+
+  add_index "variations", ["product_id"], name: "index_product_id2"
 
 end

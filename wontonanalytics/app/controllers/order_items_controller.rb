@@ -7,6 +7,6 @@ class OrderItemsController < ApplicationController
 
   def import
     OrderItem.import(params[:file])
-    redirect_to root_url, notice: "Order items imported."
+    redirect_to order_items_url, notice: "Order items imported."
   end
 end

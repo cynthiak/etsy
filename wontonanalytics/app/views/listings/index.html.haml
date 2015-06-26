@@ -1,0 +1,10 @@
+%h1 Listings
+
+%ul
+- @listings.each do |listing|
+  %li
+    =listing.etsy_listing_variation
+    |
+    =listing.product.product_name
+    |
+    =listing.variation

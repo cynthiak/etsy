@@ -23,6 +23,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -49,7 +50,8 @@ gem "haml-rails", "~> 0.9"
 # Bootstrap
 gem 'bootstrap-sass', '~> 3.3.5'
 
-
+# So I can use attr_accessible in models instead of Rails 4 convention
+gem 'protected_attributes'
 
 
 # Use ActiveModel has_secure_password

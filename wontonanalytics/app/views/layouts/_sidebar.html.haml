@@ -40,6 +40,18 @@
           Products
 
 
+    - if (params[:controller] == 'listings')
+      %li.active
+        = link_to listings_path do
+          %span.glyphicon.glyphicon-user
+          Listings
+    - else
+      %li
+        = link_to listings_path do
+          %span.glyphicon.glyphicon-user
+          Listings
+
+
     - if (params[:controller] == 'customers')
       %li.active
         = link_to customers_path do

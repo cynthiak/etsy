@@ -18,6 +18,7 @@
 /* VENDORS [using Twitter's Bootstrap for base styles] */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "partials/dataTables";
 
 /* PARTIALS [things that are used on more than one page]*/
 @import "partials/reset";

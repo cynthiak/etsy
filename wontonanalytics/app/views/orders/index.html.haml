@@ -63,16 +63,16 @@
 
   .page-content-body-section
     %h1 All Orders
-    %table#table-orders.table-container
+    %table#table-orders
       %thead
         %tr
           %th Sale Date
           %th Username
-
-      - @orders.each do |order|
-        %tr
-          %td= order.sale_date
-          %td= order.username
+      %tbody
+        - @orders.each do |order|
+          %tr
+            %td= order.sale_date
+            %td= order.username
 
 
   .page-content-body-section
@@ -80,3 +80,7 @@
     = form_tag import_orders_path, multipart: true do
       = file_field_tag :file
       = submit_tag "Import"
+
+
+:javascript
+  $("#table-orders").DataTable();

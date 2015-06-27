@@ -1,8 +1,33 @@
-%h1 Products
+#page-products.page-content-body
+  .page-content-body-section
+    %h1 Products
 
+    Organized by product type
+    Cards organized by occasion
 
+    Product - Description
 
-%h1 Import Products
-= form_tag import_products_path, multipart: true do
-  = file_field_tag :file
-  = submit_tag "Import"
+    %p
+      products:
+    %ul
+      - @products.each do |product|
+        %li
+          %strong (product)
+          =product.product_name
+          %br
+          - product.get_listings.each do |listing|
+            %strong (etsy_listing_variation)
+            =listing.etsy_listing_variation
+            000000000000
+          %br
+          %br
+
+    %p
+      cards:
+      =@cards
+
+  .page-content-body-section
+    %h1 Import Products
+    = form_tag import_products_path, multipart: true do
+      = file_field_tag :file
+      = submit_tag "Import"

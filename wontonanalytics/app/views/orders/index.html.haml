@@ -1,44 +1,82 @@
-%h1 Orders
+#page-products.page-content-body
+  .page-content-body-section
+    %h1 Orders
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Buyers
+          .stat-number
+            = @total_buyers
+            buyers
 
-%p
-  Total Orders:
-  =@orders.count
+      .stat-container
+        .stat
+          .stat-label Total Orders
+          .stat-number
+            = @orders.count
+            orders
 
-%p
-  Orders Left to Ship:
-  =@orders_left_to_ship.count
+      .stat-container
+        .stat
+          .stat-label Total Order Items
+          .stat-number
+            = @total_order_items
+            items
+
+      .stat-container
+        .stat
+          .stat-label Orders Left to Ship
+          .stat-number.red
+            = @orders_left_to_ship.count
+            to ship
+
+      .stat-container
+        .stat
+          .stat-label Total Revenue
+          .stat-number
+            = "$" + @total_revenue.to_s
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Order
+          .stat-number
+            = "$" + @average_revenue_per_order.to_s + "/order"
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Order Item
+          .stat-number
+            = "$" + @average_revenue_per_order_item.to_s + "/item"
+
+      .stat-container
+        .stat
+          .stat-label Average Items Per Order
+          .stat-number= @average_items_per_order
+
+  .page-content-body-section
+    %h1 Items To Ship
+
+  .page-content-body-section
+    %h1 Orders To Ship
 
 
-%p
-  Total Revenue:
-  =@total_revenue
 
-%p
-  Average Revenue Per Order:
-  =@average_revenue_per_order
+  .page-content-body-section
+    %h1 All Orders
+    %table#table-orders.table-container
+      %thead
+        %tr
+          %th Sale Date
+          %th Username
 
-%p
-  Total Order Items:
-  =@total_order_items
-
-%p
-  Average Items Per Order:
-  =@average_items_per_order
-
-%p
-  Total Buyers:
-  =@total_buyers
+      - @orders.each do |order|
+        %tr
+          %td= order.sale_date
+          %td= order.username
 
 
-%ul
-- @orders.each do |order|
-  %li
-    =order.sale_date
-    |
-    =order.username
-
-
-%h1 Import Orders
-= form_tag import_orders_path, multipart: true do
-  = file_field_tag :file
-  = submit_tag "Import"
+  .page-content-body-section
+    %h1 Import Orders
+    = form_tag import_orders_path, multipart: true do
+      = file_field_tag :file
+      = submit_tag "Import"

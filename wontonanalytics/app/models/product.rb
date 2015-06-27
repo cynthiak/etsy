@@ -36,5 +36,20 @@ class Product < ActiveRecord::Base
     end
   end
 
+  def get_listings
+    @listings = Listing.where(product: self)
+  end
+
+  def get_order_items
+    @listings = self.get_listings
+
+    #get orders that match each of these listings
+  end
+
+  def total_sales
+    # get all listings for this product
+    # add up the "quantity" for all order items (this includes shipping and sales tax, and takes into account any coupons)
+  end
+
 
 end

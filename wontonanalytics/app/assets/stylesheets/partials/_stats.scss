@@ -1,0 +1,32 @@
+.stats {
+  display: block;
+  clear: both;
+}
+.stats:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.stat-container {
+  float: left;
+  width: 25%;
+  display: inline-block;
+  padding-right: 10px;
+  margin-bottom: 10px;
+}
+.stat-container:nth-child(4n) {
+  padding-right: 0;
+}
+.stat {
+  background: white;
+  padding: 20px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #9d9d9d;
+  text-transform: uppercase;
+}
+.stat-number {
+  font-size: 24px;
+}

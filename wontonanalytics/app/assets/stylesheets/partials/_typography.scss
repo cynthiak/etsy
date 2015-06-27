@@ -8,3 +8,14 @@ a, button, input, select, textarea {
   -ms-transition: all 200ms ease;
   transition: all 200ms ease;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1.5rem;
+}
+
+/*************************************************
+COLORS
+**************************************************/
+.red {
+  color: $red;
+}

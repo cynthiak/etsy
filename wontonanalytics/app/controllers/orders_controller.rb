@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
     @total_buyers = Order.select(:username).distinct.count
 
     @orders = Order.all
+    @completed_orders = Order.where.not(date_shipped: nil)
     @total_order_items = OrderItem.all.sum(:quantity)
     @orders_left_to_ship = Order.where(date_shipped: nil)
 

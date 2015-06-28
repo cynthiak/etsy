@@ -1,0 +1,24 @@
+table.dataTable {
+  border: 1px solid #ddd;
+}
+table.dataTable thead th,
+table.dataTable thead td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  &:last-child {
+    border-right: 0;
+  }
+}
+table.dataTable.no-footer {
+  border-bottom: 1px solid #ddd;
+}
+
+
+.dataTables_wrapper .dataTables_filter {
+  margin-bottom: 10px;
+}
+.dataTables_wrapper .dataTables_filter input {
+  width: 250px;
+  font-weight: normal;
+}

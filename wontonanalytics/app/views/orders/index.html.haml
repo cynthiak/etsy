@@ -54,25 +54,85 @@
           .stat-number= @average_items_per_order
 
   .page-content-body-section
-    %h1 Items To Ship
-
-  .page-content-body-section
     %h1 Orders To Ship
-
-
-
-  .page-content-body-section
-    %h1 All Orders
-    %table#table-orders
+    %table#table-orders-toship.stripe
       %thead
         %tr
-          %th Sale Date
-          %th Username
+          %th Order
+          %th Sold
+          %th Name
+          %th Items
+          %th Value
+          %th Coupon
+          %th Shipping
+          %th Tax
+          %th Refund
+          %th Total
+          %th Fee
+          %th Net
       %tbody
-        - @orders.each do |order|
+        - @orders_left_to_ship.each do |order|
           %tr
+            %td= order.order_number
             %td= order.sale_date
-            %td= order.username
+            %td= order.full_name
+            %td= order.number_of_items
+            %td= "$" + order.order_value.to_s
+            %td
+              = order.coupon_code
+              %span.secondary= order.coupon_details
+            %td= "$" + order.shipping.to_s
+            %td= "$" + order.sales_tax.to_s
+            %td
+            %td
+              = order.adjusted_order_total? ? "$" + order.adjusted_order_total.to_s + "*" : "$" + order.order_total.to_s
+            %td
+              = order.adjusted_card_processing_fees? ? "$" + order.adjusted_card_processing_fees.to_s + "*" : "$" + order.card_processing_fees.to_s
+            %td
+              = order.adjusted_net_order_amount? ? "$" + order.adjusted_net_order_amount.to_s + "*" : "$" + order.order_net.to_s
+
+
+
+  .page-content-body-section
+    %h1 Completed Orders
+    %table#table-orders-completed.stripe
+      %thead
+        %tr
+          %th Order
+          %th Sold
+          %th Shipped
+          %th Name
+          %th Items
+          %th Value
+          %th Coupon
+          %th Shipping
+          %th Tax
+          %th Refund
+          %th Total
+          %th Fee
+          %th Net
+      %tbody
+        - @completed_orders.each do |order|
+          %tr
+            %td= order.order_number
+            %td= order.sale_date
+            %td= order.date_shipped
+            %td= order.full_name
+            %td= order.number_of_items
+            %td= "$" + order.order_value.to_s
+            %td
+              = order.coupon_code
+              %span.secondary= order.coupon_details
+            %td= "$" + order.shipping.to_s
+            %td= "$" + order.sales_tax.to_s
+            %td
+            %td
+              = order.adjusted_order_total? ? "$" + order.adjusted_order_total.to_s + "*" : "$" + order.order_total.to_s
+            %td
+              = order.adjusted_card_processing_fees? ? "$" + order.adjusted_card_processing_fees.to_s + "*" : "$" + order.card_processing_fees.to_s
+            %td
+              = order.adjusted_net_order_amount? ? "$" + order.adjusted_net_order_amount.to_s + "*" : "$" + order.order_net.to_s
+
 
 
   .page-content-body-section
@@ -83,4 +143,11 @@
 
 
 :javascript
-  $("#table-orders").DataTable();
+  $("#table-orders-toship").DataTable({
+    dom: 'iCfrtiS',
+    pageLength: -1
+  });
+  $("#table-orders-completed").DataTable({
+    dom: 'iCfrtiS',
+    pageLength: -1
+  });

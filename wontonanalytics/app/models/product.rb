@@ -17,41 +17,38 @@ class Product < ActiveRecord::Base
   def self.import(file)
     CSV.foreach(file.path, headers:true) do |row|
       product = Product.find_by(product_name: row[0])
+      product_params = {
+          :product_name=> row[0],
+          :dimsum=>row[1],
+          :description=> row[2],
+          :file=> row[3],
+          :product_type=> row[4],
+          :occasion=> row[5]
+        }
+
       if (product)
-        product.update({
-            :dimsum=>row[1],
-            :description=> row[2],
-            :file=> row[3],
-            :product_type=> row[4],
-            :occasion=> row[5]
-          })
+        product.update(product_params)
       else
-        product = Product.create({
-            :product_name=> row[0],
-            :dimsum=>row[1],
-            :description=> row[2],
-            :file=> row[3],
-            :product_type=> row[4],
-            :occasion=> row[5]
-          })
+        product = Product.create(product_params)
       end
       product.save!
     end
   end
 
   def get_listings
-    @listings = Listing.where(product: self)
+    Listing.where(product: self)
   end
 
   def get_order_items
-    @listings = self.get_listings
-
-    #get orders that match each of these listings
+    OrderItem.where(product: self)
   end
 
-  def total_sales
-    # get all listings for this product
-    # add up the "quantity" for all order items (this includes shipping and sales tax, and takes into account any coupons)
+  def get_order_items_count
+    OrderItem.where(product: self).sum(:quantity)
+  end
+
+  def get_total_sales
+    OrderItem.where(product:self).sum(:item_total).round(2)
   end
 
 

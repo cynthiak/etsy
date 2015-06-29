@@ -87,6 +87,10 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def get_order_items
+    OrderItem.where(order: self)
+  end
+
 
 
 

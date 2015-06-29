@@ -8,8 +8,11 @@ class Product < ActiveRecord::Base
 
   #######################################################
   # Makes it so that when you print the object, you print a display name instead of the "#<ActiveRecord>blahblah" object name
-  alias_attribute *column_names
+  alias_attribute :name, :product_name
 
+  #######################################################
+  # Makes it so that you can edit these database columns via ActiveAdmin and forms
+  attr_accessible *column_names
 
   def self.import(file)
     CSV.foreach(file.path, headers:true) do |row|

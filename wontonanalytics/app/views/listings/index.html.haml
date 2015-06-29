@@ -1,10 +1,43 @@
-%h1 Listings
+#page-listings.page-content-body
+  .page-content-body-section
+    %h1 Listings
 
-%ul
-- @listings.each do |listing|
-  %li
-    =listing.etsy_listing_variation
-    |
-    =listing.product.product_name
-    |
-    =listing.variation
+    %table#table-listings.stripe.order-column
+      %thead
+        %tr
+          %th Type
+          %th Dimsum
+          %th Item
+          %th Style
+          %th Gender
+          %th Color
+          %th Size
+          %th Listing
+      %tbody
+        - @listings.each do |listing|
+          %tr
+            %td
+              =listing.product.product_type
+              = listing.product.occasion ? " - " + listing.product.occasion : ""
+            %td.border-right=listing.product.dimsum
+            %td.border-right=listing.product.description
+            - if listing.variation
+              %td=listing.variation.style
+              %td=listing.variation.gender
+              %td
+                .color-swatch{style: "background-color: #{listing.variation.color}", title: "#{listing.variation.color}"}
+              %td.border-right=listing.variation.size
+            - else
+              %td
+              %td
+              %td
+              %td.border-right
+            %td=listing.etsy_listing_variation
+
+:javascript
+  $("#table-listings").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'asc'],
+    orderClasses: true
+  });

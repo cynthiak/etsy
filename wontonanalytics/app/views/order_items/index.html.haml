@@ -1,5 +1,52 @@
-%h1 Order Items
-%h2 Import Order Items
-= form_tag import_order_items_path, multipart: true do
-  = file_field_tag :file
-  = submit_tag "Import"
+#page-order_items.page-content-body
+  .page-content-body-section
+    %h1 Order Items
+
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Order Items Sold
+          .stat-number
+            sold
+
+      .stat-container
+        .stat
+          .stat-label Total Order Items To Ship
+          .stat-number
+            to ship
+
+
+  .page-content-body-section
+    %h1 Order Items To Package
+
+    %table#table-orderitems-topackage.stripe.order-column
+      %thead
+        %tr
+          %th Item (Product Name)
+          %th Style
+          %th Gender
+          %th Color
+          %th Size
+          %th Quantity To Pack
+
+  .page-content-body-section
+    %h1 All Order Items
+
+    %table#table-orderitems.stripe.order-column
+      %thead
+        %tr
+          %th Order
+          %th Buyer
+          %th Item (Product Name)
+          %th Variation
+          %th Quantity
+          %th Price
+          %th Coupon
+          %th Paid
+          %th Fee
+
+  .page-content-body-section
+    %h1 Import Order Items
+    = form_tag import_order_items_path, multipart: true do
+      = file_field_tag :file
+      = submit_tag "Import"

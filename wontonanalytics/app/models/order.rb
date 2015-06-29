@@ -10,6 +10,10 @@ class Order < ActiveRecord::Base
   # Makes it so that when you print the object, you print a display name instead of the "#<ActiveRecord>blahblah" object name
   alias_attribute :name, :order_number
 
+  #######################################################
+  # Makes it so that you can edit these database columns via ActiveAdmin and forms
+  attr_accessible *column_names
+
   def display_name
     return self.order_number + ' - ' + self.full_name + ' (' + self.username + ')'
   end
@@ -69,7 +73,8 @@ class Order < ActiveRecord::Base
         :inperson_discount=> row[31],
         :inperson_location=> row[32],
         :order_source=> "etsy",
-        :customer_id=>customer.id
+        :customer_id=>customer.id,
+        :refund=> row[25].nil? ? nil : (row[21].to_f - row[25].to_f).round(2)
       }
 
       if (order)

@@ -8,7 +8,7 @@ class Product < ActiveRecord::Base
 
   #######################################################
   # Makes it so that when you print the object, you print a display name instead of the "#<ActiveRecord>blahblah" object name
-  alias_attribute :name, :product_name
+  alias_attribute *column_names
 
 
   def self.import(file)

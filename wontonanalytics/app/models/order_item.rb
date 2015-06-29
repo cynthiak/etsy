@@ -12,7 +12,7 @@ class OrderItem < ActiveRecord::Base
 
   #######################################################
   # Makes it so that you can edit these database columns via ActiveAdmin and forms
-  attr_accessible :order_id
+  attr_accessible *column_names
 
   def self.import(file)
     CSV.foreach(file.path, headers:true) do |row|

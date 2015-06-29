@@ -7,7 +7,8 @@ class OrdersController < ApplicationController
     @total_order_items_count = OrderItem.all.sum(:quantity)
     @orders_left_to_ship = Order.where(date_shipped: nil)
 
-    @total_revenue = Order.all.sum(:order_net).to_f.round(2)
+    @total_revenue = (Order.where(refund: nil).sum(:order_net) + Order.where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
+
     @average_revenue_per_order = (@total_revenue.to_f / @orders.count).round(2)
     @average_revenue_per_order_item = (@total_revenue.to_f / @total_order_items_count).round(2)
     @average_items_per_order = (@total_order_items_count.to_f / @orders.count).round(2)

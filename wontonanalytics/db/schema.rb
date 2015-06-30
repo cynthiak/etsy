@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150628234045) do
+ActiveRecord::Schema.define(version: 20150629124708) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -111,10 +111,14 @@ ActiveRecord::Schema.define(version: 20150628234045) do
     t.text     "etsy_listing_variation"
     t.integer  "order_id"
     t.integer  "listing_id"
+    t.integer  "product_id"
+    t.integer  "variation_id"
   end
 
   add_index "order_items", ["listing_id"], name: "index_listing_id"
   add_index "order_items", ["order_id"], name: "index_order_id"
+  add_index "order_items", ["product_id"], name: "index_product_id3"
+  add_index "order_items", ["variation_id"], name: "index_variation_id2"
 
   create_table "orders", force: :cascade do |t|
     t.date     "sale_date"

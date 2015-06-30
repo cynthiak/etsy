@@ -51,5 +51,12 @@ class Product < ActiveRecord::Base
     OrderItem.where(product:self).sum(:item_total).round(2)
   end
 
+  def get_unshipped_order_items_count
+    OrderItem.where(product: self).where(date_shipped: nil).sum(:quantity)
+  end
+
+  def get_variations
+    Variation.where(product:self).order(gender: :asc, style: :asc, color: :desc)
+  end
 
 end

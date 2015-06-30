@@ -5,48 +5,113 @@
     .stats
       .stat-container
         .stat
-          .stat-label Total Order Items Sold
+          .stat-label Total Order Items To Ship
           .stat-number
-            sold
+            =@total_items_to_ship
+            items
 
       .stat-container
         .stat
-          .stat-label Total Order Items To Ship
+          .stat-label Cards To Ship
           .stat-number
-            to ship
+            =@total_cards_to_ship
+            cards
+
+      .stat-container
+        .stat
+          .stat-label T-shirts To Ship
+          .stat-number
+            =@total_tshirts_to_ship
+            t-shirts
+
+      .stat-container
+        .stat
+          .stat-label Stickers To Ship
+          .stat-number
+            =@total_stickers_to_ship
+            stickers
 
 
   .page-content-body-section
-    %h1 Order Items To Package
-
-    %table#table-orderitems-topackage.stripe.order-column
+    %h1 Cards To Package
+    %table#table-cards-topackage.stripe.order-column
       %thead
         %tr
-          %th Item (Product Name)
-          %th Style
-          %th Gender
-          %th Color
-          %th Size
+          %th Occasion
+          %th Card
           %th Quantity To Pack
+      %tbody
+        - @cards.each do |card|
+          - if card.get_unshipped_order_items_count > 0
+            %tr
+              %td= card.occasion
+              %td= card.description
+              %td= card.get_unshipped_order_items_count
+
+
 
   .page-content-body-section
-    %h1 All Order Items
+    %h1 T-shirts To Package
 
-    %table#table-orderitems.stripe.order-column
+
+    - @tshirts.each do |tshirt|
+      %table#table-tshirts-topackage.stripe.order-column
+        %thead
+          %tr
+            %th T-shirt
+            %th Gender
+            %th Style
+            %th Color
+            %th S
+            %th M
+            %th L
+            %th XL
+        %tbody
+          - previous_variation = nil
+          - tshirt.get_variations.each do |variation|
+            - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
+            = render :partial => 'variation', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+            - previous_variation = current_variation
+
+  .page-content-body-section
+    %h1 Stickers To Package
+
+    %table#table-stickers-topackage.stripe.order-column
       %thead
         %tr
-          %th Order
-          %th Buyer
-          %th Item (Product Name)
-          %th Variation
-          %th Quantity
-          %th Price
-          %th Coupon
-          %th Paid
-          %th Fee
+          %th Stickers
+          %th Quantity To Pack
+      %tbody
+        - @stickers.each do |sticker|
+          - if sticker.get_unshipped_order_items_count > 0
+            %tr
+              %td= sticker.description
+              %td= sticker.get_unshipped_order_items_count
 
   .page-content-body-section
     %h1 Import Order Items
     = form_tag import_order_items_path, multipart: true do
       = file_field_tag :file
       = submit_tag "Import"
+
+
+
+:javascript
+  $("#table-cards-topackage").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });
+  $("#table-tshirts-topackage").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });
+  $("#table-stickers-topackage").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });

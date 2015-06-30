@@ -13,4 +13,10 @@ class Variation < ActiveRecord::Base
   # Makes it so that you can edit these database columns via ActiveAdmin and forms
   attr_accessible :variation_name, :style, :gender, :color, :size, :product_id
 
+  def get_unshipped_order_items_count
+    OrderItem.where(variation: self).where(date_shipped: nil).sum(:quantity)
+  end
+
+
+
 end

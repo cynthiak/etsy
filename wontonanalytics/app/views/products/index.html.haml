@@ -5,21 +5,81 @@
     .stats
       .stat-container
         .stat
+          .stat-label Items Sold
+          .stat-number
+            = @order_items_count 
+            items
+
+      .stat-container
+        .stat
           .stat-label Cards Sold
           .stat-number
+            = @cards_sold_count 
             cards
 
       .stat-container
         .stat
           .stat-label T-shirts Sold
           .stat-number
+            = @tshirts_sold_count 
             t-shirts
 
       .stat-container
         .stat
           .stat-label Stickers
           .stat-number
-            stickers
+            = @stickers_sold_count
+            stickers sold
+
+      .stat-container
+        .stat
+          .stat-label Total Revenue
+          .stat-number
+            = "$" + @total_revenue.to_s 
+
+      .stat-container
+        .stat
+          .stat-label Cards Revenue
+          .stat-number
+            = "$" + @cards_revenue.to_s 
+
+      .stat-container
+        .stat
+          .stat-label T-shirts Revenue
+          .stat-number
+            = "$" + @tshirts_revenue.to_s 
+
+      .stat-container
+        .stat
+          .stat-label Stickers Revenue
+          .stat-number
+            = "$" + @stickers_revenue.to_s
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Item
+          .stat-number
+            = "$" + @average_revenue.to_s + "/item"
+
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Card
+          .stat-number
+            = "$" + @average_cards_revenue.to_s + "/card"
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per T-shirt
+          .stat-number
+            = "$" + @average_tshirts_revenue.to_s + "/t-shirt"
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Sticker
+          .stat-number
+            = "$" + @average_stickers_revenue.to_s + "/sticker"
+            
 
   .page-content-body-section
     %h1 Cards
@@ -84,31 +144,6 @@
             %td.border-right= sticker.dimsum
             %td= sticker.get_order_items_count
             %td= "$" + sticker.get_total_sales.to_s
-
-
-
-
-    %p
-      products:
-    %ul
-      - @products.each do |product|
-        %li
-          %strong (product)
-          =product.product_name
-          %br
-          - product.get_listings.each do |listing|
-            %strong (etsy_listing_variation)
-            =listing.etsy_listing_variation
-            000000000000
-          %br
-          %br
-
-
-  .page-content-body-section
-    %h1 Import Products
-    = form_tag import_products_path, multipart: true do
-      = file_field_tag :file
-      = submit_tag "Import"
 
 
 

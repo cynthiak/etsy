@@ -24,6 +24,10 @@ class Customer < ActiveRecord::Base
     orders = Order.where(customer: self)
   end
 
+  def get_order_items
+    OrderItem.joins(:order).where(orders: {customer: self})
+  end
+
   def get_total_order_count
     get_orders.count
   end
@@ -33,10 +37,8 @@ class Customer < ActiveRecord::Base
   end
 
   def get_total_spend
-    (get_orders.sum(:order_total) - get_orders.sum(:refund)).round(2)
-  end
-
-  def get_order_items
+    # Does not subtract fees
+    (get_orders.sum(:order_net) - get_orders.sum(:refund)).round(2)
   end
 
 end

@@ -5,6 +5,8 @@ class OrderItem < ActiveRecord::Base
   # Read more about Rails Associations here: http://guides.rubyonrails.org/association_basics.html
   belongs_to :order
   belongs_to :listing
+  belongs_to :product
+  belongs_to :variation
 
   #######################################################
   # Makes it so that when you print the object, you print a display name instead of the "#<ActiveRecord>blahblah" object name
@@ -24,11 +26,18 @@ class OrderItem < ActiveRecord::Base
       # Find listing
       etsy_listing_variation = row[24].nil? ? row[13] : row[13] + "_" + row[24]
       listing = Listing.find_by(etsy_listing_variation: etsy_listing_variation)
+      product_id = nil
+      variation_id = nil
       if !(listing)
         listing = Listing.create({
             :listing_type=> "etsy",
             :etsy_listing_variation=>etsy_listing_variation
           })
+      else
+        product_id = listing.product.id
+        if (listing.variation)
+          variation_id = listing.variation.id
+        end
       end
 
       # Set row parameters
@@ -65,7 +74,9 @@ class OrderItem < ActiveRecord::Base
         :inperson_location=> row[29],
         :etsy_listing_variation=> etsy_listing_variation,
         :order_id => order.id,
-        :listing_id => listing.id
+        :listing_id => listing.id,
+        :product_id => product_id,
+        :variation_id => variation_id
       }
 
       if (order_item)

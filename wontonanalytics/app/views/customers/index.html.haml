@@ -17,6 +17,7 @@
           %th Name
           %th Email
           %th First Purchase
+          %th Last Purchase
           %th Orders
           %th Items
           %th Spend
@@ -27,7 +28,8 @@
               = customer.first_name
               = customer.last_name
             %td.border-right= customer.email
-            %td.border-right= customer.get_first_purchase_date
+            %td= customer.get_first_purchase_date
+            %td.border-right= customer.get_last_purchase_date
             %td= customer.get_total_order_count
             %td= customer.get_total_order_items_count
             %td= "$" + customer.get_total_spend.to_s
@@ -38,6 +40,6 @@
   $("#table-customers").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
-    order: [5, 'desc'],
+    order: [3, 'desc'],
     orderClasses: true
   });

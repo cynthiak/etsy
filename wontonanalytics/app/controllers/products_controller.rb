@@ -1,7 +1,8 @@
 class ProductsController < ApplicationController
   def index
-    @products = Product.order(:product_name)
-    @cards = Product.where(product_type: 'card')
+    @cards = Product.where(product_type: 'Card')
+    @tshirts = Product.where(product_type: 'T-shirt')
+    @stickers = Product.where(product_type: 'Stickers')
   end
 
   def new

@@ -24,11 +24,66 @@
   .page-content-body-section
     %h1 Cards
 
+    %table#table-cards.stripe.order-column
+      %thead
+        %tr
+          %th Type
+          %th Item
+          %th Occasion
+          %th Dimsum
+          %th Sold
+          %th Revenue
+      %tbody
+        - @cards.each do |card|
+          %tr
+            %td.border-right= card.product_type
+            %td.border-right= card.description
+            %td= card.occasion
+            %td.border-right= card.dimsum
+            %td= card.get_order_items_count
+            %td= "$" + card.get_total_sales.to_s
+
+
+
   .page-content-body-section
     %h1 T-shirts
 
+    %table#table-tshirts.stripe.order-column
+      %thead
+        %tr
+          %th Type
+          %th Item
+          %th Dimsum
+          %th Sold
+          %th Revenue
+      %tbody
+        - @tshirts.each do |tshirt|
+          %tr
+            %td.border-right= tshirt.product_type
+            %td.border-right= tshirt.description
+            %td.border-right= tshirt.dimsum
+            %td= tshirt.get_order_items_count
+            %td= "$" + tshirt.get_total_sales.to_s
+
   .page-content-body-section
     %h1 Stickers
+
+    %table#table-stickers.stripe.order-column
+      %thead
+        %tr
+          %th Type
+          %th Item
+          %th Dimsum
+          %th Sold
+          %th Revenue
+      %tbody
+        - @stickers.each do |sticker|
+          %tr
+            %td.border-right= sticker.product_type
+            %td.border-right= sticker.description
+            %td.border-right= sticker.dimsum
+            %td= sticker.get_order_items_count
+            %td= "$" + sticker.get_total_sales.to_s
 
 
 
@@ -48,12 +103,33 @@
           %br
           %br
 
-    %p
-      cards:
-      =@cards
 
   .page-content-body-section
     %h1 Import Products
     = form_tag import_products_path, multipart: true do
       = file_field_tag :file
       = submit_tag "Import"
+
+
+
+:javascript
+  $("#table-cards").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'asc'],
+    orderClasses: true
+  });
+
+  $("#table-tshirts").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'asc'],
+    orderClasses: true
+  });
+
+  $("#table-stickers").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'asc'],
+    orderClasses: true
+  });

@@ -91,6 +91,8 @@
           %th Item
           %th Occasion
           %th Dimsum
+          %th Price
+          %th Cost
           %th Sold
           %th Revenue
       %tbody
@@ -100,6 +102,8 @@
             %td.border-right= card.description
             %td= card.occasion
             %td.border-right= card.dimsum
+            %td= "$" + card.get_price.to_s
+            %td.border-right= "$" + card.get_cost.to_s
             %td= card.get_order_items_count
             %td= "$" + card.get_total_sales.to_s
 
@@ -114,6 +118,7 @@
           %th Type
           %th Item
           %th Dimsum
+          %th Price
           %th Sold
           %th Revenue
       %tbody
@@ -122,8 +127,28 @@
             %td.border-right= tshirt.product_type
             %td.border-right= tshirt.description
             %td.border-right= tshirt.dimsum
+            %td.border-right= "$" + tshirt.get_price.to_s
             %td= tshirt.get_order_items_count
             %td= "$" + tshirt.get_total_sales.to_s
+
+  .page-content-body-section
+    %table#table-tshirt-variations.stripe.order-column
+      %thead
+        %tr
+          %th T-shirt
+          %th Variation
+          %th Price
+          %th Cost
+          %th Sold
+          %th Revenue
+      %tbody
+        - @tshirts.each do |tshirt|
+          - previous_variation = nil
+          - tshirt.get_variations.each do |variation|
+            - current_variation = variation.gender + "_" + variation.style
+            = render :partial => 'tshirtvariation', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+            - previous_variation = current_variation
+
 
   .page-content-body-section
     %h1 Stickers
@@ -134,6 +159,8 @@
           %th Type
           %th Item
           %th Dimsum
+          %th Price
+          %th Cost
           %th Sold
           %th Revenue
       %tbody
@@ -142,6 +169,8 @@
             %td.border-right= sticker.product_type
             %td.border-right= sticker.description
             %td.border-right= sticker.dimsum
+            %td= "$" + sticker.get_price.to_s
+            %td.border-right= "$" + sticker.get_cost.to_s
             %td= sticker.get_order_items_count
             %td= "$" + sticker.get_total_sales.to_s
 
@@ -156,6 +185,12 @@
   });
 
   $("#table-tshirts").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'asc'],
+    orderClasses: true
+  });
+  $("#table-tshirt-variations").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [1, 'asc'],

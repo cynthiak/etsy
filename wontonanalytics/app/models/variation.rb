@@ -17,6 +17,14 @@ class Variation < ActiveRecord::Base
     OrderItem.where(variation: self).where(date_shipped: nil).sum(:quantity)
   end
 
+  def get_price
+    Cost.where(variation: self).sum(:price)
+  end
+
+  def get_cost
+    Cost.where(variation: self).sum(:cost)
+  end
+
 
 
 end

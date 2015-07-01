@@ -35,6 +35,22 @@ class Product < ActiveRecord::Base
     end
   end
 
+  def get_price
+    if Cost.where(product: self).count == 1
+      Cost.where(product: self).sum(:price)
+    else
+      Cost.where(product: self).average(:price)
+    end
+  end
+
+  def get_cost(variation=nil)
+    if Cost.where(product: self).count == 1
+      Cost.where(product: self).sum(:cost)
+    else
+      Cost.where(product: self).average(:price)
+    end
+  end
+
   def get_listings
     Listing.where(product: self)
   end

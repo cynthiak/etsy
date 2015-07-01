@@ -62,3 +62,15 @@
         = link_to customers_path do
           %span.glyphicon.glyphicon-user
           Customers
+
+
+    - if (params[:controller] == 'expenses')
+      %li.active
+        = link_to expenses_path do
+          %span.glyphicon.glyphicon-usd
+          Expenses
+    - else
+      %li
+        = link_to expenses_path do
+          %span.glyphicon.glyphicon-usd
+          Expenses

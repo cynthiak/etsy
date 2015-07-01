@@ -1,0 +1,16 @@
+#page-orders.page-content-body
+  .page-content-body-section
+    %h1 Expenses
+
+
+
+
+
+
+  .page-content-body-section
+    %h1 Import Etsy Fees
+    %p Only upload after a statement has closed (there is no functionality to handle duplicate items)
+    %br
+    = form_tag import_expenses_path, multipart: true do
+      = file_field_tag :file
+      = submit_tag "Import"

@@ -2,7 +2,44 @@
   .page-content-body-section
     %h1 Expenses
 
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Expenses
+          .stat-number
+            = "$" + @total_expenses.to_s
 
+      .stat-container
+        .stat
+          .stat-label Etsy Fees
+          .stat-number
+            = "$" + @total_etsy_fees.to_s
+
+      .stat-container
+        .stat
+          .stat-label Advertising
+          .stat-number
+            = "$" + @total_advertising.to_s
+
+  .page-content-body-section
+    %table#table-expenses.stripe.order-column
+      %thead
+        %tr
+          %th Date
+          %th Name
+          %th Description
+          %th Type
+          %th Vendor
+          %th Amount
+      %tbody
+        - @expenses.each do |expense|
+          %tr
+            %td= expense.date
+            %td= expense.name
+            %td= expense.description
+            %td= expense.expense_type
+            %td= expense.vendor
+            %td= "$" + expense.amount.to_s
 
 
 
@@ -14,3 +51,14 @@
     = form_tag import_expenses_path, multipart: true do
       = file_field_tag :file
       = submit_tag "Import"
+
+
+
+
+:javascript
+  $("#table-expenses").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });

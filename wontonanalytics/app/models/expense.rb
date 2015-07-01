@@ -71,39 +71,6 @@ class Expense < ActiveRecord::Base
 	    })
 	end
 
-	if autorenews_count > 0
-	  Expense.create({
-	    :date => date,
-	    :name => "Auto-Renewal Listing Fees",
-	    :description => autorenews_count.to_s + " auto-renewals",
-	    :expense_type => "Etsy Fees",
-	    :vendor => "Etsy",
-	    :amount => autorenews_amount.round(2)
-	    })
-	end
-
-    if listings_count > 0
-	  Expense.create({
-	    :date => date,
-	    :name => "Listing Fees",
-	    :description => listings_count.to_s + " listings",
-	    :expense_type => "Etsy Fees",
-	    :vendor => "Etsy",
-	    :amount => listings_amount.round(2)
-	    })
-	end
-
-	if multiquantity_count > 0
-	  Expense.create({
-	    :date => date,
-	    :name => "Multiquantity Listing Fees",
-	    :description => multiquantity_count.to_s + " multi-quantity listings",
-	    :expense_type => "Etsy Fees",
-	    :vendor => "Etsy",
-	    :amount => multiquantity_amount.round(2)
-	    })
-	end
-
 	if promotedlistings_count > 0
 	  Expense.create({
 	    :date => date,
@@ -115,14 +82,34 @@ class Expense < ActiveRecord::Base
 	    })
 	end
 
-	if privatelisting_count > 0
+	listings_amount_total = autorenews_amount + listings_amount + multiquantity_amount + privatelisting_amount
+	if listings_amount_total > 0
+	  listings_description = ""
+
+	  ##### LISTINGS
+	  if autorenews_count > 0
+        listings_description = listings_description + autorenews_count.to_s + " auto-renewals. "
+	  end
+
+	  if listings_count > 0
+	    listings_description = listings_description + listings_count.to_s + " listings. "
+	  end
+
+	  if multiquantity_count > 0
+	    listings_description = listings_description + multiquantity_count.to_s + " multiquantity listings. "
+	  end
+
+	  if privatelisting_count > 0
+	    listings_description = listings_description + privatelisting_count.to_s + " private listings. "
+	  end
+
 	  Expense.create({
 	    :date => date,
-	    :name => "Private Listing Fees",
-	    :description => privatelisting_count.to_s + " private listings",
+	    :name => "Listing Fees",
+	    :description => listings_description,
 	    :expense_type => "Etsy Fees",
 	    :vendor => "Etsy",
-	    :amount => privatelisting_amount.round(2)
+	    :amount => listings_amount_total.round(2)
 	    })
 	end
   end

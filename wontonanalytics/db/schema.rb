@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150701025711) do
+ActiveRecord::Schema.define(version: 20150702135304) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -85,6 +85,25 @@ ActiveRecord::Schema.define(version: 20150701025711) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  create_table "giveaways", force: :cascade do |t|
+    t.date     "date_ordered"
+    t.date     "date_shipped"
+    t.string   "giveaway_type"
+    t.string   "campaign"
+    t.integer  "quantity"
+    t.float    "shipping_cost"
+    t.string   "shipping_method"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "product_id"
+    t.integer  "variation_id"
+    t.integer  "customer_id"
+  end
+
+  add_index "giveaways", ["customer_id"], name: "index_customer_id2"
+  add_index "giveaways", ["product_id"], name: "index_product_id5"
+  add_index "giveaways", ["variation_id"], name: "index_variation_id4"
 
   create_table "listings", force: :cascade do |t|
     t.string  "listing_type"

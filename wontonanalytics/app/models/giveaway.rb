@@ -4,6 +4,9 @@ class Giveaway < ActiveRecord::Base
   # Read more about Rails Associations here: http://guides.rubyonrails.org/association_basics.html
   belongs_to :product
   belongs_to :variation
-  belongs_to :customer
+
+  #######################################################
+  # Makes it so that you can edit these database columns via ActiveAdmin and forms
+  attr_accessible *column_names
   
 end

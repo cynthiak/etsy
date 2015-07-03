@@ -10,7 +10,7 @@ class Customer < ActiveRecord::Base
 
   #######################################################
   # Makes it so that you can edit these database columns via ActiveAdmin and forms
-  attr_accessible :first_name, :last_name, :etsy_username, :email, :source, :ship_name, :ship_address1, :ship_address2, :ship_city, :ship_state, :ship_zipcode, :ship_country
+  attr_accessible *column_names
 
   def get_first_purchase_date
     Order.where(customer: self).order(sale_date: :asc).first.sale_date

@@ -17,9 +17,27 @@
 
       .stat-container
         .stat
+          .stat-label Fees
+          .stat-number
+            = "$" + @total_fees.to_s
+
+      .stat-container
+        .stat
           .stat-label Advertising
           .stat-number
             = "$" + @total_advertising.to_s
+
+      .stat-container
+        .stat
+          .stat-label Marketing
+          .stat-number
+            = "$" + @total_marketing.to_s
+
+      .stat-container
+        .stat
+          .stat-label Supplies
+          .stat-number
+            = "$" + @total_supplies.to_s
 
   .page-content-body-section
     %table#table-expenses.stripe.order-column

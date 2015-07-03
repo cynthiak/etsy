@@ -74,3 +74,15 @@
         = link_to expenses_path do
           %span.glyphicon.glyphicon-usd
           Expenses
+
+
+    - if (params[:controller] == 'giveaways')
+      %li.active
+        = link_to giveaways_path do
+          %span.glyphicon.glyphicon-gift
+          Giveaways
+    - else
+      %li
+        = link_to giveaways_path do
+          %span.glyphicon.glyphicon-gift
+          Giveaways

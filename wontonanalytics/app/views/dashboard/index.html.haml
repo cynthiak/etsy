@@ -1,0 +1,245 @@
+#page-orders.page-content-body
+  .page-content-body-section
+    %h1 To Ship
+    .stats
+      .stat-container
+        .stat
+          .stat-label Orders Left to Ship
+          .stat-number.red
+            = @orders_left_to_ship.count
+            orders to ship
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Order Items To Ship
+          .stat-number
+            =@total_items_to_ship
+            items
+
+      .stat-container
+        .stat
+          .stat-label Cards To Ship
+          .stat-number
+            =@total_cards_to_ship
+            cards
+
+      .stat-container
+        .stat
+          .stat-label T-shirts To Ship
+          .stat-number
+            =@total_tshirts_to_ship
+            t-shirts
+
+      .stat-container
+        .stat
+          .stat-label Stickers To Ship
+          .stat-number
+            =@total_stickers_to_ship
+            stickers
+
+  .page-content-body-section
+    %h1 Profit
+    .stats
+      .stat-container
+        .stat
+          .stat-label Profit
+          -if @profit < 0
+            .stat-number.red
+              = "-$" + @profit.abs.to_s
+          -else
+            .stat-number.green
+              = "$" + @profit.to_s
+
+      .stat-container
+        .stat
+          .stat-label T-shirts To Sell
+          .stat-number
+            =@tshirts_to_sell
+            
+      .stat-container
+        .stat
+          .stat-label Cards To Sell
+          .stat-number
+            =@cards_to_sell
+            
+      .stat-container
+        .stat
+          .stat-label Stickers To Sell
+          .stat-number
+            =@stickers_to_sell
+            
+
+  .page-content-body-section
+    %h1 Orders
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Customers
+          .stat-number
+            = @total_customers
+            customers
+
+      .stat-container
+        .stat
+          .stat-label Total Orders
+          .stat-number
+            = @orders.count
+            orders
+
+      .stat-container
+        .stat
+          .stat-label Total Order Items
+          .stat-number
+            = @total_order_items_count
+            items
+
+      .stat-container
+        .stat
+          .stat-label Average Items Per Order
+          .stat-number= @average_items_per_order
+
+      
+
+  .page-content-body-section
+    %h1 Revenue
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Revenue
+          .stat-number
+            = "$" + @total_revenue.to_s
+            = @total_revenue_adjusted
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Order
+          .stat-number
+            = "$" + @average_revenue_per_order.to_s + "/order"
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Order Item
+          .stat-number
+            = "$" + @average_revenue_per_order_item.to_s + "/item"
+
+
+  .page-content-body-section
+    %h1 Costs
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Expenses
+          .stat-number
+            = "$" + @total_expenses.to_s
+
+      .stat-container
+        .stat
+          .stat-label Etsy Fees
+          .stat-number
+            = "$" + @total_etsy_fees.to_s
+
+      .stat-container
+        .stat
+          .stat-label Fees
+          .stat-number
+            = "$" + @total_fees.to_s
+
+      .stat-container
+        .stat
+          .stat-label Advertising
+          .stat-number
+            = "$" + @total_advertising.to_s
+
+      .stat-container
+        .stat
+          .stat-label Marketing
+          .stat-number
+            = "$" + @total_marketing.to_s
+
+      .stat-container
+        .stat
+          .stat-label Supplies
+          .stat-number
+            = "$" + @total_supplies.to_s
+
+  .page-content-body-section
+    %h1 Products
+    .stats
+      .stat-container
+        .stat
+          .stat-label Items Sold
+          .stat-number
+            = @order_items_count 
+            items
+
+      .stat-container
+        .stat
+          .stat-label Cards Sold
+          .stat-number
+            = @cards_sold_count 
+            cards
+
+      .stat-container
+        .stat
+          .stat-label T-shirts Sold
+          .stat-number
+            = @tshirts_sold_count 
+            t-shirts
+
+      .stat-container
+        .stat
+          .stat-label Stickers
+          .stat-number
+            = @stickers_sold_count
+            stickers sold
+
+      .stat-container
+        .stat
+          .stat-label Total Revenue
+          .stat-number
+            = "$" + @total_revenue.to_s 
+
+      .stat-container
+        .stat
+          .stat-label Cards Revenue
+          .stat-number
+            = "$" + @cards_revenue.to_s 
+
+      .stat-container
+        .stat
+          .stat-label T-shirts Revenue
+          .stat-number
+            = "$" + @tshirts_revenue.to_s 
+
+      .stat-container
+        .stat
+          .stat-label Stickers Revenue
+          .stat-number
+            = "$" + @stickers_revenue.to_s
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Item
+          .stat-number
+            = "$" + @average_revenue.to_s + "/item"
+
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Card
+          .stat-number
+            = "$" + @average_cards_revenue.to_s + "/card"
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per T-shirt
+          .stat-number
+            = "$" + @average_tshirts_revenue.to_s + "/t-shirt"
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Sticker
+          .stat-number
+            = "$" + @average_stickers_revenue.to_s + "/sticker"
+
+

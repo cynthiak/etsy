@@ -55,6 +55,29 @@
 
 
     - @tshirts.each do |tshirt|
+      %table#table-tshirts-shipped.stripe.order-column
+        %thead
+          %tr
+            %th T-shirt
+            %th Gender
+            %th Style
+            %th Color
+            %th S
+            %th M
+            %th L
+            %th XL
+        %tbody
+          - previous_variation = nil
+          - tshirt.get_variations.each do |variation|
+            - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
+            = render :partial => 'variation_unshipped', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+            - previous_variation = current_variation
+
+    .page-content-body-section
+    %h1 T-shirts Shipped
+
+
+    - @tshirts.each do |tshirt|
       %table#table-tshirts-topackage.stripe.order-column
         %thead
           %tr
@@ -70,8 +93,11 @@
           - previous_variation = nil
           - tshirt.get_variations.each do |variation|
             - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
-            = render :partial => 'variation', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+            = render :partial => 'variation_shipped', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
             - previous_variation = current_variation
+
+
+
 
   .page-content-body-section
     %h1 Stickers To Package
@@ -104,6 +130,12 @@
     orderClasses: true
   });
   $("#table-tshirts-topackage").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });
+  $("#table-tshirts-shipped").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [0, 'desc'],

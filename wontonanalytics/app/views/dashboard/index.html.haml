@@ -37,6 +37,36 @@
             =@total_stickers_to_ship
             stickers
 
+
+  .page-content-body-section
+    %h1 Orders
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Customers
+          .stat-number
+            = @total_customers
+            customers
+
+      .stat-container
+        .stat
+          .stat-label Total Orders
+          .stat-number
+            = @orders.count
+            orders
+
+      .stat-container
+        .stat
+          .stat-label Total Order Items
+          .stat-number
+            = @total_order_items_count
+            items
+
+      .stat-container
+        .stat
+          .stat-label Average Items Per Order
+          .stat-number= @average_items_per_order
+
   .page-content-body-section
     %h1 Profit
     .stats
@@ -67,36 +97,6 @@
           .stat-label Stickers To Sell
           .stat-number
             =@stickers_to_sell
-            
-
-  .page-content-body-section
-    %h1 Orders
-    .stats
-      .stat-container
-        .stat
-          .stat-label Total Customers
-          .stat-number
-            = @total_customers
-            customers
-
-      .stat-container
-        .stat
-          .stat-label Total Orders
-          .stat-number
-            = @orders.count
-            orders
-
-      .stat-container
-        .stat
-          .stat-label Total Order Items
-          .stat-number
-            = @total_order_items_count
-            items
-
-      .stat-container
-        .stat
-          .stat-label Average Items Per Order
-          .stat-number= @average_items_per_order
 
       
 
@@ -161,6 +161,11 @@
           .stat-label Supplies
           .stat-number
             = "$" + @total_supplies.to_s
+      .stat-container
+        .stat
+          .stat-label Shipping
+          .stat-number
+            = "$" + @total_shipping.to_s
 
   .page-content-body-section
     %h1 Products

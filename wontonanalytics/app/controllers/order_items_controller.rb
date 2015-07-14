@@ -3,6 +3,7 @@ class OrderItemsController < ApplicationController
   	@items_to_ship = OrderItem.where(date_shipped: nil)
   	@cards_to_ship = OrderItem.joins(:product).where(products: {product_type: "Card"}).where(date_shipped: nil)
   	@tshirts_to_ship = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).where(date_shipped: nil)
+    @tshirts_shipped = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).where.not(date_shipped: nil)
   	@stickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).where(date_shipped: nil)
 
   	@total_items_to_ship = @items_to_ship.count

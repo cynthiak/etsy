@@ -39,6 +39,12 @@
           .stat-number
             = "$" + @total_supplies.to_s
 
+      .stat-container
+        .stat
+          .stat-label Shipping
+          .stat-number
+            = "$" + @total_shipping.to_s
+
   .page-content-body-section
     %table#table-expenses.stripe.order-column
       %thead

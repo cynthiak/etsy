@@ -19,6 +19,13 @@
 
       .stat-container
         .stat
+          .stat-label Prints Sold
+          .stat-number
+            = @prints_sold_count 
+            prints
+
+      .stat-container
+        .stat
           .stat-label T-shirts Sold
           .stat-number
             = @tshirts_sold_count 
@@ -45,6 +52,12 @@
 
       .stat-container
         .stat
+          .stat-label Prints Revenue
+          .stat-number
+            = "$" + @prints_revenue.to_s 
+
+      .stat-container
+        .stat
           .stat-label T-shirts Revenue
           .stat-number
             = "$" + @tshirts_revenue.to_s 
@@ -61,12 +74,17 @@
           .stat-number
             = "$" + @average_revenue.to_s + "/item"
 
-
       .stat-container
         .stat
           .stat-label Average Revenue Per Card
           .stat-number
             = "$" + @average_cards_revenue.to_s + "/card"
+
+      .stat-container
+        .stat
+          .stat-label Average Revenue Per Print
+          .stat-number
+            = "$" + @average_prints_revenue.to_s + "/print"
 
       .stat-container
         .stat

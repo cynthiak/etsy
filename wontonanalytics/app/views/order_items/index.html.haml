@@ -19,6 +19,13 @@
 
       .stat-container
         .stat
+          .stat-label Prints To Ship
+          .stat-number
+            =@total_prints_to_ship
+            prints
+
+      .stat-container
+        .stat
           .stat-label T-shirts To Ship
           .stat-number
             =@total_tshirts_to_ship
@@ -47,6 +54,21 @@
               %td= card.occasion
               %td= card.description
               %td= card.get_unshipped_order_items_count
+
+
+  .page-content-body-section
+    %h1 Prints To Package
+    %table#table-prints-topackage.stripe.order-column
+      %thead
+        %tr
+          %th Print
+          %th Quantity To Pack
+      %tbody
+        - @prints.each do |print|
+          - if print.get_unshipped_order_items_count > 0
+            %tr
+              %td= print.description
+              %td= print.get_unshipped_order_items_count
 
 
   .page-content-body-section
@@ -144,6 +166,12 @@
 
 :javascript
   $("#table-cards-topackage").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });
+  $("#table-prints-topackage").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [0, 'desc'],

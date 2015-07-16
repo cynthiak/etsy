@@ -5,6 +5,7 @@ class DashboardController < ApplicationController
     @orders_left_to_ship = Order.where(date_shipped: nil)
     @total_items_to_ship = OrderItem.where(date_shipped: nil).count
     @total_cards_to_ship = OrderItem.joins(:product).where(products: {product_type: "Card"}).where(date_shipped: nil).count
+    @total_prints_to_ship = OrderItem.joins(:product).where(products: {product_type: "Print"}).where(date_shipped: nil).count
     @total_tshirts_to_ship = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).where(date_shipped: nil).count
     @total_stickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).where(date_shipped: nil).count
 
@@ -41,21 +42,25 @@ class DashboardController < ApplicationController
     # For finding average cost of items and number of items needed to be sold in order to reach 0, and for products section
     @order_items_count = OrderItem.all.sum(:quantity)
     @cards_sold_count = OrderItem.joins(:product).where(products: {product_type: "Card"}).sum(:quantity)
+    @prints_sold_count = OrderItem.joins(:product).where(products: {product_type: "Print"}).sum(:quantity)
     @tshirts_sold_count = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).sum(:quantity)
     @stickers_sold_count = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).sum(:quantity)
 
     @total_revenue = (Order.where(refund: nil).sum(:order_net) + Order.where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
     @cards_revenue = OrderItem.joins(:product).where(products: {product_type: "Card"}).sum(:item_total).round(2)
+    @prints_revenue = OrderItem.joins(:product).where(products: {product_type: "Print"}).sum(:item_total).round(2)
     @tshirts_revenue = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).sum(:item_total).round(2)
     @stickers_revenue = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).sum(:item_total).round(2)
 
     @average_revenue = (@total_revenue / @order_items_count).round(2)
     @average_cards_revenue = (@cards_revenue / @cards_sold_count).round(2)
+    @average_prints_revenue = (@prints_revenue / @prints_sold_count).round(2)
     @average_tshirts_revenue = (@tshirts_revenue / @tshirts_sold_count).round(2)
     @average_stickers_revenue = (@stickers_revenue / @stickers_sold_count).round(2)
 
-    @tshirts_to_sell = (@profit / @average_tshirts_revenue).abs.ceil
     @cards_to_sell = (@profit / @average_cards_revenue).abs.ceil
+    @prints_to_sell = (@profit / @average_prints_revenue).abs.ceil
+    @tshirts_to_sell = (@profit / @average_tshirts_revenue).abs.ceil
     @stickers_to_sell = (@profit / @average_stickers_revenue).abs.ceil
 
 

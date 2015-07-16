@@ -17,7 +17,7 @@
         - @listings.each do |listing|
           %tr
             %td
-              =listing.product.product_type
+              = listing.product.product_type
               = listing.product.occasion ? " - " + listing.product.occasion : ""
             %td.border-right=listing.product.dimsum
             %td.border-right=listing.product.description

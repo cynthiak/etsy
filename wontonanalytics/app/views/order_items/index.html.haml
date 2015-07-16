@@ -49,6 +49,26 @@
               %td= card.get_unshipped_order_items_count
 
 
+  .page-content-body-section
+    %h1 T-shirts Sold
+    - @tshirts.each do |tshirt|
+      %table#table-tshirts-sold.stripe.order-column
+        %thead
+          %tr
+            %th T-shirt
+            %th Gender
+            %th Style
+            %th Color
+            %th S
+            %th M
+            %th L
+            %th XL
+        %tbody
+          - previous_variation = nil
+          - tshirt.get_variations.each do |variation|
+            - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
+            = render :partial => 'variation_sold', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+            - previous_variation = current_variation
 
   .page-content-body-section
     %h1 T-shirts To Package
@@ -124,6 +144,12 @@
 
 :javascript
   $("#table-cards-topackage").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });
+  $("#table-tshirts-sold").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [0, 'desc'],

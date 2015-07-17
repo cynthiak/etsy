@@ -7,11 +7,11 @@ class OrderItemsController < ApplicationController
     @tshirts_shipped = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).where.not(date_shipped: nil)
   	@stickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).where(date_shipped: nil)
 
-  	@total_items_to_ship = @items_to_ship.count
-  	@total_cards_to_ship = @cards_to_ship.count
-    @total_prints_to_ship = @prints_to_ship.count
-  	@total_tshirts_to_ship = @tshirts_to_ship.count
-  	@total_stickers_to_ship = @stickers_to_ship.count
+  	@total_items_to_ship = @items_to_ship.sum(:quantity)
+  	@total_cards_to_ship = @cards_to_ship.sum(:quantity)
+    @total_prints_to_ship = @prints_to_ship.sum(:quantity)
+  	@total_tshirts_to_ship = @tshirts_to_ship.sum(:quantity)
+  	@total_stickers_to_ship = @stickers_to_ship.sum(:quantity)
 
   	@cards = Product.where(product_type: "Card")
     @prints = Product.where(product_type: "Print")

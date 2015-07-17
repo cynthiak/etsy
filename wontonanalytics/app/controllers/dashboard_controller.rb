@@ -3,11 +3,11 @@ class DashboardController < ApplicationController
   def index
     # To ship
     @orders_left_to_ship = Order.where(date_shipped: nil)
-    @total_items_to_ship = OrderItem.where(date_shipped: nil).count
-    @total_cards_to_ship = OrderItem.joins(:product).where(products: {product_type: "Card"}).where(date_shipped: nil).count
-    @total_prints_to_ship = OrderItem.joins(:product).where(products: {product_type: "Print"}).where(date_shipped: nil).count
-    @total_tshirts_to_ship = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).where(date_shipped: nil).count
-    @total_stickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).where(date_shipped: nil).count
+    @total_items_to_ship = OrderItem.where(date_shipped: nil).sum(:quantity)
+    @total_cards_to_ship = OrderItem.joins(:product).where(products: {product_type: "Card"}).where(date_shipped: nil).sum(:quantity)
+    @total_prints_to_ship = OrderItem.joins(:product).where(products: {product_type: "Print"}).where(date_shipped: nil).sum(:quantity)
+    @total_tshirts_to_ship = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).where(date_shipped: nil).sum(:quantity)
+    @total_stickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).where(date_shipped: nil).sum(:quantity)
 
 
     # Customers and Orders

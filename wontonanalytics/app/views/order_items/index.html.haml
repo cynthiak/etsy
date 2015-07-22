@@ -10,33 +10,40 @@
             =@total_items_to_ship
             items
 
-      .stat-container
-        .stat
-          .stat-label Cards To Ship
-          .stat-number
-            =@total_cards_to_ship
-            cards
+    .stats
+      - if @total_cards_to_ship > 0
+        .stat-container
+          .stat
+            .stat-label Cards To Ship
+            .stat-number
+              =@total_cards_to_ship
+              cards
 
-      .stat-container
-        .stat
-          .stat-label Prints To Ship
-          .stat-number
-            =@total_prints_to_ship
-            prints
+      - if @total_prints_to_ship > 0
+        .stat-container
+          .stat
+            .stat-label Prints To Ship
+            .stat-number
+              =@total_prints_to_ship
+              prints
 
-      .stat-container
-        .stat
-          .stat-label T-shirts To Ship
-          .stat-number
-            =@total_tshirts_to_ship
-            t-shirts
 
-      .stat-container
-        .stat
-          .stat-label Stickers To Ship
-          .stat-number
-            =@total_stickers_to_ship
-            stickers
+      - if @total_tshirts_to_ship > 0
+        .stat-container
+          .stat
+            .stat-label T-shirts To Ship
+            .stat-number
+              =@total_tshirts_to_ship
+              t-shirts
+
+
+      - if @total_stickers_to_ship > 0
+        .stat-container
+          .stat
+            .stat-label Stickers To Ship
+            .stat-number
+              =@total_stickers_to_ship
+              stickers
 
 
   .page-content-body-section

@@ -9,12 +9,12 @@
 }
 .stat-container {
   float: left;
-  width: 25%;
+  width: 20%;
   display: inline-block;
   padding-right: 10px;
   margin-bottom: 10px;
 }
-.stat-container:nth-child(4n) {
+.stat-container:nth-child(5n) {
   padding-right: 0;
 }
 .stat {
@@ -30,18 +30,3 @@
 .stat-number {
   font-size: 24px;
 }
-/*
-
-#page-products {
-  width: 500px;
-  .stat-container {
-    float: left;
-    width: 20%;
-    display: inline-block;
-    padding-right: 10px;
-    margin-bottom: 10px;
-  }
-  .stat-container:nth-child(5n) {
-    padding-right: 0;
-  }
-}*/

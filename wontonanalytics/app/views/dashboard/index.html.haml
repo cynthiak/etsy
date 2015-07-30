@@ -122,6 +122,13 @@
             =@stickers_to_sell
             stickers
 
+      .stat-container
+        .stat
+          .stat-label Laptop Stickers To Sell
+          .stat-number
+            =@laptopstickers_to_sell
+            stickers
+
       
 
   .page-content-body-section
@@ -142,7 +149,7 @@
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Order Item
+          .stat-label Average Rev Per Order Item
           .stat-number
             = "$" + @average_revenue_per_order_item.to_s + "/item"
 
@@ -227,66 +234,85 @@
           .stat-label Stickers
           .stat-number
             = @stickers_sold_count
-            stickers sold
+            stickers
 
       .stat-container
         .stat
-          .stat-label Total Revenue
+          .stat-label Laptop Stickers
+          .stat-number
+            = @laptopstickers_sold_count
+            stickers
+
+      .stat-container
+        .stat
+          .stat-label Total Rev
           .stat-number
             = "$" + @total_revenue.to_s 
 
       .stat-container
         .stat
-          .stat-label Cards Revenue
+          .stat-label Cards Rev
           .stat-number
             = "$" + @cards_revenue.to_s 
 
       .stat-container
         .stat
-          .stat-label Prints Revenue
+          .stat-label Prints Rev
           .stat-number
             = "$" + @prints_revenue.to_s 
 
       .stat-container
         .stat
-          .stat-label T-shirts Revenue
+          .stat-label T-shirts Rev
           .stat-number
             = "$" + @tshirts_revenue.to_s 
 
       .stat-container
         .stat
-          .stat-label Stickers Revenue
+          .stat-label Stickers Rev
           .stat-number
             = "$" + @stickers_revenue.to_s
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Item
+          .stat-label Laptop Stickers Rev
+          .stat-number
+            = "$" + @laptopstickers_revenue.to_s
+
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Item
           .stat-number
             = "$" + @average_revenue.to_s + "/item"
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Card
+          .stat-label Average Rev Per Card
           .stat-number
             = "$" + @average_cards_revenue.to_s + "/card"
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Print
+          .stat-label Average Rev Per Print
           .stat-number
             = "$" + @average_prints_revenue.to_s + "/print"
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per T-shirt
+          .stat-label Average Rev Per T-shirt
           .stat-number
             = "$" + @average_tshirts_revenue.to_s + "/t-shirt"
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Sticker
+          .stat-label Average Rev Per Sticker
           .stat-number
             = "$" + @average_stickers_revenue.to_s + "/sticker"
+
+      .stat-container
+        .stat
+          .stat-label Avg Rev Laptop Sticker
+          .stat-number
+            = "$" + @average_laptopstickers_revenue.to_s + "/sticker"
 
 

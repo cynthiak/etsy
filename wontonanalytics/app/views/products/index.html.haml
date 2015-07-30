@@ -36,67 +36,86 @@
           .stat-label Stickers
           .stat-number
             = @stickers_sold_count
-            stickers sold
+            stickers
 
       .stat-container
         .stat
-          .stat-label Total Revenue
+          .stat-label Laptop Stickers
+          .stat-number
+            = @laptopstickers_sold_count
+            stickers
+
+      .stat-container
+        .stat
+          .stat-label Total Rev
           .stat-number
             = "$" + @total_revenue.to_s 
 
       .stat-container
         .stat
-          .stat-label Cards Revenue
+          .stat-label Cards Rev
           .stat-number
             = "$" + @cards_revenue.to_s 
 
       .stat-container
         .stat
-          .stat-label Prints Revenue
+          .stat-label Prints Rev
           .stat-number
             = "$" + @prints_revenue.to_s 
 
       .stat-container
         .stat
-          .stat-label T-shirts Revenue
+          .stat-label T-shirts Rev
           .stat-number
             = "$" + @tshirts_revenue.to_s 
 
       .stat-container
         .stat
-          .stat-label Stickers Revenue
+          .stat-label Stickers Rev
           .stat-number
             = "$" + @stickers_revenue.to_s
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Item
+          .stat-label Laptop Stickers Rev
+          .stat-number
+            = "$" + @laptopstickers_revenue.to_s
+
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Item
           .stat-number
             = "$" + @average_revenue.to_s + "/item"
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Card
+          .stat-label Average Rev Per Card
           .stat-number
             = "$" + @average_cards_revenue.to_s + "/card"
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Print
+          .stat-label Average Rev Per Print
           .stat-number
             = "$" + @average_prints_revenue.to_s + "/print"
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per T-shirt
+          .stat-label Average Rev Per T-shirt
           .stat-number
             = "$" + @average_tshirts_revenue.to_s + "/t-shirt"
 
       .stat-container
         .stat
-          .stat-label Average Revenue Per Sticker
+          .stat-label Average Rev Per Sticker
           .stat-number
             = "$" + @average_stickers_revenue.to_s + "/sticker"
+
+      .stat-container
+        .stat
+          .stat-label Avg Rev Laptop Sticker
+          .stat-number
+            = "$" + @average_laptopstickers_revenue.to_s + "/sticker"
             
 
   .page-content-body-section
@@ -169,6 +188,29 @@
 
 
   .page-content-body-section
+    %h1 Prints
+
+    %table#table-prints.stripe.order-column
+      %thead
+        %tr
+          %th Type
+          %th Item
+          %th Price
+          %th Cost
+          %th Sold
+          %th Revenue
+      %tbody
+        - @prints.each do |print|
+          %tr
+            %td.border-right= print.product_type
+            %td.border-right= print.description
+            %td= "$" + print.get_price.to_s
+            %td.border-right= "$" + print.get_cost.to_s
+            %td= print.get_order_items_count
+            %td= "$" + print.get_total_sales.to_s
+
+
+  .page-content-body-section
     %h1 Stickers
 
     %table#table-stickers.stripe.order-column
@@ -193,9 +235,40 @@
             %td= "$" + sticker.get_total_sales.to_s
 
 
+    .page-content-body-section
+    %h1 Laptop Stickers
+
+    %table#table-laptopstickers.stripe.order-column
+      %thead
+        %tr
+          %th Type
+          %th Item
+          %th Dimsum
+          %th Price
+          %th Cost
+          %th Sold
+          %th Revenue
+      %tbody
+        - @laptopstickers.each do |laptopsticker|
+          %tr
+            %td.border-right= laptopsticker.product_type
+            %td.border-right= laptopsticker.description
+            %td.border-right= laptopsticker.dimsum
+            %td= "$" + laptopsticker.get_price.to_s
+            %td.border-right= "$" + laptopsticker.get_cost.to_s
+            %td= laptopsticker.get_order_items_count
+            %td= "$" + laptopsticker.get_total_sales.to_s
+
+
 
 :javascript
   $("#table-cards").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'asc'],
+    orderClasses: true
+  });
+  $("#table-prints").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [1, 'asc'],
@@ -216,6 +289,12 @@
   });
 
   $("#table-stickers").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'asc'],
+    orderClasses: true
+  });
+  $("#table-laptopstickers").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [1, 'asc'],

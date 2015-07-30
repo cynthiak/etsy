@@ -8,6 +8,7 @@ class DashboardController < ApplicationController
     @total_prints_to_ship = OrderItem.joins(:product).where(products: {product_type: "Print"}).where(date_shipped: nil).sum(:quantity)
     @total_tshirts_to_ship = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).where(date_shipped: nil).sum(:quantity)
     @total_stickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).where(date_shipped: nil).sum(:quantity)
+    @total_laptopstickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Laptop Sticker"}).where(date_shipped: nil).sum(:quantity)
 
 
     # Customers and Orders
@@ -45,23 +46,27 @@ class DashboardController < ApplicationController
     @prints_sold_count = OrderItem.joins(:product).where(products: {product_type: "Print"}).sum(:quantity)
     @tshirts_sold_count = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).sum(:quantity)
     @stickers_sold_count = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).sum(:quantity)
+    @laptopstickers_sold_count = OrderItem.joins(:product).where(products: {product_type: "Laptop Sticker"}).sum(:quantity)
 
     @total_revenue = (Order.where(refund: nil).sum(:order_net) + Order.where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
     @cards_revenue = OrderItem.joins(:product).where(products: {product_type: "Card"}).sum(:item_total).round(2)
     @prints_revenue = OrderItem.joins(:product).where(products: {product_type: "Print"}).sum(:item_total).round(2)
     @tshirts_revenue = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).sum(:item_total).round(2)
     @stickers_revenue = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).sum(:item_total).round(2)
+    @laptopstickers_revenue = OrderItem.joins(:product).where(products: {product_type: "Laptop Sticker"}).sum(:item_total).round(2)
 
     @average_revenue = (@total_revenue / @order_items_count).round(2)
     @average_cards_revenue = (@cards_revenue / @cards_sold_count).round(2)
     @average_prints_revenue = (@prints_revenue / @prints_sold_count).round(2)
     @average_tshirts_revenue = (@tshirts_revenue / @tshirts_sold_count).round(2)
     @average_stickers_revenue = (@stickers_revenue / @stickers_sold_count).round(2)
+    @average_laptopstickers_revenue = (@laptopstickers_revenue / @laptopstickers_sold_count).round(2)
 
     @cards_to_sell = (@profit / @average_cards_revenue).abs.ceil
     @prints_to_sell = (@profit / @average_prints_revenue).abs.ceil
     @tshirts_to_sell = (@profit / @average_tshirts_revenue).abs.ceil
     @stickers_to_sell = (@profit / @average_stickers_revenue).abs.ceil
+    @laptopstickers_to_sell = (@profit / @average_laptopstickers_revenue).abs.ceil
 
 
   end

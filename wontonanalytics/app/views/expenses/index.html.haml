@@ -51,7 +51,6 @@
         %tr
           %th Date
           %th Name
-          %th Description
           %th Type
           %th Vendor
           %th Amount
@@ -59,8 +58,9 @@
         - @expenses.each do |expense|
           %tr
             %td= expense.date
-            %td= expense.name
-            %td= expense.description
+            %td
+              = expense.name
+              %span.secondary= expense.description
             %td= expense.expense_type
             %td= expense.vendor
             %td= "$" + expense.amount.to_s

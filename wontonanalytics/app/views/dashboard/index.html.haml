@@ -11,9 +11,9 @@
       .stat-container
         .stat
           .stat-label Total Order Items To Ship
-          .stat-number
+          .stat-number.red
             =@total_items_to_ship
-            items
+            items to ship
 
     
     .stats
@@ -43,12 +43,12 @@
               t-shirts
 
 
-      - if @total_stickers_to_ship > 0
+      - if @total_laptopstickers_to_ship > 0
         .stat-container
           .stat
-            .stat-label Stickers To Ship
+            .stat-label Laptop Stickers To Ship
             .stat-number
-              =@total_stickers_to_ship
+              =@total_laptopstickers_to_ship
               stickers
 
 

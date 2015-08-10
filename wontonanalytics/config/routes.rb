@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   # resources :products
   resources :orders do
     collection { post :import }
+    collection { post :import_square }
   end
 
   resources :order_items do

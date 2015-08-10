@@ -87,6 +87,64 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def self.import_square(file)
+    CSV.foreach(file.path, headers:true) do |row|
+      order = Order.find_by(order_number: row[21])
+
+      square_username = "sq_" + row[21]
+      customer = Customer.find_by(etsy_username: square_username)
+      if !(customer)
+        customer = Customer.create({
+            :etsy_username=> square_username,
+            :first_name=> "Square",
+            :last_name=> "Customer"
+          })
+      end
+
+      if row[11].to_f > 0
+        payment_method = "card swiped"
+      elsif row[12].to_f > 0
+        payment_method = "card keyed"
+      elsif row[13].to_f > 0
+        payment_method = "cash"
+      elsif row[14].to_f > 0
+        payment_method = "wallet"
+      elsif row[15].to_f > 0
+        payment_method = "square gift card"
+      end
+
+      order_params = {
+        :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
+        :order_number=> row[21],
+        :username=> square_username,
+        :full_name=> "Square Customer",
+        :first_name=> "Square",
+        :last_name=> "Customer",
+        :order_source=> "square",
+        :customer_id=>customer.id,
+        :date_shipped=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
+        :shipping=> "0.0",
+        :payment_method=> payment_method,
+        :order_value=> row[3].delete('$').to_f,
+        :sales_tax=> row[7].delete('$').to_f,
+        :order_total=> row[5].delete('$').to_f,
+        :card_processing_fees=> row[19].delete('$').to_f.abs,
+        :order_net=> row[20].delete('$').to_f,
+        :inperson_discount=> row[4].delete('$').to_f
+      }
+
+      if (order)
+        order.update(order_params)
+      else
+        order = Order.create(order_params)
+      end
+
+      order.save!
+    end
+  end
+
+
+
   def get_order_items
     OrderItem.where(order: self)
   end

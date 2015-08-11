@@ -128,19 +128,19 @@
             %td= "$" + order.sales_tax.to_s
             %td.border-right= order.refund? ? "$" + order.refund.to_s : ""
             %td
-              = order.adjusted_order_total? ? "$" + order.adjusted_order_total.to_s : "$" + order.order_total.to_s
+              = order.refund? ? "$" + order.adjusted_order_total.to_s : "$" + order.order_total.to_s
             %td
               = order.adjusted_card_processing_fees? ? "$" + order.adjusted_card_processing_fees.to_s : "$" + order.card_processing_fees.to_s
             %td
-              = order.adjusted_net_order_amount? ? "$" + order.adjusted_net_order_amount.to_s : "$" + order.order_net.to_s
+              = order.refund? ? "$" + order.adjusted_net_order_amount.to_s : "$" + order.order_net.to_s
 
 
 
   .page-content-body-section
-    %h1 Import Orders
+    %h1 Import Orders from Etsy
     = form_tag import_orders_path, multipart: true do
       = file_field_tag :file
-      = submit_tag "Import"
+      = submit_tag "Import from Etsy"
 
 
   .page-content-body-section

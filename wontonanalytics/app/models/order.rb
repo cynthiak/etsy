@@ -101,38 +101,49 @@ class Order < ActiveRecord::Base
           })
       end
 
-      if row[11].to_f > 0
+      if row[11].to_f != 0
         payment_method = "card swiped"
-      elsif row[12].to_f > 0
+      elsif row[12].to_f != 0
         payment_method = "card keyed"
-      elsif row[13].to_f > 0
+      elsif row[13].to_f != 0
         payment_method = "cash"
-      elsif row[14].to_f > 0
+      elsif row[14].to_f != 0
         payment_method = "wallet"
-      elsif row[15].to_f > 0
+      elsif row[15].to_f != 0
         payment_method = "square gift card"
       end
 
-      order_params = {
-        :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
-        :order_number=> row[21],
-        :username=> square_username,
-        :full_name=> "Square Customer",
-        :first_name=> "Square",
-        :last_name=> "Customer",
-        :order_source=> "square",
-        :customer_id=>customer.id,
-        :date_shipped=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
-        :shipping=> "0.0",
-        :coupon_code=> row[4] == "$0.00" ? nil : row[4],
-        :payment_method=> payment_method,
-        :order_value=> row[3].delete('$').to_f,
-        :sales_tax=> row[7].delete('$').to_f,
-        :order_total=> row[5].delete('$').to_f,
-        :card_processing_fees=> row[19].delete('$').to_f.abs,
-        :order_net=> row[20].delete('$').to_f,
-        :inperson_discount=> row[4].delete('$').to_f
-      }
+      if row[30] == "Refund"
+        refund = row[10].delete('$').to_f
+        if order
+          order_params = {
+            :adjusted_order_total=> order.order_total + refund,
+            :adjusted_net_order_amount=> order.order_net + refund,
+            :refund=> refund.abs
+          }
+        end
+      else
+        order_params = {
+          :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
+          :order_number=> row[21],
+          :username=> square_username,
+          :full_name=> "Square Customer",
+          :first_name=> "Square",
+          :last_name=> "Customer",
+          :order_source=> "square",
+          :customer_id=>customer.id,
+          :date_shipped=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
+          :shipping=> "0.0",
+          :coupon_code=> row[4] == "$0.00" ? nil : row[4],
+          :payment_method=> payment_method,
+          :order_value=> row[3].delete('$').to_f,
+          :sales_tax=> row[7].delete('$').to_f,
+          :order_total=> row[5].delete('$').to_f,
+          :card_processing_fees=> row[19].delete('$').to_f.abs,
+          :order_net=> row[20].delete('$').to_f,
+          :inperson_discount=> row[4].delete('$').to_f
+        }
+      end
 
       if (order)
         order.update(order_params)

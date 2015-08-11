@@ -158,10 +158,10 @@
               %td= laptopsticker.get_unshipped_order_items_count
 
   .page-content-body-section
-    %h1 Import Order Items
+    %h1 Import Order Items from Etsy
     = form_tag import_order_items_path, multipart: true do
       = file_field_tag :file
-      = submit_tag "Import"
+      = submit_tag "Import from Etsy"
 
 
   .page-content-body-section

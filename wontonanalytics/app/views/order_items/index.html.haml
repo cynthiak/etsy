@@ -164,6 +164,12 @@
       = submit_tag "Import"
 
 
+  .page-content-body-section
+    %h1 Import Order Items from Square
+    = form_tag import_square_order_items_path, multipart: true do
+      = file_field_tag :file
+      = submit_tag "Import from Square"
+
 
 :javascript
   $("#table-cards-topackage").DataTable({

@@ -124,6 +124,7 @@ class Order < ActiveRecord::Base
         :customer_id=>customer.id,
         :date_shipped=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
         :shipping=> "0.0",
+        :coupon_code=> row[4] == "$0.00" ? nil : row[4],
         :payment_method=> payment_method,
         :order_value=> row[3].delete('$').to_f,
         :sales_tax=> row[7].delete('$').to_f,

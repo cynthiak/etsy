@@ -31,4 +31,9 @@ class OrderItemsController < ApplicationController
     OrderItem.import(params[:file])
     redirect_to order_items_url, notice: "Order items imported."
   end
+
+  def import_square
+    OrderItem.import_square(params[:file])
+    redirect_to order_items_url, notice: "Order items imported."
+  end
 end

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   resources :order_items do
     collection { post :import }
+    collection { post :import_square }
   end
 
   resources :expenses do

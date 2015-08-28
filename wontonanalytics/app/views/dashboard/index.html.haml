@@ -245,6 +245,21 @@
 
       .stat-container
         .stat
+          .stat-label Baby Items
+          .stat-number
+            = @baby_sold_count
+            baby
+
+      .stat-container
+        .stat
+          .stat-label Party Items
+          .stat-number
+            = @party_sold_count
+            party
+
+    .stats
+      .stat-container
+        .stat
           .stat-label Total Rev
           .stat-number
             = "$" + @total_revenue.to_s 
@@ -275,44 +290,69 @@
 
       .stat-container
         .stat
-          .stat-label Laptop Stickers Rev
+          .stat-label Laptop Stickers
           .stat-number
             = "$" + @laptopstickers_revenue.to_s
 
       .stat-container
         .stat
-          .stat-label Average Rev Per Item
+          .stat-label Baby Rev
+          .stat-number
+            = "$" + @baby_revenue.to_s
+
+      .stat-container
+        .stat
+          .stat-label Party Rev
+          .stat-number
+            = "$" + @party_revenue.to_s
+
+    .stats
+      .stat-container
+        .stat
+          .stat-label Avg Rev Per Item
           .stat-number
             = "$" + @average_revenue.to_s + "/item"
 
       .stat-container
         .stat
-          .stat-label Average Rev Per Card
+          .stat-label Per Card
           .stat-number
             = "$" + @average_cards_revenue.to_s + "/card"
 
       .stat-container
         .stat
-          .stat-label Average Rev Per Print
+          .stat-label Per Print
           .stat-number
             = "$" + @average_prints_revenue.to_s + "/print"
 
       .stat-container
         .stat
-          .stat-label Average Rev Per T-shirt
+          .stat-label Per T-shirt
           .stat-number
-            = "$" + @average_tshirts_revenue.to_s + "/t-shirt"
+            = "$" + @average_tshirts_revenue.to_s + "/shirt"
 
       .stat-container
         .stat
-          .stat-label Average Rev Per Sticker
+          .stat-label Per Sticker
           .stat-number
             = "$" + @average_stickers_revenue.to_s + "/sticker"
 
       .stat-container
         .stat
-          .stat-label Avg Rev Laptop Sticker
+          .stat-label Laptop Sticker
           .stat-number
             = "$" + @average_laptopstickers_revenue.to_s + "/sticker"
+
+      .stat-container
+        .stat
+          .stat-label Per Baby Item
+          .stat-number
+            = "$" + @average_baby_revenue.to_s + "/baby"
+
+      .stat-container
+        .stat
+          .stat-label Per Party Item
+          .stat-number
+            = "$" + @average_party_revenue.to_s + "/party"
 
 

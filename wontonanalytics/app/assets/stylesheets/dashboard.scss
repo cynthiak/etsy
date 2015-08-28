@@ -3,12 +3,12 @@
 .page-content-body-section-products {
   .stat-container {
     float: left;
-    width: 16.6667%;
+    width: 12.5%;
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 10px;
   }
-  .stat-container:nth-child(6n) {
+  .stat-container:nth-child(8n) {
     padding-right: 0;
   }
 }

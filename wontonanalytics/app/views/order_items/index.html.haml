@@ -53,109 +53,158 @@
               =@total_laptopstickers_to_ship
               stickers
 
+      - if @total_babyitems_to_ship > 0
+        .stat-container
+          .stat
+            .stat-label Baby Items To Ship
+            .stat-number
+              =@total_babyitems_to_ship
+              baby items
 
-  .page-content-body-section
-    %h1 Cards To Package
-    %table#table-cards-topackage.stripe.order-column
-      %thead
-        %tr
-          %th Occasion
-          %th Card
-          %th Quantity To Pack
-      %tbody
-        - @cards.each do |card|
-          - if card.get_unshipped_order_items_count > 0
-            %tr
-              %td= card.occasion
-              %td= card.description
-              %td= card.get_unshipped_order_items_count
-
-
-  .page-content-body-section
-    %h1 Prints To Package
-    %table#table-prints-topackage.stripe.order-column
-      %thead
-        %tr
-          %th Print
-          %th Quantity To Pack
-      %tbody
-        - @prints.each do |print|
-          - if print.get_unshipped_order_items_count > 0
-            %tr
-              %td= print.description
-              %td= print.get_unshipped_order_items_count
+      - if @total_partyitems_to_ship > 0
+        .stat-container
+          .stat
+            .stat-label Party Items To Ship
+            .stat-number
+              =@total_partyitems_to_ship
+              party items
 
 
-  .page-content-body-section
-    %h1 T-shirts Sold
-    - @tshirts.each do |tshirt|
-      %table#table-tshirts-sold.stripe.order-column
+  - if @total_cards_to_ship > 0
+    .page-content-body-section
+      %h1 Cards To Package
+      %table#table-cards-topackage.stripe.order-column
         %thead
           %tr
-            %th T-shirt
-            %th Gender
-            %th Style
-            %th Color
-            %th S
-            %th M
-            %th L
-            %th XL
+            %th Occasion
+            %th Card
+            %th Quantity To Pack
         %tbody
-          - previous_variation = nil
-          - tshirt.get_variations.each do |variation|
-            - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
-            = render :partial => 'variation_sold', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
-            - previous_variation = current_variation
+          - @cards.each do |card|
+            - if card.get_unshipped_order_items_count > 0
+              %tr
+                %td= card.occasion
+                %td= card.description
+                %td= card.get_unshipped_order_items_count
 
-  .page-content-body-section
-    %h1 T-shirts To Package
-    - @tshirts.each do |tshirt|
-      %table#table-tshirts-topackage.stripe.order-column
+  - if @total_prints_to_ship > 0
+    .page-content-body-section
+      %h1 Prints To Package
+      %table#table-prints-topackage.stripe.order-column
         %thead
           %tr
-            %th T-shirt
-            %th Gender
-            %th Style
-            %th Color
-            %th S
-            %th M
-            %th L
-            %th XL
+            %th Print
+            %th Quantity To Pack
         %tbody
-          - previous_variation = nil
-          - tshirt.get_variations.each do |variation|
-            - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
-            = render :partial => 'variation_unshipped', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
-            - previous_variation = current_variation
+          - @prints.each do |print|
+            - if print.get_unshipped_order_items_count > 0
+              %tr
+                %td= print.description
+                %td= print.get_unshipped_order_items_count
 
-  .page-content-body-section
-    %h1 Stickers To Package
-
-    %table#table-stickers-topackage.stripe.order-column
-      %thead
-        %tr
-          %th Stickers
-          %th Quantity To Pack
-      %tbody
-        - @stickers.each do |sticker|
-          - if sticker.get_unshipped_order_items_count > 0
+  - if @total_tshirts_to_ship > 0
+    .page-content-body-section
+      %h1 T-shirts Sold
+      - @tshirts.each do |tshirt|
+        %table#table-tshirts-sold.stripe.order-column
+          %thead
             %tr
-              %td= sticker.description
-              %td= sticker.get_unshipped_order_items_count
+              %th T-shirt
+              %th Gender
+              %th Style
+              %th Color
+              %th S
+              %th M
+              %th L
+              %th XL
+          %tbody
+            - previous_variation = nil
+            - tshirt.get_variations.each do |variation|
+              - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
+              = render :partial => 'variation_sold', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+              - previous_variation = current_variation
 
-  .page-content-body-section
-    %h1 Laptop Stickers To Package
-    %table#table-laptopstickers-topackage.stripe.order-column
-      %thead
-        %tr
-          %th Laptop Sticker
-          %th Quantity To Pack
-      %tbody
-        - @laptopstickers.each do |laptopsticker|
-          - if laptopsticker.get_unshipped_order_items_count > 0
+    .page-content-body-section
+      %h1 T-shirts To Package
+      - @tshirts.each do |tshirt|
+        %table#table-tshirts-topackage.stripe.order-column
+          %thead
             %tr
-              %td= laptopsticker.description
-              %td= laptopsticker.get_unshipped_order_items_count
+              %th T-shirt
+              %th Gender
+              %th Style
+              %th Color
+              %th S
+              %th M
+              %th L
+              %th XL
+          %tbody
+            - previous_variation = nil
+            - tshirt.get_variations.each do |variation|
+              - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
+              = render :partial => 'variation_unshipped', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+              - previous_variation = current_variation
+
+
+  - if @total_stickers_to_ship > 0
+    .page-content-body-section
+      %h1 Stickers To Package
+      %table#table-stickers-topackage.stripe.order-column
+        %thead
+          %tr
+            %th Stickers
+            %th Quantity To Pack
+        %tbody
+          - @stickers.each do |sticker|
+            - if sticker.get_unshipped_order_items_count > 0
+              %tr
+                %td= sticker.description
+                %td= sticker.get_unshipped_order_items_count
+
+  - if @total_laptopstickers_to_ship > 0
+    .page-content-body-section
+      %h1 Laptop Stickers To Package
+      %table#table-laptopstickers-topackage.stripe.order-column
+        %thead
+          %tr
+            %th Laptop Sticker
+            %th Quantity To Pack
+        %tbody
+          - @laptopstickers.each do |laptopsticker|
+            - if laptopsticker.get_unshipped_order_items_count > 0
+              %tr
+                %td= laptopsticker.description
+                %td= laptopsticker.get_unshipped_order_items_count
+
+  - if @total_babyitems_to_ship > 0
+    .page-content-body-section
+      %h1 Baby Items To Package
+      %table#table-babyitems-topackage.stripe.order-column
+        %thead
+          %tr
+            %th Baby Item
+            %th Quantity To Pack
+        %tbody
+          - @babyitems.each do |babyitem|
+            - if babyitem.get_unshipped_order_items_count > 0
+              %tr
+                %td= babyitem.description
+                %td= babyitem.get_unshipped_order_items_count
+
+  - if @total_partyitems_to_ship > 0
+    .page-content-body-section
+      %h1 Laptop Stickers To Package
+      %table#table-partyitems-topackage.stripe.order-column
+        %thead
+          %tr
+            %th Party Item
+            %th Quantity To Pack
+        %tbody
+          - @partyitems.each do |partyitem|
+            - if partyitem.get_unshipped_order_items_count > 0
+              %tr
+                %td= partyitem.description
+                %td= partyitem.get_unshipped_order_items_count
 
   .page-content-body-section
     %h1 Import Order Items from Etsy
@@ -203,6 +252,18 @@
     orderClasses: true
   });
   $("#table-laptopstickers-topackage").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });
+  $("#table-babyitems-topackage").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });
+  $("#table-partyitems-topackage").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [0, 'desc'],

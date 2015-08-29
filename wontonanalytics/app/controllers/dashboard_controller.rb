@@ -9,6 +9,8 @@ class DashboardController < ApplicationController
     @total_tshirts_to_ship = OrderItem.joins(:product).where(products: {product_type: "T-shirt"}).where(date_shipped: nil).sum(:quantity)
     @total_stickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Stickers"}).where(date_shipped: nil).sum(:quantity)
     @total_laptopstickers_to_ship = OrderItem.joins(:product).where(products: {product_type: "Laptop Sticker"}).where(date_shipped: nil).sum(:quantity)
+    @total_babyitems_toship = OrderItem.joins(:product).where(products: {product_type: "Baby"}).where(date_shipped: nil).sum(:quantity)
+    @total_partyitems_to_ship = OrderItem.joins(:product).where(products: {product_type: "Party"}).where(date_shipped: nil).sum(:quantity)
 
 
     # Customers and Orders

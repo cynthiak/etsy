@@ -51,6 +51,22 @@
               =@total_laptopstickers_to_ship
               stickers
 
+      - if @total_babyitems_toship > 0
+        .stat-container
+          .stat
+            .stat-label Baby Items To Ship
+            .stat-number
+              =@total_babyitems_toship
+              t-shirts
+
+      - if @total_partyitems_to_ship > 0
+        .stat-container
+          .stat
+            .stat-label Party To Ship
+            .stat-number
+              =@total_partyitems_to_ship
+              t-shirts
+
 
   .page-content-body-section
     %h1 Orders

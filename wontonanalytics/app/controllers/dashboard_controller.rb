@@ -37,6 +37,7 @@ class DashboardController < ApplicationController
     @total_fees = Expense.where(expense_type: "Fees").sum(:amount).round(2)
     @total_marketing = Expense.where(expense_type: "Marketing").sum(:amount).round(2)
     @total_shipping = Expense.where(expense_type: "Shipping").sum(:amount).round(2)
+    @total_taxes = Expense.where(expense_type: "Taxes").sum(:amount).round(2)
 
 
     # Profit

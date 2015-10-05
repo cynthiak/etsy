@@ -116,41 +116,42 @@
           -else
             .stat-number.green
               = "$" + @profit.to_s
-    .stats  
-      .stat-container
-        .stat
-          .stat-label Cards To Sell
-          .stat-number
-            =@cards_to_sell
-            cards
+    -if @profit < 0
+      .stats  
+        .stat-container
+          .stat
+            .stat-label Cards To Sell
+            .stat-number
+              =@cards_to_sell
+              cards
 
-      .stat-container
-        .stat
-          .stat-label Prints To Sell
-          .stat-number
-            =@prints_to_sell
-            prints
+        .stat-container
+          .stat
+            .stat-label Prints To Sell
+            .stat-number
+              =@prints_to_sell
+              prints
 
-      .stat-container
-        .stat
-          .stat-label T-shirts To Sell
-          .stat-number
-            =@tshirts_to_sell
-            t-shirts
-            
-      .stat-container
-        .stat
-          .stat-label Stickers To Sell
-          .stat-number
-            =@stickers_to_sell
-            stickers
+        .stat-container
+          .stat
+            .stat-label T-shirts To Sell
+            .stat-number
+              =@tshirts_to_sell
+              t-shirts
+              
+        .stat-container
+          .stat
+            .stat-label Stickers To Sell
+            .stat-number
+              =@stickers_to_sell
+              stickers
 
-      .stat-container
-        .stat
-          .stat-label Laptop Stickers To Sell
-          .stat-number
-            =@laptopstickers_to_sell
-            stickers
+        .stat-container
+          .stat
+            .stat-label Laptop Stickers To Sell
+            .stat-number
+              =@laptopstickers_to_sell
+              stickers
 
       
 
@@ -220,6 +221,11 @@
           .stat-label Shipping
           .stat-number
             = "$" + @total_shipping.to_s
+      .stat-container
+        .stat
+          .stat-label Taxes
+          .stat-number
+            = "$" + @total_taxes.to_s
 
   .page-content-body-section.page-content-body-section-products
     %h1 Products

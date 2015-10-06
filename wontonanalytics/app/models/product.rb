@@ -51,6 +51,10 @@ class Product < ActiveRecord::Base
     OrderItem.where(product:self).sum(:item_total).round(2)
   end
 
+  def get_average_sales
+    (get_total_sales/get_order_items_count).round(2)
+  end
+
   def get_unshipped_order_items_count
     OrderItem.where(product: self).where(date_shipped: nil).sum(:quantity)
   end

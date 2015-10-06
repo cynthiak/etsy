@@ -28,7 +28,7 @@
           %h1 
             #{pluralize(get_items_to_ship_by_type_count(product_type), product_type)}
             To Package
-          %table.stripe.order-column{class: 'table-' + product_type_slug(product_type) + '-topackage'}
+          %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
             %thead
               %tr
                 %th Product
@@ -44,8 +44,8 @@
           %h1 
             #{pluralize(get_items_to_ship_by_type_count(product_type), product_type)}
             To Package
-          - @tshirts.each do |tshirt|
-            %table#table-tshirts-topackage.stripe.order-column
+          - get_products_by_type(product_type).each do |tshirt|
+            %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
               %thead
                 %tr
                   %th T-shirt
@@ -83,58 +83,7 @@
 - get_product_types.each do |product_type|
   -if get_items_to_ship_by_type_count(product_type) > 0
     :javascript
-      $(".table-#{product_type_slug(product_type)}-topackage").DataTable({
-        dom: 'iCfrtS',
-        pageLength: -1,
-        order: [0, 'desc'],
-        orderClasses: true
-      });
-
-
-:javascript
-      $("#table-cards-topackage").DataTable({
-        dom: 'iCfrtS',
-        pageLength: -1,
-        order: [0, 'desc'],
-        orderClasses: true
-      });
-      $("#table-prints-topackage").DataTable({
-        dom: 'iCfrtS',
-        pageLength: -1,
-        order: [0, 'desc'],
-        orderClasses: true
-      });
-      $("#table-tshirts-sold").DataTable({
-        dom: 'iCfrtS',
-        pageLength: -1,
-        order: [0, 'desc'],
-        orderClasses: true
-      });
-      $("#table-tshirts-topackage").DataTable({
-        dom: 'iCfrtS',
-        pageLength: -1,
-        order: [0, 'desc'],
-        orderClasses: true
-      });
-      $("#table-stickers-topackage").DataTable({
-        dom: 'iCfrtS',
-        pageLength: -1,
-        order: [0, 'desc'],
-        orderClasses: true
-      });
-      $("#table-laptopstickers-topackage").DataTable({
-        dom: 'iCfrtS',
-        pageLength: -1,
-        order: [0, 'desc'],
-        orderClasses: true
-      });
-      $("#table-babyitems-topackage").DataTable({
-        dom: 'iCfrtS',
-        pageLength: -1,
-        order: [0, 'desc'],
-        orderClasses: true
-      });
-      $("#table-partyitems-topackage").DataTable({
+      $(".table-#{product_type_slug(product_type)}").DataTable({
         dom: 'iCfrtS',
         pageLength: -1,
         order: [0, 'desc'],

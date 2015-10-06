@@ -7,306 +7,114 @@
         .stat
           .stat-label Items Sold
           .stat-number
-            = @order_items_count 
+            = get_all_items_sold_count 
             items
 
       .stat-container
         .stat
-          .stat-label Cards Sold
-          .stat-number
-            = @cards_sold_count 
-            cards
-
-      .stat-container
-        .stat
-          .stat-label Prints Sold
-          .stat-number
-            = @prints_sold_count 
-            prints
-
-      .stat-container
-        .stat
-          .stat-label T-shirts Sold
-          .stat-number
-            = @tshirts_sold_count 
-            t-shirts
-
-      .stat-container
-        .stat
-          .stat-label Stickers
-          .stat-number
-            = @stickers_sold_count
-            stickers
-
-      .stat-container
-        .stat
-          .stat-label Laptop Stickers
-          .stat-number
-            = @laptopstickers_sold_count
-            stickers
-
-      .stat-container
-        .stat
-          .stat-label Baby Items
-          .stat-number
-            = @baby_sold_count
-            baby
-
-      .stat-container
-        .stat
-          .stat-label Party Items
-          .stat-number
-            = @party_sold_count
-            party
-
-    .stats
-      .stat-container
-        .stat
           .stat-label Total Rev
           .stat-number
-            = "$" + @total_revenue.to_s 
+            = "$" + get_total_revenue.to_s
 
-      .stat-container
-        .stat
-          .stat-label Cards Rev
-          .stat-number
-            = "$" + @cards_revenue.to_s 
-
-      .stat-container
-        .stat
-          .stat-label Prints Rev
-          .stat-number
-            = "$" + @prints_revenue.to_s 
-
-      .stat-container
-        .stat
-          .stat-label T-shirts Rev
-          .stat-number
-            = "$" + @tshirts_revenue.to_s 
-
-      .stat-container
-        .stat
-          .stat-label Stickers Rev
-          .stat-number
-            = "$" + @stickers_revenue.to_s
-
-      .stat-container
-        .stat
-          .stat-label Laptop Stickers
-          .stat-number
-            = "$" + @laptopstickers_revenue.to_s
-
-      .stat-container
-        .stat
-          .stat-label Baby Rev
-          .stat-number
-            = "$" + @baby_revenue.to_s
-
-      .stat-container
-        .stat
-          .stat-label Party Rev
-          .stat-number
-            = "$" + @party_revenue.to_s
-
-    .stats
       .stat-container
         .stat
           .stat-label Avg Rev Per Item
           .stat-number
-            = "$" + @average_revenue.to_s + "/item"
+            = "$" + get_average_revenue.to_s + "/item" 
 
-      .stat-container
-        .stat
-          .stat-label Per Card
-          .stat-number
-            = "$" + @average_cards_revenue.to_s + "/card"
-
-      .stat-container
-        .stat
-          .stat-label Per Print
-          .stat-number
-            = "$" + @average_prints_revenue.to_s + "/print"
-
-      .stat-container
-        .stat
-          .stat-label Per T-shirt
-          .stat-number
-            = "$" + @average_tshirts_revenue.to_s + "/shirt"
-
-      .stat-container
-        .stat
-          .stat-label Per Sticker
-          .stat-number
-            = "$" + @average_stickers_revenue.to_s + "/sticker"
-
-      .stat-container
-        .stat
-          .stat-label Laptop Sticker
-          .stat-number
-            = "$" + @average_laptopstickers_revenue.to_s + "/sticker"
-
-      .stat-container
-        .stat
-          .stat-label Per Baby Item
-          .stat-number
-            = "$" + @average_baby_revenue.to_s + "/baby"
-
-      .stat-container
-        .stat
-          .stat-label Per Party Item
-          .stat-number
-            = "$" + @average_party_revenue.to_s + "/party"
-            
-
-  .page-content-body-section
-    %h1 Cards
-
-    %table#table-cards.stripe.order-column
-      %thead
-        %tr
-          %th Type
-          %th Item
-          %th Sold
-          %th Revenue
-      %tbody
-        - @cards.each do |card|
-          %tr
-            %td.border-right= card.product_type
-            %td.border-right= card.description
-            %td= card.get_order_items_count
-            %td= "$" + card.get_total_sales.to_s
+    - get_product_types.each do |product_type|
+      .stats
+        -if get_items_sold_by_type_count(product_type) > 0
+          .stat-container
+            .stat
+              .stat-label 
+                =product_type
+                Sold
+              .stat-number
+                = get_items_sold_by_type_count(product_type)
+          .stat-container
+            .stat
+              .stat-label 
+                =product_type
+                Rev
+              .stat-number
+                = "$" + get_revenue_by_type(product_type).to_s 
+          .stat-container
+            .stat
+              .stat-label 
+                Per
+                =product_type
+              .stat-number
+                = "$" + get_average_revenue_by_type(product_type).to_s + "/" + product_type
 
 
-
-  .page-content-body-section
-    %h1 T-shirts
-
-    %table#table-tshirts.stripe.order-column
-      %thead
-        %tr
-          %th Type
-          %th Item
-          %th Sold
-          %th Revenue
-      %tbody
-        - @tshirts.each do |tshirt|
-          %tr
-            %td.border-right= tshirt.product_type
-            %td.border-right= tshirt.description
-            %td= tshirt.get_order_items_count
-            %td= "$" + tshirt.get_total_sales.to_s
-
-  .page-content-body-section
-    %table#table-tshirt-variations.stripe.order-column
-      %thead
-        %tr
-          %th T-shirt
-          %th Variation
-          %th Sold
-          %th Revenue
-      %tbody
-        - @tshirts.each do |tshirt|
-          - previous_variation = nil
-          - tshirt.get_variations.each do |variation|
-            - current_variation = variation.gender + "_" + variation.style
-            = render :partial => 'tshirtvariation', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
-            - previous_variation = current_variation
-
-
-  .page-content-body-section
-    %h1 Prints
-
-    %table#table-prints.stripe.order-column
-      %thead
-        %tr
-          %th Type
-          %th Item
-          %th Sold
-          %th Revenue
-      %tbody
-        - @prints.each do |print|
-          %tr
-            %td.border-right= print.product_type
-            %td.border-right= print.description
-            %td= print.get_order_items_count
-            %td= "$" + print.get_total_sales.to_s
-
-
-  .page-content-body-section
-    %h1 Stickers
-
-    %table#table-stickers.stripe.order-column
-      %thead
-        %tr
-          %th Type
-          %th Item
-          %th Sold
-          %th Revenue
-      %tbody
-        - @stickers.each do |sticker|
-          %tr
-            %td.border-right= sticker.product_type
-            %td.border-right= sticker.description
-            %td= sticker.get_order_items_count
-            %td= "$" + sticker.get_total_sales.to_s
-
-
+  - get_product_types.each do |product_type|
     .page-content-body-section
-    %h1 Laptop Stickers
+      %h1=product_type
 
-    %table#table-laptopstickers.stripe.order-column
-      %thead
-        %tr
-          %th Type
-          %th Item
-          %th Sold
-          %th Revenue
-      %tbody
-        - @laptopstickers.each do |laptopsticker|
-          %tr
-            %td.border-right= laptopsticker.product_type
-            %td.border-right= laptopsticker.description
-            %td= laptopsticker.get_order_items_count
-            %td= "$" + laptopsticker.get_total_sales.to_s
+      .stats
+        -if get_items_sold_by_type_count(product_type) > 0
+          .stat-container
+            .stat
+              .stat-label 
+                =product_type
+                Sold
+              .stat-number
+                = get_items_sold_by_type_count(product_type)
+          .stat-container
+            .stat
+              .stat-label 
+                =product_type
+                Rev
+              .stat-number
+                = "$" + get_revenue_by_type(product_type).to_s 
+          .stat-container
+            .stat
+              .stat-label 
+                Per
+                =product_type
+              .stat-number
+                = "$" + get_average_revenue_by_type(product_type).to_s + "/" + product_type
 
 
+      -if product_type != "T-shirt"
+        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+          %thead
+            %tr
+              %th Type
+              %th Item
+              %th Sold
+              %th Revenue
+              %th Average
+          %tbody
+            - get_products_by_type(product_type).each do |product|
+              %tr
+                %td.border-right= product.product_type
+                %td.border-right= product.description
+                %td= product.get_order_items_count
+                %td= "$" + product.get_total_sales.to_s
+                %td= "$" + product.get_average_sales.to_s
+      -else
+        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+          %thead
+            %tr
+              %th T-shirt
+              %th Variation
+              %th Sold
+              %th Revenue
+          %tbody
+            - get_products_by_type(product_type).each do |product|
+              - previous_variation = nil
+              - product.get_variations.each do |variation|
+                - current_variation = variation.gender + "_" + variation.style
+                = render :partial => 'tshirtvariation', :locals => {:tshirt => product, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+                - previous_variation = current_variation
 
-:javascript
-  $("#table-cards").DataTable({
-    dom: 'iCfrtS',
-    pageLength: -1,
-    order: [1, 'asc'],
-    orderClasses: true
-  });
-  $("#table-prints").DataTable({
-    dom: 'iCfrtS',
-    pageLength: -1,
-    order: [1, 'asc'],
-    orderClasses: true
-  });
-
-  $("#table-tshirts").DataTable({
-    dom: 'iCfrtS',
-    pageLength: -1,
-    order: [1, 'asc'],
-    orderClasses: true
-  });
-  $("#table-tshirt-variations").DataTable({
-    dom: 'iCfrtS',
-    pageLength: -1,
-    order: [1, 'asc'],
-    orderClasses: true
-  });
-
-  $("#table-stickers").DataTable({
-    dom: 'iCfrtS',
-    pageLength: -1,
-    order: [1, 'asc'],
-    orderClasses: true
-  });
-  $("#table-laptopstickers").DataTable({
-    dom: 'iCfrtS',
-    pageLength: -1,
-    order: [1, 'asc'],
-    orderClasses: true
-  });
+- get_product_types.each do |product_type|
+  :javascript
+    $(".table-#{product_type_slug(product_type)}").DataTable({
+      dom: 'iCfrtS',
+      pageLength: -1,
+      order: [2, 'desc'],
+      orderClasses: true
+    });

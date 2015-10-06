@@ -1,12 +1,12 @@
 #page-products {
   .stat-container {
     float: left;
-    width: 12.5%;
+    width: 33.3%;
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 10px;
   }
-  .stat-container:nth-child(8n) {
+  .stat-container:nth-child(3n) {
     padding-right: 0;
   }
 }

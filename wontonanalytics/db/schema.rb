@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006014117) do
+ActiveRecord::Schema.define(version: 20151006023742) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -144,51 +144,37 @@ ActiveRecord::Schema.define(version: 20151006014117) do
     t.string   "number_of_items"
     t.string   "payment_method"
     t.date     "date_shipped"
-    t.text     "ship_address1"
-    t.text     "ship_address2"
-    t.text     "ship_city"
-    t.text     "ship_state"
-    t.text     "ship_zipcode"
-    t.text     "ship_country"
     t.string   "currency"
     t.float    "order_value"
-    t.text     "coupon_code"
-    t.text     "coupon_details"
     t.float    "shipping"
     t.float    "sales_tax"
     t.float    "order_total"
-    t.text     "status"
     t.float    "card_processing_fees"
     t.float    "order_net"
     t.float    "adjusted_order_total"
     t.float    "adjusted_card_processing_fees"
     t.float    "adjusted_net_order_amount"
-    t.text     "buyer"
     t.string   "order_type"
     t.string   "payment_type"
-    t.text     "inperson_discount"
-    t.text     "inperson_location"
     t.string   "order_source"
-    t.float    "packaging_cost"
-    t.float    "shipping_cost"
-    t.text     "notes"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.integer  "customer_id"
     t.float    "refund"
+    t.string   "coupon_code"
+    t.string   "coupon_details"
+    t.string   "inperson_discount"
+    t.string   "inperson_location"
   end
 
   add_index "orders", ["customer_id"], name: "index_customer_id"
 
   create_table "products", force: :cascade do |t|
-    t.text     "product_name"
-    t.text     "description"
-    t.text     "file"
-    t.string   "product_type"
-    t.text     "occasion"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.text     "dimsum"
+    t.string   "product_name"
+    t.string   "description"
+    t.string   "product_type"
   end
 
   create_table "variations", force: :cascade do |t|

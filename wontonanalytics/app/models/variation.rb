@@ -25,14 +25,4 @@ class Variation < ActiveRecord::Base
     OrderItem.where(variation: self).sum(:quantity)
   end
 
-  def get_price
-    Cost.where(variation: self).sum(:price)
-  end
-
-  def get_cost
-    Cost.where(variation: self).sum(:cost)
-  end
-
-
-
 end

@@ -61,57 +61,57 @@ class Expense < ActiveRecord::Base
     end
 
     if transactions_count > 0
-	  Expense.create({
-	    :date => date,
-	    :name => "Transaction Fees",
-	    :description => transactions_count.to_s + " transactions",
-	    :expense_type => "Etsy Fees",
-	    :vendor => "Etsy",
-	    :amount => transactions_amount.round(2)
-	    })
-	end
+  	  Expense.create({
+  	    :date => date,
+  	    :name => "Transaction Fees",
+  	    :description => transactions_count.to_s + " transactions",
+  	    :expense_type => "Etsy Fees",
+  	    :vendor => "Etsy",
+  	    :amount => transactions_amount.round(2)
+  	    })
+  	end
 
-	if promotedlistings_count > 0
-	  Expense.create({
-	    :date => date,
-	    :name => "Promoted Listings",
-	    :description => promotedlistings_count.to_s + " promoted listings",
-	    :expense_type => "Advertising",
-	    :vendor => "Etsy",
-	    :amount => promotedlistings_amount.round(2)
-	    })
-	end
+  	if promotedlistings_count > 0
+  	  Expense.create({
+  	    :date => date,
+  	    :name => "Promoted Listings",
+  	    :description => promotedlistings_count.to_s + " promoted listings",
+  	    :expense_type => "Advertising",
+  	    :vendor => "Etsy",
+  	    :amount => promotedlistings_amount.round(2)
+  	    })
+  	end
 
-	listings_amount_total = autorenews_amount + listings_amount + multiquantity_amount + privatelisting_amount
-	if listings_amount_total > 0
-	  listings_description = ""
+  	listings_amount_total = autorenews_amount + listings_amount + multiquantity_amount + privatelisting_amount
+  	if listings_amount_total > 0
+  	  listings_description = ""
 
-	  ##### LISTINGS
-	  if autorenews_count > 0
-        listings_description = listings_description + autorenews_count.to_s + " auto-renewals. "
-	  end
+  	  ##### LISTINGS
+  	  if autorenews_count > 0
+          listings_description = listings_description + autorenews_count.to_s + " auto-renewals. "
+  	  end
 
-	  if listings_count > 0
-	    listings_description = listings_description + listings_count.to_s + " listings. "
-	  end
+  	  if listings_count > 0
+  	    listings_description = listings_description + listings_count.to_s + " listings. "
+  	  end
 
-	  if multiquantity_count > 0
-	    listings_description = listings_description + multiquantity_count.to_s + " multiquantity listings. "
-	  end
+  	  if multiquantity_count > 0
+  	    listings_description = listings_description + multiquantity_count.to_s + " multiquantity listings. "
+  	  end
 
-	  if privatelisting_count > 0
-	    listings_description = listings_description + privatelisting_count.to_s + " private listings. "
-	  end
+  	  if privatelisting_count > 0
+  	    listings_description = listings_description + privatelisting_count.to_s + " private listings. "
+  	  end
 
-	  Expense.create({
-	    :date => date,
-	    :name => "Listing Fees",
-	    :description => listings_description,
-	    :expense_type => "Etsy Fees",
-	    :vendor => "Etsy",
-	    :amount => listings_amount_total.round(2)
-	    })
-	end
+  	  Expense.create({
+  	    :date => date,
+  	    :name => "Listing Fees",
+  	    :description => listings_description,
+  	    :expense_type => "Etsy Fees",
+  	    :vendor => "Etsy",
+  	    :amount => listings_amount_total.round(2)
+  	    })
+  	end
   end
 
 

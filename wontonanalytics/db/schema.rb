@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702223840) do
+ActiveRecord::Schema.define(version: 20151006014117) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -46,33 +46,21 @@ ActiveRecord::Schema.define(version: 20150702223840) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
 
-  create_table "costs", force: :cascade do |t|
-    t.float    "price"
-    t.float    "cost"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "product_id"
-    t.integer  "variation_id"
-  end
-
-  add_index "costs", ["product_id"], name: "index_product_id4"
-  add_index "costs", ["variation_id"], name: "index_variation_id3"
-
   create_table "customers", force: :cascade do |t|
-    t.text     "first_name"
-    t.text     "last_name"
-    t.text     "etsy_username"
-    t.text     "email"
-    t.text     "source"
-    t.text     "ship_name"
-    t.text     "ship_address1"
-    t.text     "ship_address2"
-    t.text     "ship_city"
-    t.text     "ship_state"
-    t.text     "ship_zipcode"
-    t.text     "ship_country"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "etsy_username"
+    t.string   "email"
+    t.string   "source"
+    t.string   "ship_name"
+    t.string   "ship_address1"
+    t.string   "ship_address2"
+    t.string   "ship_city"
+    t.string   "ship_state"
+    t.string   "ship_zipcode"
+    t.string   "ship_country"
   end
 
   create_table "expenses", force: :cascade do |t|
@@ -107,9 +95,9 @@ ActiveRecord::Schema.define(version: 20150702223840) do
 
   create_table "listings", force: :cascade do |t|
     t.string  "listing_type"
-    t.text    "etsy_listing_variation"
     t.integer "product_id"
     t.integer "variation_id"
+    t.string  "etsy_listing_variation"
   end
 
   add_index "listings", ["product_id"], name: "index_product_id"
@@ -117,44 +105,28 @@ ActiveRecord::Schema.define(version: 20150702223840) do
 
   create_table "order_items", force: :cascade do |t|
     t.date     "sale_date"
-    t.text     "item_name"
-    t.text     "buyer"
     t.integer  "quantity"
     t.float    "price"
-    t.text     "coupon_code"
-    t.text     "coupon_details"
     t.float    "coupon_discount"
-    t.float    "order_shipping"
-    t.float    "order_sales_tax"
     t.float    "item_total"
     t.string   "currency"
     t.string   "transaction_number"
     t.string   "listing_number"
     t.date     "date_paid"
     t.date     "date_shipped"
-    t.text     "ship_name"
-    t.text     "ship_address1"
-    t.text     "ship_address2"
-    t.text     "ship_city"
-    t.text     "ship_state"
-    t.text     "ship_zipcode"
-    t.text     "ship_country"
     t.string   "order_number"
-    t.text     "variations"
     t.string   "order_type"
-    t.string   "listings_type"
-    t.string   "payment_type"
-    t.text     "inperson_discount"
-    t.text     "inperson_location"
-    t.float    "etsy_fee"
-    t.text     "notes"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-    t.text     "etsy_listing_variation"
     t.integer  "order_id"
     t.integer  "listing_id"
     t.integer  "product_id"
     t.integer  "variation_id"
+    t.string   "item_name"
+    t.string   "coupon_code"
+    t.string   "coupon_details"
+    t.string   "variations"
+    t.string   "etsy_listing_variation"
   end
 
   add_index "order_items", ["listing_id"], name: "index_listing_id"

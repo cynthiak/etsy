@@ -44,34 +44,20 @@ class OrderItem < ActiveRecord::Base
       order_item_params = {
         :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
         :item_name=> row[1],
-        :buyer=> row[2],
         :quantity=> row[3],
         :price=> row[4],
         :coupon_code=> row[5],
         :coupon_details=> row[6],
         :coupon_discount=> row[7],
-        :order_shipping=> row[8],
-        :order_sales_tax=> row[9],
         :item_total=> row[10],
         :currency=> row[11],
         :transaction_number=> row[12],
         :listing_number=> row[13],
         :date_paid=> row[14].nil? ? nil : (DateTime.strptime row[14], "%m/%d/%Y").strftime("%Y/%m/%d"),
         :date_shipped => row[15].nil? ? nil : (DateTime.strptime row[15], "%m/%d/%Y").strftime("%Y/%m/%d"),
-        :ship_name=> row[16],
-        :ship_address1=> row[17],
-        :ship_address2=> row[18],
-        :ship_city=> row[19],
-        :ship_state=> row[20],
-        :ship_zipcode=> row[21],
-        :ship_country=> row[22],
         :order_number=> row[23],
         :variations=> row[24],
         :order_type=> row[25],
-        :listings_type=> row[26],
-        :payment_type=> row[27],
-        :inperson_discount=> row[28],
-        :inperson_location=> row[29],
         :etsy_listing_variation=> etsy_listing_variation,
         :order_id => order.id,
         :listing_id => listing.id,
@@ -130,13 +116,12 @@ class OrderItem < ActiveRecord::Base
         :quantity=> row[5],
         :coupon_discount=> row[10].delete('$').to_f.abs,
         :order_shipping=> "0.0",
-        :order_sales_tax=> row[12].delete('$').to_f,
         :item_total=> row[9].delete('$').to_f,
         :date_paid=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
         :date_shipped => (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
         :transaction_number => transaction_number,
         :order_number=> row[13],
-        :variations=> row[6],
+        :variations=> variation_name,
         :etsy_listing_variation=> listing_variation,
         :order_id => order.id,
         :listing_id => listing.id,
@@ -151,68 +136,6 @@ class OrderItem < ActiveRecord::Base
       end
 
       order_item.save!
-
-
-
-
-
-
-
-
-
-
-
-      # order_item = OrderItem.find_by(order_number: row[21])
-
-      # square_username = "sq_" + row[21]
-      # customer = Customer.find_by(etsy_username: square_username)
-      # if !(customer)
-      #   customer = Customer.create({
-      #       :etsy_username=> square_username,
-      #       :first_name=> "Square",
-      #       :last_name=> "Customer"
-      #     })
-      # end
-
-      # if row[11].to_f > 0
-      #   payment_method = "card swiped"
-      # elsif row[12].to_f > 0
-      #   payment_method = "card keyed"
-      # elsif row[13].to_f > 0
-      #   payment_method = "cash"
-      # elsif row[14].to_f > 0
-      #   payment_method = "wallet"
-      # elsif row[15].to_f > 0
-      #   payment_method = "square gift card"
-      # end
-
-      # order_params = {
-      #   :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
-      #   :order_number=> row[21],
-      #   :username=> square_username,
-      #   :full_name=> "Square Customer",
-      #   :first_name=> "Square",
-      #   :last_name=> "Customer",
-      #   :order_source=> "square",
-      #   :customer_id=>customer.id,
-      #   :date_shipped=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
-      #   :shipping=> "0.0",
-      #   :payment_method=> payment_method,
-      #   :order_value=> row[3].delete('$').to_f,
-      #   :sales_tax=> row[7].delete('$').to_f,
-      #   :order_total=> row[5].delete('$').to_f,
-      #   :card_processing_fees=> row[19].delete('$').to_f.abs,
-      #   :order_net=> row[20].delete('$').to_f,
-      #   :inperson_discount=> row[4].delete('$').to_f
-      # }
-
-      # if (order)
-      #   order.update(order_params)
-      # else
-      #   order = Order.create(order_params)
-      # end
-
-      # order.save!
     end
   end
 

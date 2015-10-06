@@ -6,7 +6,6 @@
       %thead
         %tr
           %th Type
-          %th Dimsum
           %th Item
           %th Style
           %th Gender
@@ -18,8 +17,6 @@
           %tr
             %td
               = listing.product.product_type
-              = listing.product.occasion ? " - " + listing.product.occasion : ""
-            %td.border-right=listing.product.dimsum
             %td.border-right=listing.product.description
             - if listing.variation
               %td=listing.variation.style

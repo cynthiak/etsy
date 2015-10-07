@@ -1,23 +1,17 @@
 #page-dashboard {
-
-.page-content-body-section-products {
-  .stat-container {
-    float: left;
-    width: 12.5%;
-    display: inline-block;
-    padding-right: 10px;
-    margin-bottom: 10px;
+  .page-content-body-section-products {
+    .stat-container {
+      float: left;
+      width: 10%;
+      display: inline-block;
+      padding-right: 10px;
+      margin-bottom: 10px;
+    }
+    .stat-container:nth-child(10n) {
+      padding-right: 0;
+    }
+    .stat-number {
+      font-size: 15px;
+    }
   }
-  .stat-container:nth-child(8n) {
-    padding-right: 0;
-  }
-}
-
-
-
-
-
-
-
-
 }

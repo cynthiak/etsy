@@ -13,7 +13,7 @@
           %th Size
           %th Listing
       %tbody
-        - @listings.each do |listing|
+        - get_listings.each do |listing|
           %tr
             %td
               = listing.product.product_type

@@ -2,55 +2,7 @@
   .page-content-body-section
     %h1 Expenses
 
-    .stats
-      .stat-container
-        .stat
-          .stat-label Total Expenses
-          .stat-number
-            = "$" + @total_expenses.to_s
-
-      .stat-container
-        .stat
-          .stat-label Etsy Fees
-          .stat-number
-            = "$" + @total_etsy_fees.to_s
-
-      .stat-container
-        .stat
-          .stat-label Fees
-          .stat-number
-            = "$" + @total_fees.to_s
-
-      .stat-container
-        .stat
-          .stat-label Advertising
-          .stat-number
-            = "$" + @total_advertising.to_s
-
-      .stat-container
-        .stat
-          .stat-label Marketing
-          .stat-number
-            = "$" + @total_marketing.to_s
-
-      .stat-container
-        .stat
-          .stat-label Supplies
-          .stat-number
-            = "$" + @total_supplies.to_s
-
-      .stat-container
-        .stat
-          .stat-label Shipping
-          .stat-number
-            = "$" + @total_shipping.to_s
-
-
-      .stat-container
-        .stat
-          .stat-label Taxes
-          .stat-number
-            = "$" + @total_taxes.to_s
+    = render partial: 'partials/expenses_stats'
 
   .page-content-body-section
     %table#table-expenses.stripe.order-column
@@ -62,7 +14,7 @@
           %th Vendor
           %th Amount
       %tbody
-        - @expenses.each do |expense|
+        - get_expenses.each do |expense|
           %tr
             %td= expense.date
             %td
@@ -72,8 +24,7 @@
             %td= expense.vendor
             %td= "$" + expense.amount.to_s
 
-
-
+  %hr
 
   .page-content-body-section
     %h1 Import Etsy Fees
@@ -82,8 +33,6 @@
     = form_tag import_expenses_path, multipart: true do
       = file_field_tag :file
       = submit_tag "Import"
-
-
 
 
 :javascript

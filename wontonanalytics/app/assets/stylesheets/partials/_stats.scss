@@ -26,7 +26,13 @@
   font-size: 11px;
   color: #9d9d9d;
   text-transform: uppercase;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .stat-number {
   font-size: 18px;
+  text-transform: lowercase;
+  line-height: 24px;
 }

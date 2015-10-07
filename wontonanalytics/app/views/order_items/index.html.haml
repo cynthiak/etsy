@@ -7,26 +7,26 @@
         .stat
           .stat-label Total Items To Ship
           .stat-number
-            =get_all_items_to_ship_count
+            =get_unshipped_items_count
             items
 
     .stats
       - get_product_types.each do |product_type|
-        -if get_items_to_ship_by_type_count(product_type) > 0
+        -if get_unshipped_items_by_type_count(product_type) > 0
           .stat-container
             .stat
               .stat-label 
                 =product_type
                 To Ship
               .stat-number
-                = get_items_to_ship_by_type_count(product_type)
+                = get_unshipped_items_by_type_count(product_type)
 
   - get_product_types.each do |product_type|
-    -if get_items_to_ship_by_type_count(product_type) > 0
+    -if get_unshipped_items_by_type_count(product_type) > 0
       -if product_type != "T-shirt"
         .page-content-body-section
           %h1 
-            #{pluralize(get_items_to_ship_by_type_count(product_type), product_type)}
+            #{pluralize(get_unshipped_items_by_type_count(product_type), product_type)}
             To Package
           %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
             %thead
@@ -42,7 +42,7 @@
       -else
         .page-content-body-section
           %h1 
-            #{pluralize(get_items_to_ship_by_type_count(product_type), product_type)}
+            #{pluralize(get_unshipped_items_by_type_count(product_type), product_type)}
             To Package
           - get_products_by_type(product_type).each do |tshirt|
             %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
@@ -81,7 +81,7 @@
 
 
 - get_product_types.each do |product_type|
-  -if get_items_to_ship_by_type_count(product_type) > 0
+  -if get_unshipped_items_by_type_count(product_type) > 0
     :javascript
       $(".table-#{product_type_slug(product_type)}").DataTable({
         dom: 'iCfrtS',

@@ -6,24 +6,24 @@
         .stat
           .stat-label Orders Left to Ship
           .stat-number.red
-            = @orders_left_to_ship.count
-            orders to ship
+            = get_unshipped_orders_count
+            orders
     .stats
       .stat-container
         .stat
           .stat-label Total Items To Ship
           .stat-number.red
-            =get_all_items_to_ship_count
-            items to ship
+            =get_unshipped_items_count
+            items
     .stats
       - get_product_types.each do |product_type|
-        -if get_items_to_ship_by_type_count(product_type) > 0
+        -if get_unshipped_items_by_type_count(product_type) > 0
           .stat-container
             .stat
               .stat-label 
                 =product_type
               .stat-number
-                #{pluralize(get_items_to_ship_by_type_count(product_type), product_type)}
+                #{pluralize(get_unshipped_items_by_type_count(product_type), product_type)}
 
   .page-content-body-section
     %h1 Orders
@@ -32,27 +32,27 @@
         .stat
           .stat-label Total Customers
           .stat-number
-            = @total_customers
+            = get_customers_count
             customers
 
       .stat-container
         .stat
           .stat-label Total Orders
           .stat-number
-            = @orders.count
+            = get_orders_count
             orders
 
       .stat-container
         .stat
           .stat-label Total Order Items
           .stat-number
-            = @total_order_items_count
+            =get_items_sold_count
             items
 
       .stat-container
         .stat
           .stat-label Average Items Per Order
-          .stat-number= @average_items_per_order
+          .stat-number= get_average_items_per_order
 
   .page-content-body-section
     %h1 Profit
@@ -60,50 +60,20 @@
       .stat-container
         .stat
           .stat-label Profit
-          -if @profit < 0
+          -if get_profit < 0
             .stat-number.red
-              = "-$" + @profit.abs.to_s
+              = "-$" + get_profit.abs.to_s
           -else
             .stat-number.green
-              = "$" + @profit.to_s
-    -if @profit < 0
-      .stats  
-        .stat-container
-          .stat
-            .stat-label Cards To Sell
-            .stat-number
-              =@cards_to_sell
-              cards
-
-        .stat-container
-          .stat
-            .stat-label Prints To Sell
-            .stat-number
-              =@prints_to_sell
-              prints
-
-        .stat-container
-          .stat
-            .stat-label T-shirts To Sell
-            .stat-number
-              =@tshirts_to_sell
-              t-shirts
-              
-        .stat-container
-          .stat
-            .stat-label Stickers To Sell
-            .stat-number
-              =@stickers_to_sell
-              stickers
-
-        .stat-container
-          .stat
-            .stat-label Laptop Stickers To Sell
-            .stat-number
-              =@laptopstickers_to_sell
-              stickers
-
-      
+              = "$" + get_profit.to_s
+    -if get_profit < 0
+      .stats
+        - get_product_types.each do |product_type|
+          .stat-container
+            .stat
+              .stat-label= product_type
+              .stat-number
+                #{pluralize(get_number_of_items_to_sell_by_type(product_type), product_type)}
 
   .page-content-body-section
     %h1 Revenue
@@ -112,226 +82,24 @@
         .stat
           .stat-label Total Revenue
           .stat-number
-            = "$" + @total_revenue.to_s
-            = @total_revenue_adjusted
-
+            = "$" + get_revenue.to_s
       .stat-container
         .stat
-          .stat-label Average Revenue Per Order
+          .stat-label Average Rev Per Order
           .stat-number
-            = "$" + @average_revenue_per_order.to_s + "/order"
-
+            = "$" + get_average_revenue_per_order.to_s + "/order"
       .stat-container
         .stat
           .stat-label Average Rev Per Order Item
           .stat-number
-            = "$" + @average_revenue_per_order_item.to_s + "/item"
+            = "$" + get_average_revenue_per_order_item.to_s + "/item"
 
 
   .page-content-body-section
     %h1 Costs
-    .stats
-      .stat-container
-        .stat
-          .stat-label Total Expenses
-          .stat-number
-            = "$" + @total_expenses.to_s
-
-      .stat-container
-        .stat
-          .stat-label Etsy Fees
-          .stat-number
-            = "$" + @total_etsy_fees.to_s
-
-      .stat-container
-        .stat
-          .stat-label Fees
-          .stat-number
-            = "$" + @total_fees.to_s
-
-      .stat-container
-        .stat
-          .stat-label Advertising
-          .stat-number
-            = "$" + @total_advertising.to_s
-
-      .stat-container
-        .stat
-          .stat-label Marketing
-          .stat-number
-            = "$" + @total_marketing.to_s
-
-      .stat-container
-        .stat
-          .stat-label Supplies
-          .stat-number
-            = "$" + @total_supplies.to_s
-      .stat-container
-        .stat
-          .stat-label Shipping
-          .stat-number
-            = "$" + @total_shipping.to_s
-      .stat-container
-        .stat
-          .stat-label Taxes
-          .stat-number
-            = "$" + @total_taxes.to_s
+    = render partial: 'partials/expenses_stats'
 
   .page-content-body-section.page-content-body-section-products
     %h1 Products
-    .stats
-      .stat-container
-        .stat
-          .stat-label Items Sold
-          .stat-number
-            = @order_items_count 
-            items
-
-      .stat-container
-        .stat
-          .stat-label Cards Sold
-          .stat-number
-            = @cards_sold_count 
-            cards
-
-      .stat-container
-        .stat
-          .stat-label Prints Sold
-          .stat-number
-            = @prints_sold_count 
-            prints
-
-      .stat-container
-        .stat
-          .stat-label T-shirts Sold
-          .stat-number
-            = @tshirts_sold_count 
-            t-shirts
-
-      .stat-container
-        .stat
-          .stat-label Stickers
-          .stat-number
-            = @stickers_sold_count
-            stickers
-
-      .stat-container
-        .stat
-          .stat-label Laptop Stickers
-          .stat-number
-            = @laptopstickers_sold_count
-            stickers
-
-      .stat-container
-        .stat
-          .stat-label Baby Items
-          .stat-number
-            = @baby_sold_count
-            baby
-
-      .stat-container
-        .stat
-          .stat-label Party Items
-          .stat-number
-            = @party_sold_count
-            party
-
-    .stats
-      .stat-container
-        .stat
-          .stat-label Total Rev
-          .stat-number
-            = "$" + @total_revenue.to_s 
-
-      .stat-container
-        .stat
-          .stat-label Cards Rev
-          .stat-number
-            = "$" + @cards_revenue.to_s 
-
-      .stat-container
-        .stat
-          .stat-label Prints Rev
-          .stat-number
-            = "$" + @prints_revenue.to_s 
-
-      .stat-container
-        .stat
-          .stat-label T-shirts Rev
-          .stat-number
-            = "$" + @tshirts_revenue.to_s 
-
-      .stat-container
-        .stat
-          .stat-label Stickers Rev
-          .stat-number
-            = "$" + @stickers_revenue.to_s
-
-      .stat-container
-        .stat
-          .stat-label Laptop Stickers
-          .stat-number
-            = "$" + @laptopstickers_revenue.to_s
-
-      .stat-container
-        .stat
-          .stat-label Baby Rev
-          .stat-number
-            = "$" + @baby_revenue.to_s
-
-      .stat-container
-        .stat
-          .stat-label Party Rev
-          .stat-number
-            = "$" + @party_revenue.to_s
-
-    .stats
-      .stat-container
-        .stat
-          .stat-label Avg Rev Per Item
-          .stat-number
-            = "$" + @average_revenue.to_s + "/item"
-
-      .stat-container
-        .stat
-          .stat-label Per Card
-          .stat-number
-            = "$" + @average_cards_revenue.to_s + "/card"
-
-      .stat-container
-        .stat
-          .stat-label Per Print
-          .stat-number
-            = "$" + @average_prints_revenue.to_s + "/print"
-
-      .stat-container
-        .stat
-          .stat-label Per T-shirt
-          .stat-number
-            = "$" + @average_tshirts_revenue.to_s + "/shirt"
-
-      .stat-container
-        .stat
-          .stat-label Per Sticker
-          .stat-number
-            = "$" + @average_stickers_revenue.to_s + "/sticker"
-
-      .stat-container
-        .stat
-          .stat-label Laptop Sticker
-          .stat-number
-            = "$" + @average_laptopstickers_revenue.to_s + "/sticker"
-
-      .stat-container
-        .stat
-          .stat-label Per Baby Item
-          .stat-number
-            = "$" + @average_baby_revenue.to_s + "/baby"
-
-      .stat-container
-        .stat
-          .stat-label Per Party Item
-          .stat-number
-            = "$" + @average_party_revenue.to_s + "/party"
-
+    = render partial: 'partials/product_stats'
 

@@ -6,53 +6,52 @@
         .stat
           .stat-label Total Customers
           .stat-number
-            = @total_customers
+            = get_customers_count
             customers
 
       .stat-container
         .stat
           .stat-label Total Orders
           .stat-number
-            = @orders.count
+            = get_orders_count
             orders
 
       .stat-container
         .stat
           .stat-label Total Order Items
           .stat-number
-            = @total_order_items_count
+            = get_items_sold_count
             items
 
       .stat-container
         .stat
-          .stat-label Orders Left to Ship
+          .stat-label Items Left to Ship
           .stat-number.red
-            = @orders_left_to_ship.count
+            = get_unshipped_items_count
             to ship
-
+    .stats
       .stat-container
         .stat
           .stat-label Total Revenue
           .stat-number
-            = "$" + @total_revenue.to_s
-            = @total_revenue_adjusted
+            = "$" + get_revenue.to_s
 
       .stat-container
         .stat
           .stat-label Average Rev Per Order
           .stat-number
-            = "$" + @average_revenue_per_order.to_s + "/order"
+            = "$" + get_average_revenue_per_order.to_s + "/order"
 
       .stat-container
         .stat
           .stat-label Average Rev Per Order Item
           .stat-number
-            = "$" + @average_revenue_per_order_item.to_s + "/item"
+            = "$" + get_average_revenue_per_order_item.to_s + "/item"
 
       .stat-container
         .stat
           .stat-label Average Items Per Order
-          .stat-number= @average_items_per_order
+          .stat-number= get_average_items_per_order
 
   .page-content-body-section
     %h1 Orders To Ship
@@ -72,7 +71,7 @@
           %th Fee
           %th Net
       %tbody
-        - @orders_left_to_ship.each do |order|
+        - get_unshipped_orders.each do |order|
           %tr
             %td.border-right= order.order_number
             %td.border-right= order.sale_date
@@ -91,8 +90,6 @@
               = order.adjusted_card_processing_fees? ? "$" + order.adjusted_card_processing_fees.to_s : "$" + order.card_processing_fees.to_s
             %td
               = order.adjusted_net_order_amount? ? "$" + order.adjusted_net_order_amount.to_s : "$" + order.order_net.to_s
-
-
 
   .page-content-body-section
     %h1 Completed Orders
@@ -113,7 +110,7 @@
           %th Fee
           %th Net
       %tbody
-        - @completed_orders.each do |order|
+        - get_shipped_orders.each do |order|
           %tr
             %td.border-right= order.order_number
             %td= order.sale_date
@@ -134,7 +131,7 @@
             %td
               = order.refund? ? "$" + order.adjusted_net_order_amount.to_s : "$" + order.order_net.to_s
 
-
+  %hr
 
   .page-content-body-section
     %h1 Import Orders from Etsy

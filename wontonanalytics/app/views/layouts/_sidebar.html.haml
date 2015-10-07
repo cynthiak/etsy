@@ -3,7 +3,7 @@
 
 
 
-    - if (params[:controller] == 'orders')
+    - if (current_page?(controller: 'orders', action: 'index'))
       %li.active
         = link_to orders_path do
           %span.glyphicon.glyphicon-shopping-cart
@@ -15,8 +15,7 @@
           Orders
 
 
-
-    - if (params[:controller] == 'order_items')
+    - if (current_page?(controller: 'order_items', action: 'index'))
       %li.active
         = link_to order_items_path do
           %span.glyphicon.glyphicon-th-list
@@ -27,8 +26,7 @@
           %span.glyphicon.glyphicon-th-list
           Order Items
 
-
-    - if (params[:controller] == 'products')
+    - if (current_page?(controller: 'products', action: 'index'))
       %li.active
         = link_to products_path do
           %span.glyphicon.glyphicon-th-large
@@ -39,8 +37,7 @@
           %span.glyphicon.glyphicon-th-large
           Products
 
-
-    - if (params[:controller] == 'listings')
+    - if (current_page?(controller: 'listings', action: 'index'))
       %li.active
         = link_to listings_path do
           %span.glyphicon.glyphicon-th
@@ -51,8 +48,7 @@
           %span.glyphicon.glyphicon-th
           Listings
 
-
-    - if (params[:controller] == 'customers')
+    - if (current_page?(controller: 'customers', action: 'index'))
       %li.active
         = link_to customers_path do
           %span.glyphicon.glyphicon-user
@@ -63,8 +59,7 @@
           %span.glyphicon.glyphicon-user
           Customers
 
-
-    - if (params[:controller] == 'expenses')
+    - if (current_page?(controller: 'expenses', action: 'index'))
       %li.active
         = link_to expenses_path do
           %span.glyphicon.glyphicon-usd
@@ -75,8 +70,7 @@
           %span.glyphicon.glyphicon-usd
           Expenses
 
-
-    - if (params[:controller] == 'giveaways')
+    - if (current_page?(controller: 'giveaways', action: 'index'))
       %li.active
         = link_to giveaways_path do
           %span.glyphicon.glyphicon-gift
@@ -86,3 +80,16 @@
         = link_to giveaways_path do
           %span.glyphicon.glyphicon-gift
           Giveaways
+
+    %br
+
+    - if (current_page?(controller: 'orders', action: 'new'))
+      %li.active
+        = link_to new_order_path do
+          %span.glyphicon.glyphicon-plus
+          New Order
+    - else
+      %li
+        = link_to new_order_path do
+          %span.glyphicon.glyphicon-plus
+          New Order

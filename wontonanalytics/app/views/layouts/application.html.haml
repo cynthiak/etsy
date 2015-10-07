@@ -19,4 +19,8 @@
           .container-fluid
             .row
               .col-md-12
+                - if !flash.empty?
+                  #alerts
+                    - flash.each do |key, value|
+                      =value
                 = yield

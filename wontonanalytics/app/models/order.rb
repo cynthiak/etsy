@@ -15,7 +15,7 @@ class Order < ActiveRecord::Base
   attr_accessible *column_names
 
   def display_name
-    return self.order_number + ' - ' + self.full_name + ' (' + self.username + ')'
+    return self.order_number.to_s + ' - ' + self.full_name.to_s + ' (' + self.username.to_s + ')'
   end
 
   def self.import(file)
@@ -48,12 +48,6 @@ class Order < ActiveRecord::Base
         :number_of_items=> row[6],
         :payment_method=> row[7],
         :date_shipped=> row[8].nil? ? nil : DateTime.strptime(row[8], "%m/%d/%y").strftime("%Y/%m/%d"),
-        :ship_address1=> row[9],
-        :ship_address2=> row[10],
-        :ship_city=> row[11],
-        :ship_state=> row[12],
-        :ship_zipcode=> row[13],
-        :ship_country=> row[14],
         :currency=> row[15],
         :order_value=> row[16],
         :coupon_code=> row[17],
@@ -61,13 +55,11 @@ class Order < ActiveRecord::Base
         :shipping=> row[19],
         :sales_tax=> row[20],
         :order_total=> row[21],
-        :status=> row[22],
         :card_processing_fees=> row[23],
         :order_net=> row[24],
         :adjusted_order_total=> row[25],
         :adjusted_card_processing_fees=> row[26],
         :adjusted_net_order_amount=> row[27],
-        :buyer=> row[28],
         :order_type=> row[29],
         :payment_type=> row[30],
         :inperson_discount=> row[31],

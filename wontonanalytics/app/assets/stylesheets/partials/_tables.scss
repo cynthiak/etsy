@@ -12,6 +12,12 @@ table.dataTable thead td {
     border-right: 0;
   }
 }
+table.dataTable thead th{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 19px;
+}
 table.dataTable thead th:hover {
   background-color: #E7E7E7;
 }

@@ -12,6 +12,14 @@ class Customer < ActiveRecord::Base
   # Makes it so that you can edit these database columns via ActiveAdmin and forms
   attr_accessible *column_names
 
+  def display_name
+    if etsy_username
+      "#{first_name} #{last_name} (#{etsy_username})"
+    else
+      "#{first_name} #{last_name}"
+    end
+  end
+
   def get_first_purchase_date
     Order.where(customer: self).order(sale_date: :asc).first.sale_date
   end

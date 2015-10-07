@@ -73,9 +73,12 @@
       %tbody
         - get_unshipped_orders.each do |order|
           %tr
-            %td.border-right= order.order_number
+            %td.border-right
+              %span.order-number= order.order_number
             %td.border-right= order.sale_date
-            %td.border-right= order.full_name
+            %td.border-right
+              = order.customer.first_name
+              = order.customer.last_name
             %td.border-right= order.number_of_items
             %td= "$" + order.order_value.to_s
             %td
@@ -112,10 +115,13 @@
       %tbody
         - get_shipped_orders.each do |order|
           %tr
-            %td.border-right= order.order_number
+            %td.border-right
+              %span.order-number= order.order_number
             %td= order.sale_date
             %td.border-right= order.date_shipped
-            %td.border-right= order.full_name
+            %td.border-right
+              = order.customer.first_name
+              = order.customer.last_name
             %td.border-right= order.number_of_items
             %td= "$" + order.order_value.to_s
             %td

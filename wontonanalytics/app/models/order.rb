@@ -15,7 +15,8 @@ class Order < ActiveRecord::Base
   attr_accessible *column_names
 
   def display_name
-    return self.order_number.to_s + ' - ' + self.full_name.to_s + ' (' + self.username.to_s + ')'
+    customer = Customer.find_by_id(self.customer_id)
+    return self.sale_date.to_s + ' - ' + self.order_number.to_s + ' - ' + customer.display_name.to_s
   end
 
   def self.import(file)

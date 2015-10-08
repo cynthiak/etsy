@@ -93,3 +93,15 @@
         = link_to new_order_path do
           %span.glyphicon.glyphicon-plus
           New Order
+
+    - if (current_page?(controller: 'order_items', action: 'new'))
+      %li.active
+        = link_to new_order_item_path do
+          %span.glyphicon.glyphicon-plus
+          New Order Item
+    - else
+      %li
+        = link_to new_order_item_path do
+          %span.glyphicon.glyphicon-plus
+          New Order Item
+

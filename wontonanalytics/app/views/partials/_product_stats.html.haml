@@ -4,7 +4,6 @@
       .stat-label Items Sold
       .stat-number
         = get_items_sold_count 
-        items
   - get_product_types.each do |product_type|
     -if get_items_sold_by_type_count(product_type) > 0
       .stat-container

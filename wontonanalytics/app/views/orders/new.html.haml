@@ -29,18 +29,18 @@
 
       .form-row
         = f.label :order_value, class: 'form-label'
-        = f.number_field(:order_value)
+        = f.number_field :order_value, :step => 'any'
       .form-row
         = f.label :shipping, class: 'form-label'
-        = f.number_field(:shipping)
+        = f.number_field :shipping, :step => 'any'
 
       .form-row
         = f.label :sales_tax, class: 'form-label'
-        = f.number_field(:sales_tax)
+        = f.number_field :sales_tax, :step => 'any'
 
       .form-row
         = f.label :order_total, class: 'form-label'
-        = f.number_field(:order_total)
+        = f.number_field :order_total, :step => 'any'
         %span.form-notes = order value + shipping + sales tax
 
       %br

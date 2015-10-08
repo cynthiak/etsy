@@ -8,7 +8,8 @@ class OrdersController < ApplicationController
       date_shipped: Date.today,
       currency: "USD",
       shipping: "0",
-      sales_tax: "0"
+      sales_tax: "0",
+      payment_method: "cash"
     })
     @customers = Customer.all.order(:first_name)
   end
@@ -19,9 +20,9 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
 
     if @order.save
-      redirect_to orders_path, alert: "Order created successfully."
+      redirect_to new_order_item_path, alert: "Order created successfully. Add your order items."
     else
-      redirect_to new_order_path, alert: "Error creating user."
+      redirect_to new_order_path, alert: "Error creating order."
     end
   end
 

@@ -6,7 +6,7 @@
     =form_for(@order) do |f|
       .form-row
         = f.label :customer, class: 'form-label'
-        = f.collection_select(:customer_id, @customers, :id, :display_name, {:prompt => true})
+        = f.collection_select(:customer_id, @customers, :id, :display_name, {:prompt => true}, {:required => true})
         %span.form-notes 
           =link_to "Create new customer", new_admin_customer_path, target: "_blank"
       
@@ -29,7 +29,7 @@
 
       .form-row
         = f.label :order_value, class: 'form-label'
-        = f.number_field :order_value, :step => 'any'
+        = f.number_field :order_value, :step => 'any', :required => true
       .form-row
         = f.label :shipping, class: 'form-label'
         = f.number_field :shipping, :step => 'any'
@@ -40,7 +40,7 @@
 
       .form-row
         = f.label :order_total, class: 'form-label'
-        = f.number_field :order_total, :step => 'any'
+        = f.number_field :order_total, :step => 'any', :required => true
         %span.form-notes = order value + shipping + sales tax
 
       %br

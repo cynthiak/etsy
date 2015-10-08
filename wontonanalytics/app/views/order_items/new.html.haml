@@ -5,7 +5,7 @@
     =form_for(@order_item) do |f|
       .form-row
         = f.label :order, class: 'form-label'
-        = f.collection_select(:order_id, @orders, :id, :display_name, {:prompt => true})
+        = f.collection_select(:order_id, @orders, :id, :display_name, {:prompt => true}, {:required => true})
         %span.form-notes 
           =link_to "Create new order", new_order_path
 
@@ -13,7 +13,7 @@
 
       .form-row
         = f.label :product, class: 'form-label'
-        = f.collection_select(:product_id, @products, :id, :product_name, {:prompt => true})
+        = f.collection_select(:product_id, @products, :id, :product_name, {:prompt => true}, {:required => true})
         %span.form-notes 
           =link_to "Create new product", new_admin_product_path, target: "_blank"
 
@@ -27,13 +27,13 @@
 
       .form-row
         = f.label :quantity, class: 'form-label'
-        = f.number_field(:quantity)
+        = f.number_field :quantity, :required => true
       .form-row
         = f.label :price, class: 'form-label'
-        = f.number_field :price, :step => 'any'
+        = f.number_field :price, :step => 'any',  :required => true
       .form-row
         = f.label :item_total, class: 'form-label'
-        = f.number_field :item_total, :step => 'any'
+        = f.number_field :item_total, :step => 'any',  :required => true
 
       %br
 

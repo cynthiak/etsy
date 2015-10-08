@@ -16,7 +16,11 @@ class Order < ActiveRecord::Base
 
   def display_name
     customer = Customer.find_by_id(self.customer_id)
-    return self.sale_date.to_s + ' - ' + self.order_number.to_s + ' - ' + customer.display_name.to_s
+    if customer
+      return self.sale_date.to_s + ' - ' + self.order_number.to_s + ' - ' + customer.display_name.to_s
+    else
+      return self.sale_date.to_s + ' - ' + self.order_number.to_s
+    end
   end
 
   def self.import(file)

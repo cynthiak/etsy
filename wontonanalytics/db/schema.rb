@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006023742) do
+ActiveRecord::Schema.define(version: 20151008025257) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -104,17 +104,13 @@ ActiveRecord::Schema.define(version: 20151006023742) do
   add_index "listings", ["variation_id"], name: "index_variation_id"
 
   create_table "order_items", force: :cascade do |t|
-    t.date     "sale_date"
     t.integer  "quantity"
     t.float    "price"
     t.float    "coupon_discount"
     t.float    "item_total"
-    t.string   "currency"
     t.string   "transaction_number"
     t.string   "listing_number"
-    t.date     "date_paid"
     t.date     "date_shipped"
-    t.string   "order_number"
     t.string   "order_type"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false

@@ -1,0 +1,46 @@
+#sidebar {
+  background: #1D2027;
+
+  /* MENU ITEMS */
+  ul.nav {
+    margin-top: 50px;
+
+    li {
+      margin: 0;
+    }
+    li > a{
+      border-radius: 0px;
+      color: #7F8694;
+      padding: 10px 25px 10px 20px;
+      border-left: 5px solid transparent;
+
+      span.glyphicon {
+        margin-right: 15px;
+      }
+
+      &:hover {
+        background: #383D46;
+        border-left: 5px solid $pink;
+        color: #fff;
+      }
+    }
+    li.active > a{
+      background: transparent;
+      border-left: 5px solid $pink;
+      color: #fff;
+
+      &:hover {
+        background: #383D46;
+        border-left: 5px solid $pink;
+        color: #fff;
+      }
+    }
+  }
+
+
+
+
+
+
+
+}

@@ -1,0 +1,51 @@
+#page-giveaways.page-content-body
+  .page-content-body-section
+    %h1 Giveaways
+
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Items Given Away
+          .stat-number= @total_items_given_away
+
+  .page-content-body-section
+    %table#table-giveaways.stripe.order-column
+      %thead
+        %tr
+          %th Date Ordered
+          %th Date Shipped
+          %th Type
+          %th Campaign
+          %th Product
+          %th Quantity
+          %th Recipient
+          %th Shipping Cost
+          %th Shipping Method
+      %tbody
+        - @giveaways.each do |giveaway|
+          %tr
+            %td= giveaway.date_ordered
+            %td.border-right= giveaway.date_shipped
+            %td= giveaway.giveaway_type
+            %td= giveaway.campaign
+            %td
+              = giveaway.product.description
+              -if giveaway.variation_id?
+                %br
+                = giveaway.variation.variation_name
+            %td= giveaway.quantity
+            %td= giveaway.recipient
+            %td= giveaway.shipping_cost
+            %td= giveaway.shipping_method
+            
+
+
+
+
+:javascript
+  $("#table-giveaways").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });

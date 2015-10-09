@@ -1,0 +1,76 @@
+#page-products.page-content-body
+  .page-content-body-section.stats-summary-section
+    %h1 Products
+
+    = render partial: 'partials/product_stats'
+
+  - get_product_types.each do |product_type|
+    .page-content-body-section
+      %h1=product_type
+
+      .stats
+        -if get_items_sold_by_type_count(product_type) > 0
+          .stat-container
+            .stat
+              .stat-label 
+                =product_type
+                Sold
+              .stat-number
+                = get_items_sold_by_type_count(product_type)
+          .stat-container
+            .stat
+              .stat-label 
+                =product_type
+                Rev
+              .stat-number
+                = "$" + get_revenue_by_type(product_type).to_s 
+          .stat-container
+            .stat
+              .stat-label 
+                Per
+                =product_type
+              .stat-number
+                = "$" + get_average_revenue_by_type(product_type).to_s + "/" + product_type
+
+
+      -if product_type != "T-shirt"
+        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+          %thead
+            %tr
+              %th Type
+              %th Item
+              %th Sold
+              %th Revenue
+              %th Average
+          %tbody
+            - get_products_by_type(product_type).each do |product|
+              %tr
+                %td.border-right= product.product_type
+                %td.border-right= product.description
+                %td= product.get_order_items_count
+                %td= "$" + product.get_total_sales.to_s
+                %td= "$" + product.get_average_sales.to_s
+      -else
+        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+          %thead
+            %tr
+              %th T-shirt
+              %th Variation
+              %th Sold
+              %th Revenue
+          %tbody
+            - get_products_by_type(product_type).each do |product|
+              - previous_variation = nil
+              - product.get_variations.each do |variation|
+                - current_variation = variation.gender + "_" + variation.style
+                = render :partial => 'tshirtvariation', :locals => {:tshirt => product, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+                - previous_variation = current_variation
+
+- get_product_types.each do |product_type|
+  :javascript
+    $(".table-#{product_type_slug(product_type)}").DataTable({
+      dom: 'iCfrtS',
+      pageLength: -1,
+      order: [2, 'desc'],
+      orderClasses: true
+    });

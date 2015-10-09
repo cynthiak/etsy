@@ -1,0 +1,44 @@
+#page-expenses.page-content-body
+  .page-content-body-section
+    %h1 Expenses
+
+    = render partial: 'partials/expenses_stats'
+
+  .page-content-body-section
+    %table#table-expenses.stripe.order-column
+      %thead
+        %tr
+          %th Date
+          %th Name
+          %th Type
+          %th Vendor
+          %th Amount
+      %tbody
+        - get_expenses.each do |expense|
+          %tr
+            %td= expense.date
+            %td
+              = expense.name
+              %span.secondary= expense.description
+            %td= expense.expense_type
+            %td= expense.vendor
+            %td= "$" + expense.amount.to_s
+
+  %hr
+
+  .page-content-body-section
+    %h1 Import Etsy Fees
+    %p Only upload after a statement has closed (there is no functionality to handle duplicate items)
+    %br
+    = form_tag import_expenses_path, multipart: true do
+      = file_field_tag :file
+      = submit_tag "Import"
+
+
+:javascript
+  $("#table-expenses").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'desc'],
+    orderClasses: true
+  });

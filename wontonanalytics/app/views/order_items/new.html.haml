@@ -1,0 +1,46 @@
+#page-orders.page-content-body
+  .page-content-body-section
+    %h1 New Order Item
+
+    =form_for(@order_item) do |f|
+      .form-row
+        = f.label :order, class: 'form-label'
+        = f.collection_select(:order_id, @orders, :id, :display_name, {:prompt => true}, {:required => true})
+        %span.form-notes 
+          =link_to "Create new order", new_order_path
+
+      %br
+
+      .form-row
+        = f.label :product, class: 'form-label'
+        = f.collection_select(:product_id, @products, :id, :product_name, {:prompt => true}, {:required => true})
+        %span.form-notes 
+          =link_to "Create new product", new_admin_product_path, target: "_blank"
+
+      .form-row
+        = f.label :variation, class: 'form-label'
+        = f.collection_select(:variation_id, @variations, :id, :display_name, {:prompt => true})
+        %span.form-notes 
+          =link_to "Create new variation", new_admin_variation_path, target: "_blank"
+      
+      %br
+
+      .form-row
+        = f.label :quantity, class: 'form-label'
+        = f.number_field :quantity, :required => true
+      .form-row
+        = f.label :price, class: 'form-label'
+        = f.number_field :price, :step => 'any',  :required => true
+      .form-row
+        = f.label :item_total, class: 'form-label'
+        = f.number_field :item_total, :step => 'any',  :required => true
+
+      %br
+
+      .form-row
+        = f.label :date_shipped, class: 'form-label'
+        = f.date_field(:date_shipped)
+
+
+      .form-row
+        = f.submit "Create Order Item"

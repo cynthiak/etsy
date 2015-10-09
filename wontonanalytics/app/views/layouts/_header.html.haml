@@ -1,0 +1,7 @@
+#header
+  #logo
+    = link_to image_tag('wonton_logo.png', class: 'header-logo'), root_url
+
+  .header-links
+    = link_to admin_root_path, :target => "_blank" do
+      %span.glyphicon.glyphicon-cog

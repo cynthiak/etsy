@@ -1,0 +1,105 @@
+#page-dashboard.page-content-body
+  .page-content-body-section
+    %h1 To Ship
+    .stats
+      .stat-container
+        .stat
+          .stat-label Orders Left to Ship
+          .stat-number.red
+            = get_unshipped_orders_count
+            orders
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Items To Ship
+          .stat-number.red
+            =get_unshipped_items_count
+            items
+    .stats
+      - get_product_types.each do |product_type|
+        -if get_unshipped_items_by_type_count(product_type) > 0
+          .stat-container
+            .stat
+              .stat-label 
+                =product_type
+              .stat-number
+                #{pluralize(get_unshipped_items_by_type_count(product_type), product_type)}
+
+  .page-content-body-section
+    %h1 Orders
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Customers
+          .stat-number
+            = get_customers_count
+            customers
+
+      .stat-container
+        .stat
+          .stat-label Total Orders
+          .stat-number
+            = get_orders_count
+            orders
+
+      .stat-container
+        .stat
+          .stat-label Total Order Items
+          .stat-number
+            =get_items_sold_count
+            items
+
+      .stat-container
+        .stat
+          .stat-label Average Items Per Order
+          .stat-number= get_average_items_per_order
+
+  .page-content-body-section
+    %h1 Profit
+    .stats
+      .stat-container
+        .stat
+          .stat-label Profit
+          -if get_profit < 0
+            .stat-number.red
+              = "-$" + get_profit.abs.to_s
+          -else
+            .stat-number.green
+              = "$" + get_profit.to_s
+    -if get_profit < 0
+      .stats
+        - get_product_types.each do |product_type|
+          .stat-container
+            .stat
+              .stat-label= product_type
+              .stat-number
+                #{pluralize(get_number_of_items_to_sell_by_type(product_type), product_type)}
+
+  .page-content-body-section
+    %h1 Revenue
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Revenue
+          .stat-number
+            = "$" + get_revenue.to_s
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Order
+          .stat-number
+            = "$" + get_average_revenue_per_order.to_s + "/order"
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Order Item
+          .stat-number
+            = "$" + get_average_revenue_per_order_item.to_s + "/item"
+
+
+  .page-content-body-section
+    %h1 Costs
+    = render partial: 'partials/expenses_stats'
+
+  .page-content-body-section.page-content-body-section-products
+    %h1 Products
+    = render partial: 'partials/product_stats'
+

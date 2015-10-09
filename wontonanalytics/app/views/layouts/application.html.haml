@@ -1,0 +1,26 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Wonton In A Million - Analytics
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+
+    = csrf_meta_tags
+
+  %body
+
+    #wrapper
+      #sidebar-wrapper
+        = render 'layouts/sidebar'
+      #page-content-wrapper
+        = render 'layouts/header'
+        .page-content
+          .container-fluid
+            .row
+              .col-md-12
+                - if !flash.empty?
+                  #alerts
+                    - flash.each do |key, value|
+                      =value
+                = yield

@@ -1,0 +1,14 @@
+.stats
+  .stat-container
+    .stat
+      .stat-label Total Expenses
+      .stat-number
+        = "$" + get_expenses_number.to_s
+
+.stats
+  - get_expense_types.each do |expense_type|
+    .stat-container
+      .stat
+        .stat-label= expense_type
+        .stat-number
+          = "$" + get_expenses_by_type(expense_type).to_s

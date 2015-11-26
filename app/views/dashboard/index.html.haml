@@ -6,15 +6,12 @@
         .stat
           .stat-label Orders Left to Ship
           .stat-number.red
-            = get_unshipped_orders_count
-            orders
-    .stats
+            #{pluralize(get_unshipped_orders_count, 'order')}
       .stat-container
         .stat
           .stat-label Total Items To Ship
           .stat-number.red
-            =get_unshipped_items_count
-            items
+            #{pluralize(get_unshipped_items_count, 'item')}
     .stats
       - get_product_types.each do |product_type|
         -if get_unshipped_items_by_type_count(product_type) > 0
@@ -32,23 +29,18 @@
         .stat
           .stat-label Total Customers
           .stat-number
-            = get_customers_count
-            customers
+            #{pluralize(get_customers_count, 'customer')}
 
       .stat-container
         .stat
           .stat-label Total Orders
           .stat-number
-            = get_orders_count
-            orders
-
+            #{pluralize(get_orders_count, 'order')}
       .stat-container
         .stat
           .stat-label Total Order Items
           .stat-number
-            =get_items_sold_count
-            items
-
+            #{pluralize(get_items_sold_count, 'item')}
       .stat-container
         .stat
           .stat-label Average Items Per Order
@@ -66,6 +58,16 @@
           -else
             .stat-number.green
               = "$" + get_profit.to_s
+      .stat-container
+        .stat
+          .stat-label Total Revenue
+          .stat-number
+            = "$" + get_revenue.to_s
+      .stat-container
+        .stat
+          .stat-label Total Expenses
+          .stat-number
+            = "$" + get_expenses_number.to_s
     -if get_profit < 0
       .stats
         - get_product_types.each do |product_type|

@@ -1,14 +1,12 @@
-#page-products {
-  .stats-summary-section {
-    .stat-container {
-      float: left;
-      width: 10%;
-      display: inline-block;
-      padding-right: 10px;
-      margin-bottom: 10px;
-    }
-    .stat-container:nth-child(10n) {
-      padding-right: 0;
-    }
+.page-content-body-section-products {
+  .stat-container {
+    float: left;
+    width: 9.09%;
+    display: inline-block;
+    padding-right: 10px;
+    margin-bottom: 10px;
+  }
+  .stat-container:nth-child(11n) {
+    padding-right: 0;
   }
 }

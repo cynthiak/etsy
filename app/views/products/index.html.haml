@@ -1,5 +1,5 @@
 #page-products.page-content-body
-  .page-content-body-section.stats-summary-section
+  .page-content-body-section.page-content-body-section-products
     %h1 Products
 
     = render partial: 'partials/product_stats'
@@ -33,7 +33,36 @@
                 = "$" + get_average_revenue_by_type(product_type).to_s + "/" + product_type
 
 
-      -if product_type != "T-shirt"
+      -if product_type == "T-shirt"
+        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+          %thead
+            %tr
+              %th T-shirt
+              %th Variation
+              %th Sold
+              %th Revenue
+          %tbody
+            - get_products_by_type(product_type).each do |product|
+              - previous_variation = nil
+              - product.get_variations.each do |variation|
+                - current_variation = variation.gender + "_" + variation.style
+                = render :partial => 'tshirt_variation', :locals => {:tshirt => product, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
+                - previous_variation = current_variation
+      -elsif product_type == "Card Sets"
+        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+          %thead
+            %tr
+              %th Card Set
+              %th Sold
+              %th Revenue
+          %tbody
+            - get_products_by_type(product_type).each do |product|
+              - product.get_variations.each do |variation|
+                %tr
+                  %td.border-right= variation.variation_name
+                  %td= get_sales_by_variation(variation)
+                  %td= get_revenue_by_variation(variation)
+      -else
         %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
           %thead
             %tr
@@ -50,21 +79,7 @@
                 %td= product.get_order_items_count
                 %td= "$" + product.get_total_sales.to_s
                 %td= "$" + product.get_average_sales.to_s
-      -else
-        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
-          %thead
-            %tr
-              %th T-shirt
-              %th Variation
-              %th Sold
-              %th Revenue
-          %tbody
-            - get_products_by_type(product_type).each do |product|
-              - previous_variation = nil
-              - product.get_variations.each do |variation|
-                - current_variation = variation.gender + "_" + variation.style
-                = render :partial => 'tshirtvariation', :locals => {:tshirt => product, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
-                - previous_variation = current_variation
+
 
 - get_product_types.each do |product_type|
   :javascript

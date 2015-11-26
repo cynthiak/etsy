@@ -3,7 +3,19 @@
     .stat
       .stat-label Items Sold
       .stat-number
-        = get_items_sold_count 
+        = get_items_sold_count
+  .stat-container
+    .stat
+      .stat-label Total Rev
+      .stat-number
+        = "$" + get_revenue.to_s
+  .stat-container
+    .stat
+      .stat-label Average
+      .stat-number
+        = "$" + get_average_revenue.to_s + "/item"
+%br
+.stats
   - get_product_types.each do |product_type|
     -if get_items_sold_by_type_count(product_type) > 0
       .stat-container
@@ -13,11 +25,6 @@
           .stat-number
             =get_items_sold_by_type_count(product_type)
 .stats
-  .stat-container
-    .stat
-      .stat-label Total Rev
-      .stat-number
-        = "$" + get_revenue.to_s
   - get_product_types.each do |product_type|
     -if get_items_sold_by_type_count(product_type) > 0
       .stat-container
@@ -27,11 +34,6 @@
           .stat-number
             = "$" + get_revenue_by_type(product_type).to_s 
 .stats
-  .stat-container
-    .stat
-      .stat-label Average
-      .stat-number
-        = "$" + get_average_revenue.to_s + "/item" 
   - get_product_types.each do |product_type|
     -if get_items_sold_by_type_count(product_type) > 0
       .stat-container

@@ -1,107 +1,65 @@
 #sidebar
   %ul.nav.nav-pills.nav-stacked
 
+    %li{class: current_page?(controller: 'orders', action: 'index') ? 'active' : ''}
+      = link_to orders_path do
+        %span.glyphicon.glyphicon-shopping-cart
+        Orders
 
+    %li{class: current_page?(controller: 'order_items', action: 'index') ? 'active' : ''}
+      = link_to order_items_path do
+        %span.glyphicon.glyphicon-th-list
+        Order Items
 
-    - if (current_page?(controller: 'orders', action: 'index'))
-      %li.active
-        = link_to orders_path do
-          %span.glyphicon.glyphicon-shopping-cart
-          Orders
-    - else
-      %li
-        = link_to orders_path do
-          %span.glyphicon.glyphicon-shopping-cart
-          Orders
+    %li{class: current_page?(controller: 'products', action: 'index') ? 'active' : ''}
+      = link_to products_path do
+        %span.glyphicon.glyphicon-th-large
+        Products
 
+    %li{class: current_page?(controller: 'listings', action: 'index') ? 'active' : ''}
+      = link_to listings_path do
+        %span.glyphicon.glyphicon-th
+        Listings
+  
+    %li{class: current_page?(controller: 'customers', action: 'index') ? 'active' : ''}
+      = link_to customers_path do
+        %span.glyphicon.glyphicon-user
+        Customers
 
-    - if (current_page?(controller: 'order_items', action: 'index'))
-      %li.active
-        = link_to order_items_path do
-          %span.glyphicon.glyphicon-th-list
-          Order Items
-    - else
-      %li
-        = link_to order_items_path do
-          %span.glyphicon.glyphicon-th-list
-          Order Items
+    %li{class: current_page?(controller: 'expenses', action: 'index') ? 'active' : ''}
+      = link_to expenses_path do
+        %span.glyphicon.glyphicon-usd
+        Expenses
 
-    - if (current_page?(controller: 'products', action: 'index'))
-      %li.active
-        = link_to products_path do
-          %span.glyphicon.glyphicon-th-large
-          Products
-    - else
-      %li
-        = link_to products_path do
-          %span.glyphicon.glyphicon-th-large
-          Products
-
-    - if (current_page?(controller: 'listings', action: 'index'))
-      %li.active
-        = link_to listings_path do
-          %span.glyphicon.glyphicon-th
-          Listings
-    - else
-      %li
-        = link_to listings_path do
-          %span.glyphicon.glyphicon-th
-          Listings
-
-    - if (current_page?(controller: 'customers', action: 'index'))
-      %li.active
-        = link_to customers_path do
-          %span.glyphicon.glyphicon-user
-          Customers
-    - else
-      %li
-        = link_to customers_path do
-          %span.glyphicon.glyphicon-user
-          Customers
-
-    - if (current_page?(controller: 'expenses', action: 'index'))
-      %li.active
-        = link_to expenses_path do
-          %span.glyphicon.glyphicon-usd
-          Expenses
-    - else
-      %li
-        = link_to expenses_path do
-          %span.glyphicon.glyphicon-usd
-          Expenses
-
-    - if (current_page?(controller: 'giveaways', action: 'index'))
-      %li.active
-        = link_to giveaways_path do
-          %span.glyphicon.glyphicon-gift
-          Giveaways
-    - else
-      %li
-        = link_to giveaways_path do
-          %span.glyphicon.glyphicon-gift
-          Giveaways
+    %li{class: current_page?(controller: 'giveaways', action: 'index') ? 'active' : ''}
+      = link_to giveaways_path do
+        %span.glyphicon.glyphicon-gift
+        Giveaways
 
     %br
 
-    - if (current_page?(controller: 'orders', action: 'new'))
-      %li.active
-        = link_to new_order_path do
-          %span.glyphicon.glyphicon-plus
-          New Order
-    - else
-      %li
-        = link_to new_order_path do
-          %span.glyphicon.glyphicon-plus
-          New Order
+    %li{class: current_page?(controller: 'orders', action: 'new') ? 'active' : ''}
+      = link_to new_order_path do
+        %span.glyphicon.glyphicon-plus
+        New Order
 
-    - if (current_page?(controller: 'order_items', action: 'new'))
-      %li.active
-        = link_to new_order_item_path do
-          %span.glyphicon.glyphicon-plus
-          New Order Item
-    - else
-      %li
-        = link_to new_order_item_path do
-          %span.glyphicon.glyphicon-plus
-          New Order Item
+    %li{class: current_page?(controller: 'order_items', action: 'new') ? 'active' : ''}
+      = link_to new_order_item_path do
+        %span.glyphicon.glyphicon-plus
+        New Order Item
 
+    %br
+
+    %li{class: current_page?(controller: 'expenses', action: 'new') && params[:expense_type] == 'Shipping' ? 'active' : ''}
+      = link_to new_expense_path + '?name=Shipping&expense_type=Shipping&vendor=USPS' do
+        %span.glyphicon.glyphicon-plus
+        New Shipping
+    %li{class: current_page?(controller: 'expenses', action: 'new') && params[:expense_type] == 'Supplies' ? 'active' : ''}
+      = link_to new_expense_path + '?name=&expense_type=Supplies&vendor=Amazon' do
+        %span.glyphicon.glyphicon-plus
+        New Supply
+
+    %li{class: current_page?(controller: 'expenses', action: 'new') && !params[:expense_type] ? 'active' : ''}
+      = link_to new_expense_path do
+        %span.glyphicon.glyphicon-plus
+        New Expense

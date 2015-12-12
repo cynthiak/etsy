@@ -23,7 +23,7 @@
 
       .form-row
         = f.label :amount, class: 'form-label'
-        = f.number_field(:amount)
+        = f.number_field :amount , :step => 'any', :required => true
 
 
       .form-row

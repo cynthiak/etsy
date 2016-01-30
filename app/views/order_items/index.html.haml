@@ -12,29 +12,29 @@
 
     .stats
       - get_product_types.each do |product_type|
-        -if get_unshipped_items_by_type_count(product_type) > 0
+        -if product_type.get_unshipped_items_count > 0
           .stat-container
             .stat
               .stat-label 
-                =product_type
+                =product_type.product_type
                 To Ship
               .stat-number
-                = get_unshipped_items_by_type_count(product_type)
+                = product_type.get_unshipped_items_count
 
   - get_product_types.each do |product_type|
-    -if get_unshipped_items_by_type_count(product_type) > 0
+    -if product_type.get_unshipped_items_count > 0
       -if product_type != "T-shirt"
         .page-content-body-section
           %h1 
-            #{pluralize(get_unshipped_items_by_type_count(product_type), product_type)}
+            #{pluralize(product_type.get_unshipped_items_count, product_type.product_type)}
             To Package
-          %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+          %table.stripe.order-column{class: 'table-product-type-' + product_type.id.to_s}
             %thead
               %tr
                 %th Product
                 %th Quantity To Pack
             %tbody
-              - get_products_by_type(product_type).each do |product|
+              - product_type.get_products.each do |product|
                 - if product.get_unshipped_order_items_count > 0
                   %tr
                     %td= product.description
@@ -42,10 +42,10 @@
       -else
         .page-content-body-section
           %h1 
-            #{pluralize(get_unshipped_items_by_type_count(product_type), product_type)}
+            #{pluralize(product_type.get_unshipped_items_count, product_type.product_type)}
             To Package
-          - get_products_by_type(product_type).each do |tshirt|
-            %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+          - product_type.get_products.each do |tshirt|
+            %table.stripe.order-column{class: 'table-product-type-' + product_type.id.to_s}
               %thead
                 %tr
                   %th T-shirt
@@ -81,9 +81,9 @@
 
 
 - get_product_types.each do |product_type|
-  -if get_unshipped_items_by_type_count(product_type) > 0
+  -if product_type.get_unshipped_items_count > 0
     :javascript
-      $(".table-#{product_type_slug(product_type)}").DataTable({
+      $(".table-product-type-#{product_type.id.to_s}").DataTable({
         dom: 'iCfrtS',
         pageLength: -1,
         order: [0, 'desc'],

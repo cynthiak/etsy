@@ -3,14 +3,6 @@ module ProductsHelper
     ProductType.all
   end
 
-  def get_products_by_type(product_type)
-    Product.where(product_type: product_type)
-  end
-
-  def product_type_slug(product_type)
-    product_type.delete(' ')
-  end
-
   def get_sales_by_variation(variation)
     OrderItem.joins(:variation).where(variation: variation).sum(:quantity)
   end

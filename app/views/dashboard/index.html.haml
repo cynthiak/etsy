@@ -14,13 +14,13 @@
             #{pluralize(get_unshipped_items_count, 'item')}
     .stats
       - get_product_types.each do |product_type|
-        -if get_unshipped_items_by_type_count(product_type) > 0
+        -if product_type.get_unshipped_items_count > 0
           .stat-container
             .stat
               .stat-label 
                 =product_type.product_type
               .stat-number
-                #{pluralize(get_unshipped_items_by_type_count(product_type), product_type.product_type)}
+                #{pluralize(product_type.get_unshipped_items_count), product_type.product_type)}
 
   .page-content-body-section
     %h1 Orders

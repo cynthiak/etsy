@@ -6,35 +6,35 @@
 
   - get_product_types.each do |product_type|
     .page-content-body-section
-      %h1=product_type
+      %h1=product_type.product_type
 
       .stats
-        -if get_items_sold_by_type_count(product_type) > 0
+        -if product_type.get_order_items_count > 0
           .stat-container
             .stat
               .stat-label 
-                =product_type
+                =product_type.product_type
                 Sold
               .stat-number
-                = get_items_sold_by_type_count(product_type)
+                = product_type.get_order_items_count
           .stat-container
             .stat
               .stat-label 
-                =product_type
+                =product_type.product_type
                 Rev
               .stat-number
-                = "$" + get_revenue_by_type(product_type).to_s 
+                = "$" + product_type.get_revenue.to_s 
           .stat-container
             .stat
               .stat-label 
-                Per
-                =product_type
+                Average Per
+                =product_type.product_type
               .stat-number
-                = "$" + get_average_revenue_by_type(product_type).to_s + "/" + product_type
+                = "$" + product_type.get_average_revenue.to_s + "/" + product_type.product_type
 
 
       -if product_type == "T-shirt"
-        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+        %table.stripe.order-column{class: 'table-product-type-' + product_type.id.to_s}
           %thead
             %tr
               %th T-shirt
@@ -42,28 +42,14 @@
               %th Sold
               %th Revenue
           %tbody
-            - get_products_by_type(product_type).each do |product|
+            - product_type.get_products.each do |product|
               - previous_variation = nil
               - product.get_variations.each do |variation|
                 - current_variation = variation.gender + "_" + variation.style
                 = render :partial => 'tshirt_variation', :locals => {:tshirt => product, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
                 - previous_variation = current_variation
-      -elsif product_type == "Card Sets"
-        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
-          %thead
-            %tr
-              %th Card Set
-              %th Sold
-              %th Revenue
-          %tbody
-            - get_products_by_type(product_type).each do |product|
-              - product.get_variations.each do |variation|
-                %tr
-                  %td.border-right= variation.variation_name
-                  %td= get_sales_by_variation(variation)
-                  %td= get_revenue_by_variation(variation)
       -else
-        %table.stripe.order-column{class: 'table-' + product_type_slug(product_type)}
+        %table.stripe.order-column{class: 'table-product-type-' + product_type.id.to_s}
           %thead
             %tr
               %th Type
@@ -72,9 +58,9 @@
               %th Revenue
               %th Average
           %tbody
-            - get_products_by_type(product_type).each do |product|
+            - product_type.get_products.each do |product|
               %tr
-                %td.border-right= product.product_type
+                %td.border-right= product.product_type.product_type
                 %td.border-right= product.description
                 %td= product.get_order_items_count
                 %td= "$" + product.get_total_sales.to_s
@@ -83,7 +69,7 @@
 
 - get_product_types.each do |product_type|
   :javascript
-    $(".table-#{product_type_slug(product_type)}").DataTable({
+    $(".table-product-type-#{product_type.id.to_s}").DataTable({
       dom: 'iCfrtS',
       pageLength: -1,
       order: [2, 'desc'],

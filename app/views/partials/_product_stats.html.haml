@@ -21,14 +21,24 @@
       %th Product
       %th Items Sold
       %th Revenue
-      %th Average Revenue
+      %th Average Revenue Per Item
+      %th Materials Cost
+      %th Cost Per Item
+      %th Profit
+      %th Average Profit Per Item
+      %th Margin Per Item
   %tbody
     - get_product_types.each do |product_type|
       %tr
-        %td=product_type.product_type
-        %td=get_items_sold_by_type_count(product_type)
-        %td= "$" + get_revenue_by_type(product_type).to_s 
-        %td= "$" + get_average_revenue_by_type(product_type).to_s
+        %td.border-right=product_type.product_type
+        %td.border-right=product_type.get_order_items_count
+        %td= "$" + product_type.get_revenue.to_s
+        %td.border-right= "$" + product_type.get_average_revenue.to_s
+        %td= "$" + product_type.get_expenses.to_s
+        %td.border-right Need to calculate
+        %td= "$" + product_type.get_profit.to_s
+        %td= "$" + product_type.get_average_profit.to_s
+        %td Need to calculate
 
 
 :javascript

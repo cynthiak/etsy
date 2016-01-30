@@ -14,31 +14,27 @@
       .stat-label Average
       .stat-number
         = "$" + get_average_revenue.to_s + "/item"
-%br
-.stats
-  - get_product_types.each do |product_type|
-    -if get_items_sold_by_type_count(product_type) > 0
-      .stat-container
-        .stat
-          .stat-label 
-            =product_type
-          .stat-number
-            =get_items_sold_by_type_count(product_type)
-.stats
-  - get_product_types.each do |product_type|
-    -if get_items_sold_by_type_count(product_type) > 0
-      .stat-container
-        .stat
-          .stat-label 
-            =product_type
-          .stat-number
-            = "$" + get_revenue_by_type(product_type).to_s 
-.stats
-  - get_product_types.each do |product_type|
-    -if get_items_sold_by_type_count(product_type) > 0
-      .stat-container
-        .stat
-          .stat-label 
-            =product_type
-          .stat-number
-            = "$" + get_average_revenue_by_type(product_type).to_s
+
+%table#table-products.stripe.order-column
+  %thead
+    %tr
+      %th Product
+      %th Items Sold
+      %th Revenue
+      %th Average Revenue
+  %tbody
+    - get_product_types.each do |product_type|
+      %tr
+        %td=product_type
+        %td=get_items_sold_by_type_count(product_type)
+        %td= "$" + get_revenue_by_type(product_type).to_s 
+        %td= "$" + get_average_revenue_by_type(product_type).to_s
+
+
+:javascript
+  $("#table-products").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'desc'],
+    orderClasses: true
+  });

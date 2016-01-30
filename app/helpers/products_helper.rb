@@ -1,6 +1,6 @@
 module ProductsHelper
   def get_product_types
-    Product.order(:product_type).pluck(:product_type).uniq
+    ProductType.all
   end
 
   def get_products_by_type(product_type)

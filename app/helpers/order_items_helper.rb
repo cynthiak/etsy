@@ -10,7 +10,7 @@ module OrderItemsHelper
   end
 
   def get_items_sold_by_type(product_type)
-    OrderItem.joins(:product).where(products: {product_type: product_type})
+    OrderItem.joins(:product).where(products: {product_type_id: product_type.id})
   end
 
   def get_items_sold_by_type_count(product_type)
@@ -28,7 +28,7 @@ module OrderItemsHelper
   end
 
   def get_unshipped_items_by_type(product_type)
-    OrderItem.joins(:product).where(products: {product_type: product_type}).where(date_shipped: nil)
+    OrderItem.joins(:product).where(products: {product_type_id: product_type.id}).where(date_shipped: nil)
   end
 
   def get_unshipped_items_by_type_count(product_type)

@@ -18,9 +18,9 @@
           .stat-container
             .stat
               .stat-label 
-                =product_type
+                =product_type.product_type
               .stat-number
-                #{pluralize(get_unshipped_items_by_type_count(product_type), product_type)}
+                #{pluralize(get_unshipped_items_by_type_count(product_type), product_type.product_type)}
 
   .page-content-body-section
     %h1 Orders

@@ -5,7 +5,7 @@ module RevenueHelper
   end
 
   def get_revenue_by_type(product_type)
-    OrderItem.joins(:product).where(products: {product_type: product_type}).sum(:item_total).round(2)
+    OrderItem.joins(:product).where(products: {product_type_id: product_type.id}).sum(:item_total).round(2)
   end
 
   # Average Revenue ##############

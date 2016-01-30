@@ -25,7 +25,7 @@
   %tbody
     - get_product_types.each do |product_type|
       %tr
-        %td=product_type
+        %td=product_type.product_type
         %td=get_items_sold_by_type_count(product_type)
         %td= "$" + get_revenue_by_type(product_type).to_s 
         %td= "$" + get_average_revenue_by_type(product_type).to_s

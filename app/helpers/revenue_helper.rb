@@ -16,8 +16,11 @@ module RevenueHelper
   end
 
   def get_average_revenue_per_order_item
-    (get_average_revenue/get_items_sold_count).round(2)
-    
+    (get_revenue/get_items_sold_count).round(2)
+  end
+
+  def get_average_revenue_per_customer
+    (get_revenue/get_customers_count).round(2)
   end
 
   # To Sell ##############

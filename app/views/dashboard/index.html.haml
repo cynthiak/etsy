@@ -30,7 +30,6 @@
           .stat-label Total Customers
           .stat-number
             #{pluralize(get_customers_count, 'customer')}
-
       .stat-container
         .stat
           .stat-label Total Orders
@@ -41,10 +40,23 @@
           .stat-label Total Order Items
           .stat-number
             #{pluralize(get_items_sold_count, 'item')}
+    .stats
+      .stat-container
+        .stat
+          .stat-label Average Orders Per Customer
+          .stat-number
+            = get_average_orders_per_customer.to_s + "/customer"
+      .stat-container
+        .stat
+          .stat-label Average Order Items Per Customer
+          .stat-number
+            = get_average_order_items_per_customer.to_s + "/customer"
       .stat-container
         .stat
           .stat-label Average Items Per Order
-          .stat-number= get_average_items_per_order
+          .stat-number= get_average_items_per_order.to_s + "/order"
+      
+
 
   .page-content-body-section
     %h1 Profit
@@ -95,6 +107,11 @@
           .stat-label Average Rev Per Order Item
           .stat-number
             = "$" + get_average_revenue_per_order_item.to_s + "/item"
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Customer
+          .stat-number
+            = "$" + get_average_revenue_per_customer.to_s + "/customer"
 
 
   .page-content-body-section

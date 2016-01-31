@@ -9,13 +9,29 @@
           .stat-number
             = get_customers_count
             customers
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Customer
+          .stat-number
+            = "$" + get_average_revenue_per_customer.to_s + "/customer"
+      .stat-container
+        .stat
+          .stat-label Average Orders Per Customer
+          .stat-number
+            = get_average_orders_per_customer.to_s + "/customer"
+      .stat-container
+        .stat
+          .stat-label Average Order Items Per Customer
+          .stat-number
+            = get_average_order_items_per_customer.to_s + "/customer"
+
 
   .page-content-body-section
     %table#table-customers.stripe.order-column
       %thead
         %tr
           %th Name
-          %th Email
+          %th Etsy Username
           %th First Purchase
           %th Last Purchase
           %th Orders
@@ -27,7 +43,7 @@
             %td
               = customer.first_name
               = customer.last_name
-            %td.border-right= customer.email
+            %td.border-right= customer.etsy_username
             %td= customer.get_first_purchase_date
             %td.border-right= customer.get_last_purchase_date
             %td= customer.get_total_order_count

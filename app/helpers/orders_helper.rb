@@ -15,6 +15,6 @@ module OrdersHelper
     Order.where.not(date_shipped: nil)    
   end
   def get_average_items_per_order
-    (get_items_sold.sum(:quantity)/get_orders_count).round(2)
+    (get_items_sold_count/get_orders_count).round(2)
   end
 end

@@ -95,6 +95,11 @@
           .stat-label Average Rev Per Order Item
           .stat-number
             = "$" + get_average_revenue_per_order_item.to_s + "/item"
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Customer
+          .stat-number
+            = "$" + get_average_revenue_per_customer.to_s + "/customer"
 
 
   .page-content-body-section

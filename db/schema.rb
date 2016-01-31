@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160130204429) do
+ActiveRecord::Schema.define(version: 20160131211433) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -178,6 +178,8 @@ ActiveRecord::Schema.define(version: 20160130204429) do
     t.string   "product_name"
     t.string   "description"
     t.integer  "product_type_id"
+    t.string   "occasion"
+    t.float    "cost"
   end
 
   add_index "products", ["product_type_id"], name: "index_product_type_id"

@@ -15,6 +15,11 @@ module RevenueHelper
     (get_revenue/orders_count).round(2)
   end
 
+  def get_average_revenue_per_order_item
+    (get_average_revenue/get_items_sold_count).round(2)
+    
+  end
+
   # To Sell ##############
   def get_profit
     expenses = Expense.all.sum(:amount)

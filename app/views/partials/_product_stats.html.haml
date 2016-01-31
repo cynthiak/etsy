@@ -20,25 +20,51 @@
     %tr
       %th Product
       %th Items Sold
+
       %th Revenue
-      %th Average Revenue Per Item
-      %th Materials Cost
-      %th Cost Per Item
+      %th Materials Bought
+      %th Cost Of Sold
+
       %th Profit
-      %th Average Profit Per Item
-      %th Margin Per Item
+      %th Margin
+
+      %th Avg Rev Per Item
+      %th Avg Cost Of Sold
+      %th Avg Margin Per Item
+
   %tbody
     - get_product_types.each do |product_type|
       %tr
         %td.border-right=product_type.product_type
         %td.border-right=product_type.get_order_items_count
-        %td= "$" + product_type.get_revenue.to_s
-        %td.border-right= "$" + product_type.get_average_revenue.to_s
-        %td= "$" + product_type.get_expenses.to_s
-        %td.border-right Need to calculate
-        %td= "$" + product_type.get_profit.to_s
-        %td= "$" + product_type.get_average_profit.to_s
-        %td Need to calculate
+
+        %td
+          %strong= "$" + product_type.get_revenue.to_s
+        %td= "($" + product_type.get_expenses.to_s + ")"
+        %td.border-right= "$" + product_type.get_cost_of_sold.to_s
+        
+        -if product_type.get_profit < 0
+          %td.red
+            = "-$" + product_type.get_profit.abs.to_s
+        -else
+          %td.green
+            = "$" + product_type.get_profit.to_s
+        -if product_type.get_margin < 0
+          %td.border-right.red
+            = "-$" + product_type.get_margin.abs.to_s
+        -else
+          %td.border-right.green
+            = "$" + product_type.get_margin.to_s
+
+        %td.green= "$" + product_type.get_average_revenue.to_s
+        %td.red= "$" + product_type.get_average_cost_of_sold.to_s
+
+        -if product_type.get_average_margin < 0
+          %td.border-right.red
+            = "-$" + product_type.get_average_margin.abs.to_s
+        -else
+          %td.border-right.green
+            = "$" + product_type.get_average_margin.to_s
 
 
 :javascript

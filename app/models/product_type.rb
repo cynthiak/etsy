@@ -19,8 +19,12 @@ class ProductType < ActiveRecord::Base
     Product.where(product_type: self)
   end
 
+  def get_order_items
+    OrderItem.joins(:product).where(products: {product_type_id: self.id})
+  end
+
   def get_order_items_count
-    OrderItem.joins(:product).where(products: {product_type_id: self.id}).sum(:quantity)
+    get_order_items.sum(:quantity)
   end
 
   def get_expenses
@@ -39,6 +43,30 @@ class ProductType < ActiveRecord::Base
     end
   end
 
+  def get_cost_of_sold
+    order_items = get_order_items
+    total_cost = 0.0
+
+    if order_items
+      order_items.each do |order_item|
+        if order_item.product.cost
+          total_cost = total_cost + order_item.product.cost
+        end
+      end
+      return total_cost.round(2)
+    else
+      0
+    end
+  end
+
+  def get_average_cost_of_sold
+    if get_order_items_count > 0
+      return (get_cost_of_sold/get_order_items_count).round(2)
+    else
+      0
+    end
+  end
+
   def get_profit
     (self.get_revenue - self.get_expenses).round(2)
   end
@@ -46,6 +74,18 @@ class ProductType < ActiveRecord::Base
   def get_average_profit
     if self.get_order_items_count > 0
       (self.get_profit / self.get_order_items_count).round(2)
+    else
+      0
+    end
+  end
+
+  def get_margin
+    (self.get_revenue - self.get_cost_of_sold).round(2)
+  end
+
+  def get_average_margin
+    if self.get_order_items_count > 0
+      (self.get_margin / self.get_order_items_count).round(2)
     else
       0
     end

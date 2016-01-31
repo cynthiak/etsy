@@ -20,7 +20,7 @@
               .stat-label 
                 =product_type.product_type
               .stat-number
-                #{pluralize(product_type.get_unshipped_items_count), product_type.product_type)}
+                #{pluralize(product_type.get_unshipped_items_count, product_type.product_type)}
 
   .page-content-body-section
     %h1 Orders

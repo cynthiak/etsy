@@ -89,6 +89,8 @@
               .stat-number
                 #{pluralize(get_number_of_items_to_sell_by_type(product_type), product_type)}
 
+    #chart-profit-by-month.chart
+
   .page-content-body-section
     %h1 Revenue
     .stats
@@ -113,6 +115,19 @@
           .stat-number
             = "$" + get_average_revenue_per_customer.to_s + "/customer"
 
+    #chart-cumulative-revenue-by-day-of-month.chart
+
+    %table#table-revenue-by-month.stripe.order-column
+      %thead
+        %tr
+          %th Month
+          %th Revenue
+      %tbody
+        - get_months.each do |month|
+          %tr
+            %td= month.strftime "%Y - %m - %B "
+            %td= "$" + get_revenue_by_month(month).to_s
+
 
   .page-content-body-section
     %h1 Costs
@@ -122,3 +137,167 @@
     %h1 Products
     = render partial: 'partials/product_stats'
 
+
+
+
+
+
+:javascript
+  $("#table-revenue-by-month").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'desc'],
+    orderClasses: true
+  });
+
+
+
+
+  $(function () { 
+    // PROFIT BY MONTH //////////////////////////////////////
+
+    $('#chart-profit-by-month').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: ''
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '15px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top'
+      },
+      xAxis: {
+        categories: #{get_months_array},
+        labels: {
+          style: {
+            fontSize: '14px'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Amount ($)'
+        },
+        opposite: true,
+        labels: {
+          style: {
+            fontSize: '13px'
+          },
+          format: "${value}"
+        },
+        tickInterval: '500'
+      },
+      tooltip: {
+        shared: true,
+        headerFormat: '<span style="font-size: 15px; font-weight: bold;">{point.key}</span><br/>',
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: [
+        {
+          type: 'area',
+          name: 'Profit',
+          data: #{get_profit_array_by_months},
+          color: '#8DD785',
+          negativeColor: '#FF6060',
+          marker: {
+            enabled: false
+          },
+          fillOpacity: '0.25'
+        },
+        {
+          name: 'Cost',
+          data: #{get_cost_array_by_months},
+          color: '#FF9175',
+          marker: {
+            enabled: false
+          }
+        },
+        {
+          name: 'Revenue',
+          data: #{get_revenue_array_by_months},
+          color: '#00A0E3',
+          marker: {
+            enabled: false
+          }
+        }
+      ]
+    });
+
+
+
+
+
+    // CUMULATIVE REVENUE BY DAY OF MONTH //////////////////////////////////////
+
+    $('#chart-cumulative-revenue-by-day-of-month').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: ''
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '15px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top',
+        layout: 'vertical',
+        align: 'left',
+        itemMarginBottom: 8
+      },
+      xAxis: {
+        categories: #{get_days_of_month_array},
+        title: {
+          text: 'Day Of Month'
+        },
+        labels: {
+          style: {
+            fontSize: '14px'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Amount ($)'
+        },
+        opposite: true,
+        labels: {
+          style: {
+            fontSize: '13px'
+          },
+          format: "${value}"
+        },
+        tickInterval: '500'
+      },
+      tooltip: {
+        headerFormat: '<span style="font-size: 15px; font-weight: bold;">Day {point.key}</span><br/>',
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: #{get_cumulative_revenue_by_day_of_month_series}
+    });
+  });

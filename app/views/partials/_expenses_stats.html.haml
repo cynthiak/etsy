@@ -7,7 +7,7 @@
 
 
 
-%table#table-expenses.stripe.order-column
+%table#table-expense-categories.stripe.order-column
   %thead
     %tr
       %th Expense
@@ -21,7 +21,7 @@
 
 
 :javascript
-  $("#table-expenses").DataTable({
+  $("#table-expense-categories").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [1, 'desc'],

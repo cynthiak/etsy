@@ -6,6 +6,7 @@ class ExpensesController < ApplicationController
     name = "Shipping"
     expense_type = "Shipping"
     vendor = "USPS"
+    @product_types = ProductType.all.order(:product_type)
 
     if params[:name]
       name = params[:name]

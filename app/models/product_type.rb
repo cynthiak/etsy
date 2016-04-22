@@ -96,7 +96,7 @@ class ProductType < ActiveRecord::Base
   end
 
   def get_unshipped_items_count
-    get_unshipped_items.count
+    get_unshipped_items.sum(:quantity)
   end
 
 

@@ -6,7 +6,7 @@ class OrderItemsController < ApplicationController
     @last_order = Order.order("created_at").last
     @order_item = OrderItem.new({
       order_id: @last_order.id,
-      date_shipped: Date.today
+      date_shipped: nil
     })
     @orders = Order.all.order(:sale_date)
     @products = Product.all.order(:product_name)

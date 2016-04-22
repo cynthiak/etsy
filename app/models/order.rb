@@ -43,6 +43,28 @@ class Order < ActiveRecord::Base
           })
       end
 
+      #set payment_type and payment_method
+      payment_method = row[7]
+      if row[30] == "cash"
+        payment_type = "In Person"
+        payment_method = "Cash"
+      elsif row[30] == "online_cc"
+        payment_type = "Online"
+      elsif row[30] == "swipe"
+        payment_type = "In Person"
+      else
+        payment_method = "Other"
+        payment_type = "Other"
+      end
+
+      #set order_type
+      order_number = row[1]
+      if order_number.include? "PO"
+        order_type = "Wholesale"
+      else
+        order_type = "Retail"
+      end
+
       order_params = {
         :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
         :order_number=> row[1],
@@ -51,7 +73,7 @@ class Order < ActiveRecord::Base
         :first_name=> row[4],
         :last_name=> row[5],
         :number_of_items=> row[6],
-        :payment_method=> row[7],
+        :payment_method=> payment_method,
         :date_shipped=> row[8].nil? ? nil : DateTime.strptime(row[8], "%m/%d/%y").strftime("%Y/%m/%d"),
         :currency=> row[15],
         :order_value=> row[16],
@@ -65,11 +87,11 @@ class Order < ActiveRecord::Base
         :adjusted_order_total=> row[25],
         :adjusted_card_processing_fees=> row[26],
         :adjusted_net_order_amount=> row[27],
-        :order_type=> row[29],
-        :payment_type=> row[30],
+        :order_type=> order_type,
+        :payment_type=> payment_type,
         :inperson_discount=> row[31],
         :inperson_location=> row[32],
-        :order_source=> "etsy",
+        :order_source=> "Etsy",
         :customer_id=>customer.id,
         :refund=> row[25].nil? ? nil : (row[21].to_f - row[25].to_f).round(2)
       }
@@ -98,16 +120,16 @@ class Order < ActiveRecord::Base
           })
       end
 
-      if row[11].to_f != 0
-        payment_method = "card swiped"
-      elsif row[12].to_f != 0
-        payment_method = "card keyed"
-      elsif row[13].to_f != 0
-        payment_method = "cash"
-      elsif row[14].to_f != 0
-        payment_method = "wallet"
-      elsif row[15].to_f != 0
-        payment_method = "square gift card"
+      if row[11].delete('$').to_f != 0
+        payment_method = "Credit Card"
+      elsif row[12].delete('$').to_f != 0
+        payment_method = "Credit Card"
+      elsif row[13].delete('$').to_f != 0
+        payment_method = "Cash"
+      elsif row[14].delete('$').to_f != 0
+        payment_method = "Wallet"
+      elsif row[15].delete('$').to_f != 0
+        payment_method = "Square Gift Card"
       end
 
       if row[30] == "Refund"
@@ -127,17 +149,19 @@ class Order < ActiveRecord::Base
           :full_name=> "Square Customer",
           :first_name=> "Square",
           :last_name=> "Customer",
-          :order_source=> "square",
-          :customer_id=>customer.id,
-          :date_shipped=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
-          :shipping=> "0.0",
-          :coupon_code=> row[4] == "$0.00" ? nil : row[4],
           :payment_method=> payment_method,
           :order_value=> row[3].delete('$').to_f,
+          :shipping=> "0.0",
           :sales_tax=> row[7].delete('$').to_f,
           :order_total=> row[5].delete('$').to_f,
           :card_processing_fees=> row[19].delete('$').to_f.abs,
           :order_net=> row[20].delete('$').to_f,
+          :order_type=>"Retail",
+          :payment_type=>"In Person",
+          :order_source=> "Square",
+          :customer_id=>customer.id,
+          :date_shipped=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
+          :coupon_code=> row[4] == "$0.00" ? nil : row[4],
           :inperson_discount=> row[4].delete('$').to_f
         }
       end

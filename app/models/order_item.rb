@@ -22,6 +22,11 @@ class OrderItem < ActiveRecord::Base
 
       # Find order
       order = Order.find_by(order_number: row[23])
+      if !(order)
+        order_id = nil
+      else
+        order_id = order.id
+      end
 
       # Find listing
       etsy_listing_variation = row[24].nil? ? row[13] : row[13] + "_" + row[24]
@@ -59,7 +64,7 @@ class OrderItem < ActiveRecord::Base
         :variations=> row[24],
         :order_type=> row[25],
         :etsy_listing_variation=> etsy_listing_variation,
-        :order_id => order.id,
+        :order_id => order_id,
         :listing_id => listing.id,
         :product_id => product_id,
         :variation_id => variation_id

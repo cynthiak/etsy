@@ -16,7 +16,7 @@
         = f.text_field :name, :required => true
       .form-row
         = f.label :expense_type, class: 'form-label'
-        = f.text_field :expense_type, :step => 'any',  :required => true
+        = f.select :expense_type, @expense_types
       .form-row
         = f.label :vendor, class: 'form-label'
         = f.text_field :vendor, :step => 'any',  :required => true

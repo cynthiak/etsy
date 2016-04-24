@@ -16,7 +16,7 @@
         - get_listings.each do |listing|
           %tr
             %td
-              = listing.product.product_type
+              = listing.product.product_type.product_type
             %td.border-right=listing.product.description
             - if listing.variation
               %td=listing.variation.style

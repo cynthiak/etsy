@@ -1,33 +1,81 @@
 #page-customers.page-content-body
   .page-content-body-section
-    %h1 Customers
+    %h1 Wholesale Customers
 
     .stats
       .stat-container
         .stat
           .stat-label Total Customers
           .stat-number
-            = get_customers_count
+            = get_customers_count("Wholesale")
             customers
       .stat-container
         .stat
           .stat-label Average Rev Per Customer
           .stat-number
-            = "$" + get_average_revenue_per_customer.to_s + "/customer"
+            = "$" + get_average_revenue_per_customer("Wholesale").to_s + "/customer"
       .stat-container
         .stat
           .stat-label Average Orders Per Customer
           .stat-number
-            = get_average_orders_per_customer.to_s + "/customer"
+            = get_average_orders_per_customer("Wholesale").to_s + "/customer"
       .stat-container
         .stat
           .stat-label Average Order Items Per Customer
           .stat-number
-            = get_average_order_items_per_customer.to_s + "/customer"
+            = get_average_order_items_per_customer("Wholesale").to_s + "/customer"
+
+    %table#table-wholesale-customers.stripe.order-column
+      %thead
+        %tr
+          %th Name
+          %th Username
+          %th First Purchase
+          %th Last Purchase
+          %th Orders
+          %th Items
+          %th Spend
+      %tbody
+        - get_customers("Wholesale").each do |customer|
+          %tr
+            %td
+              = customer.first_name
+              = customer.last_name
+            %td.border-right= customer.etsy_username
+            %td= customer.get_first_purchase_date
+            %td.border-right= customer.get_last_purchase_date
+            %td= customer.get_total_order_count
+            %td= customer.get_total_order_items_count
+            %td= "$" + customer.get_total_spend.to_s
 
 
   .page-content-body-section
-    %table#table-customers.stripe.order-column
+    %h1 Retail Customers
+
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Customers
+          .stat-number
+            = get_customers_count("Retail")
+            customers
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Customer
+          .stat-number
+            = "$" + get_average_revenue_per_customer("Retail").to_s + "/customer"
+      .stat-container
+        .stat
+          .stat-label Average Orders Per Customer
+          .stat-number
+            = get_average_orders_per_customer("Retail").to_s + "/customer"
+      .stat-container
+        .stat
+          .stat-label Average Order Items Per Customer
+          .stat-number
+            = get_average_order_items_per_customer("Retail").to_s + "/customer"
+
+    %table#table-retail-customers.stripe.order-column
       %thead
         %tr
           %th Name
@@ -38,7 +86,7 @@
           %th Items
           %th Spend
       %tbody
-        - get_customers.each do |customer|
+        - get_customers("Retail").each do |customer|
           %tr
             %td
               = customer.first_name
@@ -53,7 +101,14 @@
 
 
 :javascript
-  $("#table-customers").DataTable({
+  $("#table-wholesale-customers").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [4, 'desc'],
+    orderClasses: true
+  });
+
+  $("#table-retail-customers").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [4, 'desc'],

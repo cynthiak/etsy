@@ -56,8 +56,12 @@ class Product < ActiveRecord::Base
     (get_total_sales/get_order_items_count).round(2)
   end
 
-  def get_unshipped_order_items_count
-    OrderItem.where(product: self).where(date_shipped: nil).sum(:quantity)
+  def get_unshipped_order_items_count(order_type=nil)
+    if order_type
+      OrderItem.joins(:order).where(orders: {order_type: order_type}).where(product: self, date_shipped: nil).sum(:quantity)
+    else
+      OrderItem.where(product: self, date_shipped: nil).sum(:quantity)
+    end
   end
 
   def get_variations

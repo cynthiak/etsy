@@ -7,11 +7,7 @@ module OrdersHelper
     end
   end
   def get_orders_count(order_type=nil)
-    if order_type
-      get_orders(order_type).count
-    else
-      get_orders
-    end
+    get_orders(order_type).count
   end
   def get_unshipped_orders(order_type=nil)
     if order_type
@@ -21,11 +17,7 @@ module OrdersHelper
     end
   end
   def get_unshipped_orders_count(order_type=nil)
-    if order_type
-      get_unshipped_orders(order_type).count
-    else
-      get_unshipped_orders.count
-    end
+    get_unshipped_orders(order_type).count
   end
   def get_shipped_orders(order_type=nil)
     if order_type

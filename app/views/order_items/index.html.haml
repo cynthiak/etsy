@@ -32,13 +32,18 @@
             %thead
               %tr
                 %th Product
-                %th Quantity To Pack
+                %th Retail To Pack
+                %th Wholesale To Pack
+                %th Total To Pack
             %tbody
               - product_type.get_products.each do |product|
                 - if product.get_unshipped_order_items_count > 0
                   %tr
                     %td= product.description
+                    %td= product.get_unshipped_order_items_count("Retail") == 0 ? "-" : product.get_unshipped_order_items_count("Retail")
+                    %td= product.get_unshipped_order_items_count("Wholesale") == 0 ? "-" : product.get_unshipped_order_items_count("Wholesale")
                     %td= product.get_unshipped_order_items_count
+
       -else
         .page-content-body-section
           %h1 
@@ -62,6 +67,8 @@
                   - current_variation = variation.gender + "_" + variation.style + "_" + variation.color
                   = render :partial => 'variation_unshipped', :locals => {:tshirt => tshirt, :variation => variation, :previous_variation => previous_variation, :current_variation => current_variation}
                   - previous_variation = current_variation
+
+
 
 
   %hr

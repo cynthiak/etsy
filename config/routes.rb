@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     collection { post :import }
     collection { post :import_square }
   end
+  get 'wholesale_orders' => 'orders#wholesale', as: :wholesale
 
   resources :order_items do
     collection { post :import }

@@ -1,0 +1,54 @@
+#page-orders.page-content-body
+  .page-content-body-section
+    %h1 Wholesale Orders
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Customers
+          .stat-number
+            = get_customers_count
+            customers
+
+      .stat-container
+        .stat
+          .stat-label Total Orders
+          .stat-number
+            = get_orders_count("Wholesale")
+            orders
+
+      .stat-container
+        .stat
+          .stat-label Total Order Items
+          .stat-number
+            = get_items_sold_count
+            items
+
+      .stat-container
+        .stat
+          .stat-label Items Left to Ship
+          .stat-number.red
+            = get_unshipped_items_count
+            to ship
+    .stats
+      .stat-container
+        .stat
+          .stat-label Total Revenue
+          .stat-number
+            = "$" + get_revenue.to_s
+
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Order
+          .stat-number
+            = "$" + get_average_revenue_per_order.to_s + "/order"
+
+      .stat-container
+        .stat
+          .stat-label Average Rev Per Order Item
+          .stat-number
+            = "$" + get_average_revenue_per_order_item.to_s + "/item"
+
+      .stat-container
+        .stat
+          .stat-label Average Items Per Order
+          .stat-number= get_average_items_per_order("Wholesale")

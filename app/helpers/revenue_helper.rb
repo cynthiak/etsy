@@ -1,26 +1,30 @@
 module RevenueHelper
   # Total Revenue ##############
-  def get_revenue
-    (Order.where(refund: nil).sum(:order_net) + Order.where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
+  def get_revenue(order_type=nil)
+    if order_type
+      (Order.where(refund: nil, order_type: order_type).sum(:order_net) + Order.where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
+    else
+      (Order.where(refund: nil).sum(:order_net) + Order.where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
+    end
   end
 
   # Average Revenue ##############
-  def get_average_revenue
-    (get_revenue/get_items_sold_count).round(2)
+  def get_average_revenue(order_type=nil)
+    (get_revenue(order_type)/get_items_sold_count(order_type)).round(2)
   end
 
   # Average Revenue Per ##############
-  def get_average_revenue_per_order
-    orders_count = Order.count
-    (get_revenue/orders_count).round(2)
+  def get_average_revenue_per_order(order_type=nil)
+    orders_count = get_orders_count(order_type)
+    (get_revenue(order_type)/orders_count).round(2)
   end
 
-  def get_average_revenue_per_order_item
-    (get_revenue/get_items_sold_count).round(2)
+  def get_average_revenue_per_order_item(order_type=nil)
+    (get_revenue(order_type)/get_items_sold_count(order_type)).round(2)
   end
 
-  def get_average_revenue_per_customer
-    (get_revenue/get_customers_count).round(2)
+  def get_average_revenue_per_customer(order_type=nil)
+    (get_revenue(order_type)/get_customers_count(order_type)).round(2)
   end
 
   # To Sell ##############

@@ -10,10 +10,10 @@ module CustomersHelper
     get_customers(customer_type).count
   end
 
-  def get_average_orders_per_customer
-    (get_orders_count/get_customers_count).round(2)
+  def get_average_orders_per_customer(customer_type=nil)
+    (get_orders_count(customer_type)/get_customers_count(customer_type)).round(2)
   end
   def get_average_order_items_per_customer
-    (get_items_sold_count/get_customers_count).round(2)
+    (get_items_sold_count(customer_type)/get_customers_count(customer_type)).round(2)
   end
 end

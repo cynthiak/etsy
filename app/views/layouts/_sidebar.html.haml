@@ -4,7 +4,12 @@
     %li{class: current_page?(controller: 'orders', action: 'index') ? 'active' : ''}
       = link_to orders_path do
         %span.glyphicon.glyphicon-shopping-cart
-        Orders
+        Retail Orders
+
+    %li{class: current_page?(controller: 'orders', action: 'wholesale') ? 'active' : ''}
+      = link_to wholesale_path do
+        %span.glyphicon.glyphicon-shopping-cart
+        Wholesale Orders
 
     %li{class: current_page?(controller: 'order_items', action: 'index') ? 'active' : ''}
       = link_to order_items_path do

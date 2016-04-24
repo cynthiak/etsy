@@ -1,60 +1,60 @@
 #page-orders.page-content-body
   .page-content-body-section
-    %h1 Orders
+    %h1 Retail Orders
     .stats
       .stat-container
         .stat
           .stat-label Total Customers
           .stat-number
-            = get_customers_count
+            = get_customers_count("Retail")
             customers
 
       .stat-container
         .stat
           .stat-label Total Orders
           .stat-number
-            = get_orders_count
+            = get_orders_count("Retail")
             orders
 
       .stat-container
         .stat
           .stat-label Total Order Items
           .stat-number
-            = get_items_sold_count
+            = get_items_sold_count("Retail")
             items
 
       .stat-container
         .stat
           .stat-label Items Left to Ship
           .stat-number.red
-            = get_unshipped_items_count
+            = get_unshipped_items_count("Retail")
             to ship
     .stats
       .stat-container
         .stat
           .stat-label Total Revenue
-          .stat-number
-            = "$" + get_revenue.to_s
+          .stat-number.green
+            = "$" + get_revenue("Retail").to_s
 
       .stat-container
         .stat
           .stat-label Average Rev Per Order
-          .stat-number
-            = "$" + get_average_revenue_per_order.to_s + "/order"
+          .stat-number.green
+            = "$" + get_average_revenue_per_order("Retail").to_s + "/order"
 
       .stat-container
         .stat
           .stat-label Average Rev Per Order Item
-          .stat-number
-            = "$" + get_average_revenue_per_order_item.to_s + "/item"
+          .stat-number.green
+            = "$" + get_average_revenue_per_order_item("Retail").to_s + "/item"
 
       .stat-container
         .stat
           .stat-label Average Items Per Order
-          .stat-number= get_average_items_per_order
+          .stat-number= get_average_items_per_order("Retail")
 
   .page-content-body-section
-    %h1 Orders To Ship
+    %h1 Retail Orders To Ship
     %table#table-orders-toship.stripe.order-column
       %thead
         %tr
@@ -71,7 +71,7 @@
           %th Fee
           %th Net
       %tbody
-        - get_unshipped_orders.each do |order|
+        - get_unshipped_orders("Retail").each do |order|
           %tr
             %td.border-right
               %span.order-number= order.order_number
@@ -95,7 +95,7 @@
               = order.adjusted_net_order_amount? ? "$" + order.adjusted_net_order_amount.to_s : "$" + order.order_net.to_s
 
   .page-content-body-section
-    %h1 Completed Orders
+    %h1 Retail Completed Orders
     %table#table-orders-completed.stripe.order-column
       %thead
         %tr
@@ -113,7 +113,7 @@
           %th Fee
           %th Net
       %tbody
-        - get_shipped_orders.each do |order|
+        - get_shipped_orders("Retail").each do |order|
           %tr
             %td.border-right
               %span.order-number= order.order_number

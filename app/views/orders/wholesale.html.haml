@@ -6,7 +6,7 @@
         .stat
           .stat-label Total Customers
           .stat-number
-            = get_customers_count
+            = get_customers_count("Wholesale")
             customers
 
       .stat-container
@@ -20,14 +20,14 @@
         .stat
           .stat-label Total Order Items
           .stat-number
-            = get_items_sold_count
+            = get_items_sold_count("Wholesale")
             items
 
       .stat-container
         .stat
           .stat-label Items Left to Ship
           .stat-number.red
-            = get_unshipped_items_count
+            = get_unshipped_items_count("Wholesale")
             to ship
     .stats
       .stat-container

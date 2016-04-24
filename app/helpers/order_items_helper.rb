@@ -10,11 +10,7 @@ module OrderItemsHelper
   end
 
   def get_items_sold_count(order_type=nil)
-    if order_type
-      get_items_sold(order_type).sum(:quantity)
-    else
-      get_items_sold.sum(:quantity)
-    end
+    get_items_sold(order_type).sum(:quantity)
   end
 
   # Unshipped Order Items ##############
@@ -27,10 +23,6 @@ module OrderItemsHelper
   end
 
   def get_unshipped_items_count(order_type=nil)
-    if order_type
-      get_unshipped_items(order_type).sum(:quantity)
-    else
-      get_unshipped_items.sum(:quantity)
-    end
+    get_unshipped_items(order_type).sum(:quantity)
   end
 end

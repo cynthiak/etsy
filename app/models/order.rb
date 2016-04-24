@@ -27,6 +27,12 @@ class Order < ActiveRecord::Base
     CSV.foreach(file.path, headers:true) do |row|
       order = Order.find_by(order_number: row[1])
 
+      if order_number.include? "PO"
+        customer_type = "Wholesale"
+      else
+        customer_type = "Retail"
+      end
+
       customer = Customer.find_by(etsy_username: row[2])
       if !(customer)
         customer = Customer.create({
@@ -39,7 +45,8 @@ class Order < ActiveRecord::Base
             :ship_city=> row[11],
             :ship_state=> row[12],
             :ship_zipcode=> row[13],
-            :ship_country=> row[14]
+            :ship_country=> row[14],
+            :customer_type=> customer_type
           })
       end
 

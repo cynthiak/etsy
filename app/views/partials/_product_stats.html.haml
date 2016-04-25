@@ -8,12 +8,12 @@
     .stat
       .stat-label Total Rev
       .stat-number
-        = "$" + get_revenue.to_s
+        = "$" + number_with_delimiter(get_revenue).to_s
   .stat-container
     .stat
       .stat-label Average Rev Per Item
       .stat-number
-        = "$" + get_average_revenue.to_s + "/item"
+        = "$" + number_with_delimiter(get_average_revenue_per_item).to_s + "/item"
 
 %table#table-products.stripe.order-column
   %thead
@@ -39,32 +39,32 @@
         %td.border-right=product_type.get_order_items_count
 
         %td
-          %strong= "$" + product_type.get_revenue.to_s
-        %td= "($" + product_type.get_expenses.to_s + ")"
-        %td.border-right= "$" + product_type.get_cost_of_sold.to_s
+          %strong= "$" + number_with_delimiter(product_type.get_revenue).to_s
+        %td= "($" + number_with_delimiter(product_type.get_expenses).to_s + ")"
+        %td.border-right= "$" + number_with_delimiter(product_type.get_cost_of_sold).to_s
         
         -if product_type.get_profit < 0
           %td.red
-            = "-$" + product_type.get_profit.abs.to_s
+            = "-$" + number_with_delimiter(product_type.get_profit.abs).to_s
         -else
           %td.green
-            = "$" + product_type.get_profit.to_s
+            = "$" + number_with_delimiter(product_type.get_profit).to_s
         -if product_type.get_margin < 0
           %td.border-right.red
-            = "-$" + product_type.get_margin.abs.to_s
+            = "-$" + number_with_delimiter(product_type.get_margin.abs).to_s
         -else
           %td.border-right.green
-            = "$" + product_type.get_margin.to_s
+            = "$" + number_with_delimiter(product_type.get_margin).to_s
 
-        %td.green= "$" + product_type.get_average_revenue.to_s
-        %td.red= "$" + product_type.get_average_cost_of_sold.to_s
+        %td.green= "$" + number_with_delimiter(product_type.get_average_revenue_per_item).to_s
+        %td.red= "$" + number_with_delimiter(product_type.get_average_cost_of_sold).to_s
 
         -if product_type.get_average_margin < 0
           %td.border-right.red
-            = "-$" + product_type.get_average_margin.abs.to_s
+            = "-$" + number_with_delimiter(product_type.get_average_margin.abs).to_s
         -else
           %td.border-right.green
-            = "$" + product_type.get_average_margin.to_s
+            = "$" + number_with_delimiter(product_type.get_average_margin).to_s
 
 
 :javascript

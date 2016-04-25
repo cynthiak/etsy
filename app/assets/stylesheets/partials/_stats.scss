@@ -9,17 +9,24 @@
 }
 .stat-container {
   float: left;
-  width: 20%;
+  width: 16.66666%;
   display: inline-block;
   padding-right: 10px;
   margin-bottom: 10px;
+  overflow: auto;
 }
-.stat-container:nth-child(5n) {
+.stat-container:nth-child(6n) {
   padding-right: 0;
 }
 .stat {
+  border-top: 4px solid #ffffff;
   background: white;
-  padding: 20px;
+  padding: 18px 20px 22px 20px;
+  clear: both;
+  overflow: auto;
+}
+a:hover .stat {
+  border-top: 4px solid $pink;
 }
 
 .stat-label {
@@ -35,4 +42,22 @@
   font-size: 18px;
   text-transform: lowercase;
   line-height: 24px;
+}
+
+.stat-stats {
+  margin-top: 5px;
+  line-height: 1.6rem;
+}
+.stat-stats-row {
+  display: block;
+  margin-bottom: 3px;
+}
+.stat-stats-row-number {
+  width: 38px;
+  display: inline-block;
+  font-weight: bold;
+}
+.stat-stats-row-label {
+  display: inline-block;
+  color: #9d9d9d;
 }

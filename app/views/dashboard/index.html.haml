@@ -7,20 +7,12 @@
           .stat-label Orders Left to Ship
           .stat-number.red
             #{pluralize(get_unshipped_orders_count, 'order')}
-      .stat-container
-        .stat
-          .stat-label Total Items To Ship
-          .stat-number.red
-            #{pluralize(get_unshipped_items_count, 'item')}
-    .stats
-      - get_product_types.each do |product_type|
-        -if product_type.get_unshipped_items_count > 0
-          .stat-container
-            .stat
-              .stat-label 
-                =product_type.product_type
-              .stat-number
-                #{pluralize(product_type.get_unshipped_items_count, product_type.product_type)}
+      = link_to order_items_path do
+        .stat-container
+          .stat
+            .stat-label Total Items To Ship
+            .stat-number.red
+              #{pluralize(get_unshipped_items_count, 'item')}
 
   .page-content-body-section
     %h1 Orders
@@ -30,32 +22,72 @@
           .stat-label Total Customers
           .stat-number
             #{pluralize(get_customers_count, 'customer')}
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= get_customers_count("Retail")
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-number= get_customers_count("Wholesale")
+              %span.stat-stats-row-label wholesale
       .stat-container
         .stat
           .stat-label Total Orders
           .stat-number
             #{pluralize(get_orders_count, 'order')}
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= get_orders_count("Retail")
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-number= get_orders_count("Wholesale")
+              %span.stat-stats-row-label wholesale
       .stat-container
         .stat
           .stat-label Total Order Items
           .stat-number
-            #{pluralize(get_items_sold_count, 'item')}
-    .stats
+            #{pluralize(number_with_delimiter(get_items_sold_count), 'item')}
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= get_items_sold_count("Retail")
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-number= get_items_sold_count("Wholesale")
+              %span.stat-stats-row-label wholesale
       .stat-container
         .stat
-          .stat-label Average Orders Per Customer
+          .stat-label Avg Orders/Customer
           .stat-number
-            = get_average_orders_per_customer.to_s + "/customer"
+            = get_average_orders_per_customer.to_s + " order/customer"
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= get_average_orders_per_customer("Retail")
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-number= get_average_orders_per_customer("Wholesale")
+              %span.stat-stats-row-label wholesale
       .stat-container
         .stat
-          .stat-label Average Order Items Per Customer
+          .stat-label Avg Items/Customer
           .stat-number
-            = get_average_order_items_per_customer.to_s + "/customer"
+            = get_average_order_items_per_customer.to_s + " items/customer"
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= get_average_order_items_per_customer("Retail")
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-number= get_average_order_items_per_customer("Wholesale")
+              %span.stat-stats-row-label wholesale
       .stat-container
         .stat
-          .stat-label Average Items Per Order
-          .stat-number= get_average_items_per_order.to_s + "/order"
-      
+          .stat-label Avg Items/Order
+          .stat-number= get_average_items_per_order.to_s + " items/order"
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= get_average_items_per_order("Retail")
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-number= get_average_items_per_order("Wholesale")
+              %span.stat-stats-row-label wholesale
 
 
   .page-content-body-section
@@ -66,20 +98,20 @@
           .stat-label Profit
           -if get_profit < 0
             .stat-number.red
-              = "-$" + get_profit.abs.to_s
+              = "-$" + number_with_delimiter(get_profit.abs).to_s
           -else
-            .stat-number.green
-              = "$" + get_profit.to_s
+            .stat-number
+              = "$" + number_with_delimiter(get_profit).to_s
       .stat-container
         .stat
           .stat-label Total Revenue
-          .stat-number
-            = "$" + get_revenue.to_s
+          .stat-number.green
+            = "$" + number_with_delimiter(get_revenue).to_s
       .stat-container
         .stat
           .stat-label Total Expenses
-          .stat-number
-            = "$" + get_expenses_number.to_s
+          .stat-number.red
+            = "$" + number_with_delimiter(get_expenses_number).to_s
     -if get_profit < 0
       .stats
         - get_product_types.each do |product_type|
@@ -88,6 +120,22 @@
               .stat-label= product_type
               .stat-number
                 #{pluralize(get_number_of_items_to_sell_by_type(product_type), product_type)}
+    .stats
+      .stat-container
+        .stat
+          .stat-label Avg Monthly Profit
+          -if get_profit < 0
+            .stat-number.red= "$" + number_with_delimiter(get_average_monthly_profit).to_s
+          -else
+            .stat-number= "$" + number_with_delimiter(get_average_monthly_profit).to_s
+      .stat-container
+        .stat.green
+          .stat-label Avg Monthly Revenue
+          .stat-number= "$" + number_with_delimiter(get_average_monthly_revenue).to_s
+      .stat-container
+        .stat.red
+          .stat-label Avg Monthly Expenses
+          .stat-number= "$" + number_with_delimiter(get_average_monthly_expenses).to_s
 
     #chart-profit-by-month.chart
 
@@ -98,22 +146,22 @@
         .stat
           .stat-label Total Revenue
           .stat-number
-            = "$" + get_revenue.to_s
+            = "$" + number_with_delimiter(get_revenue).to_s
       .stat-container
         .stat
           .stat-label Average Rev Per Order
           .stat-number
-            = "$" + get_average_revenue_per_order.to_s + "/order"
+            = "$" + number_with_delimiter(get_average_revenue_per_order).to_s + "/order"
       .stat-container
         .stat
           .stat-label Average Rev Per Order Item
           .stat-number
-            = "$" + get_average_revenue_per_order_item.to_s + "/item"
+            = "$" + number_with_delimiter(get_average_revenue_per_order_item).to_s + "/item"
       .stat-container
         .stat
           .stat-label Average Rev Per Customer
           .stat-number
-            = "$" + get_average_revenue_per_customer.to_s + "/customer"
+            = "$" + number_with_delimiter(get_average_revenue_per_customer).to_s + "/customer"
 
     #chart-cumulative-revenue-by-day-of-month.chart
 
@@ -126,7 +174,7 @@
         - get_months.each do |month|
           %tr
             %td= month.strftime "%Y - %m - %B "
-            %td= "$" + get_revenue_by_month(month).to_s
+            %td= "$" + number_with_delimiter(get_revenue_by_month(month)).to_s
 
 
   .page-content-body-section
@@ -211,7 +259,7 @@
           type: 'area',
           name: 'Profit',
           data: #{get_profit_array_by_months},
-          color: '#8DD785',
+          color: 'gray',
           negativeColor: '#FF6060',
           marker: {
             enabled: false
@@ -221,7 +269,7 @@
         {
           name: 'Cost',
           data: #{get_cost_array_by_months},
-          color: '#FF9175',
+          color: '#FF4343',
           marker: {
             enabled: false
           }
@@ -229,7 +277,7 @@
         {
           name: 'Revenue',
           data: #{get_revenue_array_by_months},
-          color: '#00A0E3',
+          color: '#70DE64',
           marker: {
             enabled: false
           }

@@ -3,7 +3,7 @@
     .stat
       .stat-label Total Expenses
       .stat-number
-        = "$" + get_expenses_number.to_s
+        = "$" + number_with_delimiter(get_expenses_number).to_s
 
 
 
@@ -16,7 +16,7 @@
     - get_expense_types.each do |expense_type|
       %tr
         %td= expense_type
-        %td= "$" + get_expenses_by_type(expense_type).to_s
+        %td= "$" + number_with_delimiter(get_expenses_by_type(expense_type)).to_s
 
 
 

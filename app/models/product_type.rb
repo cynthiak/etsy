@@ -35,7 +35,7 @@ class ProductType < ActiveRecord::Base
     OrderItem.joins(:product).where(products: {product_type_id: self.id}).sum(:item_total).round(2)
   end
 
-  def get_average_revenue
+  def get_average_revenue_per_item
     if self.get_revenue > 0
       (self.get_revenue / self.get_order_items_count).round(2)
     else

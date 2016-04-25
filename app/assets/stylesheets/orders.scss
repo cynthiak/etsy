@@ -7,3 +7,43 @@
     width: 100px;
   }
 }
+
+/***************** ORDER PAGE ******************/
+.order-title-tagline {
+  color: #9d9d9d;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+
+.order-table {
+  width: 100%;
+}
+.order-table td{
+  padding: 0 20px;
+  &:first-child {
+    padding-left: 0;
+  }
+}
+.border-right {
+  border-right: 1px solid #ddd;
+}
+
+
+.order-table-label {
+  font-weight: bold;
+  display: block;
+}
+.order-table-border-top td {
+  border-top: 1px solid #dddddd;
+  padding-top: 5px;
+}
+.order-table-align-right {
+  text-align: right;
+}
+
+.order-table-net {
+  color: $green;
+  font-size: 3.0rem;
+  font-weight: 600;
+}

@@ -1,0 +1,186 @@
+.page-order.page-content-body{class: "#page-order-" + @order.id.to_s}
+  .page-content-body-section
+    .page-navigation
+      - if @order.order_type == "Wholesale"
+        = link_to wholesale_path do
+          « Back to wholesale orders
+      - else
+        = link_to orders_path do
+          « Back to retail orders
+    %h1.order-title
+      = @order.sale_date
+      = " - " + @order.order_number.to_s
+      = " - " + @order.customer.first_name + " " + @order.customer.last_name
+      =link_to edit_admin_order_url(@order) do
+        %span.glyphicon.glyphicon-pencil.edit-icon
+      .order-title-tagline
+        =@order.order_type
+
+  .page-content-body-section-box
+    %table.order-table
+      %tr
+        %td.border-right
+          %span.order-table-label Order Number
+          %span.order-table-info
+            = @order.order_number
+          %br
+          %br
+          %span.order-table-label Number Of Items
+          %span.order-table-info= @order.number_of_items
+        %td.border-right
+          %span.order-table-label Sale Date
+          %span.order-table-info= @order.sale_date
+          %br
+          %br
+          %span.order-table-label Ship Date
+          %span.order-table-info
+            - if @order.date_shipped
+              = @order.date_shipped
+            - else
+              %span.secondary Not shipped yet
+        %td.border-right
+          %table
+            %tr
+              %td
+                %strong Order Value
+              %td.order-table-align-right= '$' + @order.order_value.to_s
+            %tr
+              %td 
+                %span.secondary + Shipping
+              %td.order-table-align-right
+                %span.secondary= '$' + @order.shipping.to_s
+            %tr
+              %td
+                %span.secondary+ Sales Tax
+              %td.order-table-align-right
+                %span.secondary= '$' + @order.sales_tax.to_s
+            - if @order.inperson_discount
+              %tr.order-table-border-top
+                %td 
+                  %strong In Person Discount
+                %td.order-table-align-right
+                  = '$' +  @order.inperson_discount.to_s
+            %tr.order-table-border-top
+              %td 
+                %strong Order Total
+              %td.order-table-align-right
+                = '$' +  @order.order_total.to_s
+            %tr
+              %td
+                %span.secondary - Card Processing Fees
+              %td.order-table-align-right
+                %span.secondary= '$' + @order.card_processing_fees.to_s
+            %tr.order-table-border-top
+              %td
+                %strong Order Net
+              %td.order-table-align-right.order-table-net= '$' + @order.order_net.to_s
+
+        -if @order.adjusted_order_total
+          %td
+            %table
+              %tr
+                %td
+                  %strong Order Value
+                %td.order-table-align-right= '$' + @order.order_value.to_s
+              %tr
+                %td
+                  %span.secondary - Sales Tax
+                %td.order-table-align-right
+                  %span.secondary= @order.refund
+              - if @order.inperson_discount
+                %tr.order-table-border-top
+                  %td 
+                    %strong In Person Discount
+                  %td.order-table-align-right
+                    = '$' +  @order.inperson_discount.to_s
+              %tr.order-table-border-top
+                %td 
+                  %strong Order Total
+                %td.order-table-align-right
+                  = '$' +  @order.adjusted_order_total.to_s
+              %tr
+                %td
+                  %span.secondary - Card Processing Fees
+                %td.order-table-align-right
+                  %span.secondary= '$' + @order.adjusted_card_processing_fees.to_s
+              %tr.order-table-border-top
+                %td
+                  %strong Order Net
+                %td.order-table-align-right.order-table-net= '$' + @order.adjusted_net_order_amount.to_s
+        %td.border-right
+          %span.order-table-label Promo Code
+          %span.order-table-info
+            - if @order.coupon_code
+              = @order.coupon_code
+            - else
+              None
+          %br
+          %br
+          %span.secondary
+            = @order.payment_method
+            %br
+            = @order.payment_type
+            %br
+            = @order.order_source
+        %td
+          %span.order-table-label
+            =link_to edit_admin_customer_url(@order.customer) do
+              = @order.customer.first_name + " " + @order.customer.last_name
+          %span.order-table-info.secondary
+            = @order.customer.etsy_username
+            %br
+            - if @order.customer.email
+              = @order.customer.email
+              %br
+          %span.order-table-info
+            = @order.customer.ship_name
+            %br
+            = @order.customer.ship_address1
+            %br
+            - if @order.customer.ship_address2
+              = @order.customer.ship_address2
+              %br
+            = @order.customer.ship_city + ", " + @order.customer.ship_state + " " + @order.customer.ship_zipcode
+            %br
+            = @order.customer.ship_country
+
+  .page-content-body-section
+    %table#table-order-items.stripe.order-column
+      %thead
+        %tr
+          %th Listing
+
+          %th Product
+          %th Variation
+
+          %th Quantity
+          %th Price
+          %th Coupon Discount
+
+          %th Item Total
+
+      %tbody
+        - @order_items.each do |order_item|
+          %tr
+            %td.border-right= order_item.etsy_listing_variation
+
+            %td= order_item.product.description
+            %td.border-right
+              - if order_item.variation
+                = order_item.variation.variation_name
+
+            %td= order_item.quantity
+            %td= order_item.price
+            %td.border-right= order_item.coupon_discount
+
+            %td= order_item.item_total
+
+          
+
+:javascript
+  $("#table-order-items").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [4, 'desc'],
+    orderClasses: true
+  });

@@ -75,7 +75,7 @@
           %tr
             %td.border-right
               %span.order-number
-                = link_to edit_admin_order_url(order), target: "_blank" do
+                = link_to order_url(order), target: "_blank" do
                   - if order.order_number
                     = order.order_number
                   - else
@@ -123,7 +123,7 @@
           %tr
             %td.border-right
               %span.order-number
-                = link_to edit_admin_order_url(order), target: "_blank" do
+                = link_to order_url(order), target: "_blank" do
                   - if order.order_number != ""
                     = order.order_number
                   - else

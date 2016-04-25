@@ -41,6 +41,8 @@
             %td
               = customer.first_name
               = customer.last_name
+              = link_to edit_admin_customer_url(customer) do
+                %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right= customer.etsy_username
             %td= customer.get_first_purchase_date
             %td.border-right= customer.get_last_purchase_date
@@ -91,6 +93,8 @@
             %td
               = customer.first_name
               = customer.last_name
+              = link_to edit_admin_customer_url(customer) do
+                %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right= customer.etsy_username
             %td= customer.get_first_purchase_date
             %td.border-right= customer.get_last_purchase_date

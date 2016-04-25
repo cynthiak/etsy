@@ -39,7 +39,10 @@
               - product_type.get_products.each do |product|
                 - if product.get_unshipped_order_items_count > 0
                   %tr
-                    %td= product.description
+                    %td
+                      = product.description
+                      = link_to edit_admin_product_url(product), target: "_blank" do
+                        %span.glyphicon.glyphicon-pencil.edit-icon
                     %td= product.get_unshipped_order_items_count("Retail") == 0 ? "-" : product.get_unshipped_order_items_count("Retail")
                     %td= product.get_unshipped_order_items_count("Wholesale") == 0 ? "-" : product.get_unshipped_order_items_count("Wholesale")
                     %td= product.get_unshipped_order_items_count

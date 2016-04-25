@@ -60,8 +60,14 @@
           %tbody
             - product_type.get_products.each do |product|
               %tr
-                %td.border-right= product.product_type.product_type
-                %td.border-right= product.description
+                %td.border-right
+                  = product.product_type.product_type
+                  = link_to edit_admin_product_type_url(product_type) do
+                    %span.glyphicon.glyphicon-pencil.edit-icon
+                %td.border-right
+                  = product.description
+                  = link_to edit_admin_product_url(product) do
+                    %span.glyphicon.glyphicon-pencil.edit-icon
                 %td= product.get_order_items_count
                 %td= "$" + product.get_total_sales.to_s
                 %td= "$" + product.get_average_sales.to_s

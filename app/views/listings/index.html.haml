@@ -29,7 +29,10 @@
               %td
               %td
               %td.border-right
-            %td=listing.etsy_listing_variation
+            %td
+              =listing.etsy_listing_variation
+              = link_to edit_admin_listing_url(listing) do
+                %span.glyphicon.glyphicon-pencil.edit-icon
 
 :javascript
   $("#table-listings").DataTable({

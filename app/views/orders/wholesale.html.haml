@@ -75,14 +75,16 @@
           %tr
             %td.border-right
               %span.order-number
-                - if order.order_number
-                  = order.order_number
-                - else
-                  = order.id
+                = link_to edit_admin_order_url(order), target: "_blank" do
+                  - if order.order_number
+                    = order.order_number
+                  - else
+                    = order.id
             %td.border-right= order.sale_date
             %td.border-right
-              = order.customer.first_name
-              = order.customer.last_name
+              = link_to edit_admin_customer_url(order.customer), target: "_blank" do
+                = order.customer.first_name
+                = order.customer.last_name
             %td.border-right= order.number_of_items
             %td= "$" + order.order_value.to_s
             %td
@@ -121,15 +123,17 @@
           %tr
             %td.border-right
               %span.order-number
-                - if order.order_number != ""
-                  = order.order_number
-                - else
-                  = order.id
+                = link_to edit_admin_order_url(order), target: "_blank" do
+                  - if order.order_number != ""
+                    = order.order_number
+                  - else
+                    = order.id
             %td= order.sale_date
             %td.border-right= order.date_shipped
             %td.border-right
-              = order.customer.first_name
-              = order.customer.last_name
+              = link_to edit_admin_customer_url(order.customer), target: "_blank" do
+                = order.customer.first_name
+                = order.customer.last_name
             %td.border-right= order.number_of_items
             %td= "$" + order.order_value.to_s
             %td

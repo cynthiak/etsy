@@ -22,20 +22,24 @@
       %th Items Sold
 
       %th Revenue
-      %th Materials Bought
+      %th Materials
       %th Cost Of Sold
 
       %th Profit
       %th Margin
 
-      %th Avg Rev Per Item
+      %th Avg Rev/Item
       %th Avg Cost Of Sold
-      %th Avg Margin Per Item
+      %th Avg Margin/Item
 
   %tbody
     - get_product_types.each do |product_type|
       %tr
-        %td.border-right=product_type.product_type
+        %td.border-right
+          =product_type.product_type
+          =link_to edit_admin_product_type_url(product_type), target: "_blank" do
+            %span.glyphicon.glyphicon-pencil.edit-icon
+                        
         %td.border-right=product_type.get_order_items_count
 
         %td

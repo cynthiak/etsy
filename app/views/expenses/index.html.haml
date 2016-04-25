@@ -17,8 +17,10 @@
         - get_expenses.each do |expense|
           %tr
             %td= expense.date
-            %td
-              = expense.name
+            %td.table-expenses-name
+              = expense.name 
+              = link_to edit_admin_expense_url(expense) do
+                %span.glyphicon.glyphicon-pencil.edit-icon
               %span.secondary= expense.description
             %td= expense.expense_type
             %td= expense.vendor

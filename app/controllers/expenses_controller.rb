@@ -3,9 +3,9 @@ class ExpensesController < ApplicationController
   end
 
   def new
-    name = "Shipping"
-    expense_type = "Shipping"
-    vendor = "USPS"
+    name = ""
+    expense_type = "Materials"
+    vendor = "Amazon"
     @product_types = ProductType.all.order(:product_type)
     @expense_types = Expense.order(:expense_type).uniq.pluck(:expense_type)
 

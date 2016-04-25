@@ -41,7 +41,7 @@ class OrdersController < ApplicationController
 
   def import
     Order.import(params[:file])
-    redirect_to orders_url, notice: "Orders imported."
+    redirect_to orders_url(anchor: "import_order_items"), notice: "Orders imported."
   end
 
   def import_square

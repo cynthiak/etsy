@@ -27,7 +27,7 @@ class Order < ActiveRecord::Base
     CSV.foreach(file.path, headers:true) do |row|
       order = Order.find_by(order_number: row[1])
 
-      if order_number.include? "PO"
+      if row[1].include? "PO"
         customer_type = "Wholesale"
       else
         customer_type = "Retail"

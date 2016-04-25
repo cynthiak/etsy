@@ -23,7 +23,12 @@ class OrderItem < ActiveRecord::Base
       # Find order
       order = Order.find_by(order_number: row[23])
       if !(order)
-        order = Order.find_by(sale_date: row[0], username: row[2]).first
+        order = Order.find_by(sale_date: row[0], username: row[2])
+        if order
+          order_id = order.id
+        else
+          order_id = nil
+        end
       else
         order_id = order.id
       end

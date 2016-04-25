@@ -11,7 +11,7 @@
     li > a{
       border-radius: 0px;
       color: #7F8694;
-      padding: 8px 20px 8px 20px;
+      padding: 6px 20px;
       border-left: 5px solid transparent;
 
       span.glyphicon {
@@ -35,6 +35,16 @@
         color: #fff;
       }
     }
+  }
+
+
+  .sidebar-menu-item-count {
+    background: #7F8694;
+    padding: 0px 10px;
+    border-radius: 3px;
+    margin-left: 8px;
+    color: #1D2027;
+    float: right;
   }
 
 

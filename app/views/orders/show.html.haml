@@ -11,7 +11,7 @@
       = @order.sale_date
       = " - " + @order.order_number.to_s
       = " - " + @order.customer.first_name + " " + @order.customer.last_name
-      =link_to edit_admin_order_url(@order) do
+      =link_to edit_admin_order_url(@order), target: "_blank" do
         %span.glyphicon.glyphicon-pencil.edit-icon
       .order-title-tagline
         =@order.order_type

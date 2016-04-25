@@ -25,32 +25,45 @@
 
       .stat-container
         .stat
+          .stat-label Orders Left to Ship
+          .stat-number.red
+            = get_unshipped_orders_count("Retail")
+            orders
+
+      .stat-container
+        .stat
           .stat-label Items Left to Ship
           .stat-number.red
             = get_unshipped_items_count("Retail")
-            to ship
+            items
     .stats
       .stat-container
         .stat
           .stat-label Total Revenue
           .stat-number.green
-            = "$" + get_revenue("Retail").to_s
+            = "$" + number_with_delimiter(get_revenue("Retail")).to_s
 
       .stat-container
         .stat
-          .stat-label Average Rev Per Order
+          .stat-label Average Rev / Customer
           .stat-number.green
-            = "$" + get_average_revenue_per_order("Retail").to_s + "/order"
+            = "$" + number_with_delimiter(get_average_revenue_per_customer("Retail")).to_s + "/customer"
 
       .stat-container
         .stat
-          .stat-label Average Rev Per Order Item
+          .stat-label Average Rev / Order
           .stat-number.green
-            = "$" + get_average_revenue_per_order_item("Retail").to_s + "/item"
+            = "$" + number_with_delimiter(get_average_revenue_per_order("Retail")).to_s + "/order"
 
       .stat-container
         .stat
-          .stat-label Average Items Per Order
+          .stat-label Average Rev / Item
+          .stat-number.green
+            = "$" + number_with_delimiter(get_average_revenue_per_order_item("Retail")).to_s + "/item"
+
+      .stat-container
+        .stat
+          .stat-label Average Items / Order
           .stat-number= get_average_items_per_order("Retail")
 
   .page-content-body-section
@@ -147,7 +160,7 @@
 
   %hr
 
-  .page-content-body-section
+  .page-content-body-section#import_orders
     %h1 Import Orders from Etsy
     = form_tag import_orders_path, multipart: true do
       = file_field_tag :file

@@ -4,12 +4,16 @@
     %li{class: current_page?(controller: 'orders', action: 'index') ? 'active' : ''}
       = link_to orders_path do
         %span.glyphicon.glyphicon-shopping-cart
-        Retail Orders
+        Retail
+        -if get_unshipped_orders_count("Retail") > 0
+          %span.sidebar-menu-item-count=get_unshipped_orders_count("Retail")
 
     %li{class: current_page?(controller: 'orders', action: 'wholesale') ? 'active' : ''}
       = link_to wholesale_path do
         %span.glyphicon.glyphicon-shopping-cart
-        Wholesale Orders
+        Wholesale
+        -if get_unshipped_orders_count("Wholesale") > 0
+          %span.sidebar-menu-item-count=get_unshipped_orders_count("Wholesale")
 
     %li{class: current_page?(controller: 'order_items', action: 'index') ? 'active' : ''}
       = link_to order_items_path do
@@ -40,6 +44,13 @@
       = link_to giveaways_path do
         %span.glyphicon.glyphicon-gift
         Giveaways
+
+    %br
+
+    %li
+      = link_to orders_path(anchor: "import_orders") do
+        %span.glyphicon.glyphicon-plus
+        Upload Orders
 
     %br
 

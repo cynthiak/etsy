@@ -21,11 +21,21 @@ class Customer < ActiveRecord::Base
   end
 
   def get_first_purchase_date
-    Order.where(customer: self).order(sale_date: :asc).first.sale_date
+    order = Order.where(customer: self).order(sale_date: :asc).first
+    if order
+      order.sale_date
+    else
+      nil
+    end
   end
 
   def get_last_purchase_date
-    Order.where(customer: self).order(sale_date: :desc).first.sale_date
+    order = Order.where(customer: self).order(sale_date: :desc).first
+    if order
+      order.sale_date
+    else
+      nil
+    end
   end
 
   def get_orders

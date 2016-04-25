@@ -93,7 +93,7 @@
             %td
               = customer.first_name
               = customer.last_name
-              = link_to edit_admin_customer_url(customer) do
+              = link_to edit_admin_customer_url(customer), target: "_blank" do
                 %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right= customer.etsy_username
             %td= customer.get_first_purchase_date

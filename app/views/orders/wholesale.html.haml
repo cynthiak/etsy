@@ -34,19 +34,19 @@
         .stat
           .stat-label Total Revenue
           .stat-number.green
-            = "$" + get_revenue("Wholesale").to_s
+            = "$" + number_with_delimiter(get_revenue("Wholesale")).to_s
 
       .stat-container
         .stat
           .stat-label Average Rev Per Order
           .stat-number.green
-            = "$" + get_average_revenue_per_order("Wholesale").to_s + "/order"
+            = "$" + number_with_delimiter(get_average_revenue_per_order("Wholesale")).to_s + "/order"
 
       .stat-container
         .stat
           .stat-label Average Rev Per Order Item
           .stat-number.green
-            = "$" + get_average_revenue_per_order_item("Wholesale").to_s + "/item"
+            = "$" + number_with_delimiter(get_average_revenue_per_order_item("Wholesale")).to_s + "/item"
 
       .stat-container
         .stat
@@ -82,9 +82,10 @@
                     = order.id
             %td.border-right= order.sale_date
             %td.border-right
+              = order.customer.first_name
+              = order.customer.last_name
               = link_to edit_admin_customer_url(order.customer), target: "_blank" do
-                = order.customer.first_name
-                = order.customer.last_name
+                %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right= order.number_of_items
             %td= "$" + order.order_value.to_s
             %td
@@ -131,9 +132,10 @@
             %td= order.sale_date
             %td.border-right= order.date_shipped
             %td.border-right
+              = order.customer.first_name
+              = order.customer.last_name
               = link_to edit_admin_customer_url(order.customer), target: "_blank" do
-                = order.customer.first_name
-                = order.customer.last_name
+                %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right= order.number_of_items
             %td= "$" + order.order_value.to_s
             %td

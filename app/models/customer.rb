@@ -42,6 +42,10 @@ class Customer < ActiveRecord::Base
     orders = Order.where(customer: self)
   end
 
+  def get_unshipped_orders_count
+    unshipped_orders = Order.where(customer: self, date_shipped: nil).count
+  end
+
   def get_order_items
     OrderItem.joins(:order).where(orders: {customer: self})
   end
@@ -55,8 +59,16 @@ class Customer < ActiveRecord::Base
   end
 
   def get_total_spend
-    # Does not subtract fees
+    # Accounts for fees
     (get_orders.sum(:order_net) - get_orders.sum(:refund)).round(2)
+  end
+
+  def get_average_items_per_order
+    (get_total_order_items_count/get_total_order_count).round(2)
+  end
+
+  def get_average_spend_per_order
+    (get_total_spend/get_total_order_count).round(2)
   end
 
 end

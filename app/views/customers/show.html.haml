@@ -1,0 +1,132 @@
+.page-customer.page-content-body{class: "#page-customer-" + @customer.id.to_s}
+  .page-content-body-section
+    .page-navigation
+      = link_to customer_path do
+        « Back to customers
+    %h1.order-title
+      =link_to customer_url(@customer) do
+        = @customer.first_name
+        = @customer.last_name
+        = "(" + @customer.etsy_username + ")"
+
+      =link_to edit_admin_customer_url(@customer), target: "_blank" do
+        %span.glyphicon.glyphicon-pencil.edit-icon
+      .order-title-tagline
+        =@customer.customer_type
+
+  .page-content-body-section-box
+    %table.customer-table
+      %tr
+        %td
+          %span.customer-table-label Total Orders
+          %span.customer-table-info= @customer.get_total_order_count
+          %br
+          %br
+          %span.customer-table-label Unshipped Orders
+          %span.customer-table-info.red= @customer.get_unshipped_orders_count
+        %td.border-right
+          %span.customer-table-label Total Items
+          %span.customer-table-info
+            = @customer.get_total_order_items_count
+            items/order
+          %br
+          %br
+          %br
+          %span.customer-table-label Average Items Per Order
+          %span.customer-table-info= @customer.get_average_items_per_order
+        %td.border-right
+          %span.customer-table-label Total Revenue
+          %span.customer-table-info.customer-table-net= "$" + @customer.get_total_spend.to_s
+          %br
+          %br
+          %span.customer-table-label Average Revenue Per Order
+          %span.customer-table-info= "$" + @customer.get_average_spend_per_order.to_s
+        %td.border-right
+          %span.customer-table-label First Purchase
+          %span.customer-table-info= @customer.get_first_purchase_date
+          %br
+          %br
+          %span.customer-table-label Last Purchase
+          %span.customer-table-info= @customer.get_last_purchase_date
+        %td
+          %span.customer-table-label
+            =link_to customer_url(@customer) do
+              = @customer.first_name + " " + @customer.last_name
+          %span.customer-table-info.secondary
+            = @customer.etsy_username
+            %br
+            - if @customer.email
+              = @customer.email
+              %br
+          %span.customer-table-info
+            = @customer.ship_name
+            %br
+            = @customer.ship_address1
+            %br
+            - if @customer.ship_address2
+              = @customer.ship_address2
+              %br
+            = @customer.ship_city + ", " + @customer.ship_state + " " + @customer.ship_zipcode
+            %br
+            = @customer.ship_country
+
+  .page-content-body-section
+    %table#table-customer-orders.stripe.order-column
+      %thead
+        %tr
+          %th Order
+          %th Sold
+          %th Shipped
+          %th Items
+          %th Value
+          %th Coupon
+          %th Shipping
+          %th Tax
+          %th Refund
+          %th Total
+          %th Fee
+          %th Net
+          %th Payment
+      %tbody
+        - @orders.each do |order|
+          %tr
+            %td.border-right
+              %span.order-number
+                = link_to order_url(order) do
+                  - if order.order_number != ""
+                    = order.order_number 
+                  - else
+                    = order.id
+            %td= order.sale_date
+            %td.border-right
+              - if order.date_shipped
+                = order.date_shipped
+              - else
+                %span.red Unshipped
+            %td.border-right= order.number_of_items
+            %td= "$" + order.order_value.to_s
+            %td
+              = order.coupon_code
+              %span.secondary= order.coupon_details
+            %td= "$" + order.shipping.to_s
+            %td= "$" + order.sales_tax.to_s
+            %td.border-right= order.refund? ? "$" + order.refund.to_s : ""
+            %td
+              = order.refund? ? "$" + order.adjusted_order_total.to_s : "$" + order.order_total.to_s
+            %td
+              = order.adjusted_card_processing_fees? ? "$" + order.adjusted_card_processing_fees.to_s : "$" + order.card_processing_fees.to_s
+            %td.border-right
+              = order.refund? ? "$" + order.adjusted_net_order_amount.to_s : "$" + order.order_net.to_s
+            %td
+              %span.secondary= order.payment_type + " - " + order.order_source
+  
+
+          
+
+:javascript
+  $("#table-customer-orders").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'desc'],
+    orderClasses: true
+  });

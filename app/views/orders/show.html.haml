@@ -9,8 +9,13 @@
           « Back to retail orders
     %h1.order-title
       = @order.sale_date
-      = " - " + @order.order_number.to_s
-      = " - " + @order.customer.first_name + " " + @order.customer.last_name
+      - if @order.order_number != ""
+        = " - " + @order.order_number.to_s
+      - else
+        = " - " + @order.id.to_s
+      \ -
+      =link_to customer_url(@order.customer) do
+        = @order.customer.first_name + " " + @order.customer.last_name
       =link_to edit_admin_order_url(@order), target: "_blank" do
         %span.glyphicon.glyphicon-pencil.edit-icon
       .order-title-tagline
@@ -22,7 +27,11 @@
         %td.border-right
           %span.order-table-label Order Number
           %span.order-table-info
-            = @order.order_number
+            =link_to order_url(@order) do
+              - if @order.order_number != ""
+                = @order.order_number.to_s
+              - else
+                = @order.id
           %br
           %br
           %span.order-table-label Number Of Items
@@ -37,7 +46,7 @@
             - if @order.date_shipped
               = @order.date_shipped
             - else
-              %span.secondary Not shipped yet
+              %span.red Not shipped yet
         %td.border-right
           %table
             %tr
@@ -48,18 +57,18 @@
               %td 
                 %span.secondary + Shipping
               %td.order-table-align-right
-                %span.secondary= '$' + @order.shipping.to_s
+                %span.secondary= '+$' + @order.shipping.to_s
             %tr
               %td
                 %span.secondary+ Sales Tax
               %td.order-table-align-right
-                %span.secondary= '$' + @order.sales_tax.to_s
+                %span.secondary= '+$' + @order.sales_tax.to_s
             - if @order.inperson_discount
               %tr.order-table-border-top
                 %td 
                   %strong In Person Discount
                 %td.order-table-align-right
-                  = '$' +  @order.inperson_discount.to_s
+                  = '-$' +  @order.inperson_discount.to_s
             %tr.order-table-border-top
               %td 
                 %strong Order Total
@@ -69,7 +78,7 @@
               %td
                 %span.secondary - Card Processing Fees
               %td.order-table-align-right
-                %span.secondary= '$' + @order.card_processing_fees.to_s
+                %span.secondary= '-$' + @order.card_processing_fees.to_s
             %tr.order-table-border-top
               %td
                 %strong Order Net
@@ -110,7 +119,7 @@
         %td.border-right
           %span.order-table-label Promo Code
           %span.order-table-info
-            - if @order.coupon_code
+            - if @order.coupon_code != "" || @order.coupon_code != nil
               = @order.coupon_code
             - else
               None
@@ -124,7 +133,7 @@
             = @order.order_source
         %td
           %span.order-table-label
-            =link_to edit_admin_customer_url(@order.customer) do
+            =link_to customer_url(@order.customer) do
               = @order.customer.first_name + " " + @order.customer.last_name
           %span.order-table-info.secondary
             = @order.customer.etsy_username
@@ -137,7 +146,7 @@
             %br
             = @order.customer.ship_address1
             %br
-            - if @order.customer.ship_address2
+            - if @order.customer.ship_address2 != "" || @order.customer.ship_address2 != nil
               = @order.customer.ship_address2
               %br
             = @order.customer.ship_city + ", " + @order.customer.ship_state + " " + @order.customer.ship_zipcode
@@ -148,7 +157,7 @@
     %table#table-order-items.stripe.order-column
       %thead
         %tr
-          %th Listing
+          %th Product ID
 
           %th Product
           %th Variation
@@ -162,9 +171,13 @@
       %tbody
         - @order_items.each do |order_item|
           %tr
-            %td.border-right= order_item.etsy_listing_variation
-
-            %td= order_item.product.description
+            %td.border-right
+              =link_to edit_admin_product_url(order_item.product), target: "_blank" do
+                = order_item.product.id
+            %td
+              = order_item.product.description
+              = link_to edit_admin_product_url(order_item.product), target: "_blank" do
+                %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right
               - if order_item.variation
                 = order_item.variation.variation_name
@@ -181,6 +194,6 @@
   $("#table-order-items").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
-    order: [4, 'desc'],
+    order: [6, 'desc'],
     orderClasses: true
   });

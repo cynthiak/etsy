@@ -1,18 +1,19 @@
 .stats
-  .stat-container
-    .stat
-      .stat-label Items Sold
-      .stat-number
-        = get_items_sold_count
+  = link_to order_items_url do
+    .stat-container
+      .stat
+        .stat-label Items Sold
+        .stat-number
+          = get_items_sold_count
   .stat-container
     .stat
       .stat-label Total Rev
-      .stat-number
+      .stat-number.green
         = "$" + number_with_delimiter(get_revenue).to_s
   .stat-container
     .stat
-      .stat-label Average Rev Per Item
-      .stat-number
+      .stat-label Average Rev / Item
+      .stat-number.green
         = "$" + number_with_delimiter(get_average_revenue_per_item).to_s + "/item"
 
 %table#table-products.stripe.order-column

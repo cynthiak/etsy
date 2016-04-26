@@ -1,9 +1,10 @@
 .stats
-  .stat-container
-    .stat
-      .stat-label Total Expenses
-      .stat-number
-        = "$" + number_with_delimiter(get_expenses_number).to_s
+  = link_to expenses_url do
+    .stat-container
+      .stat
+        .stat-label Total Expenses
+        .stat-number.red
+          = "$" + number_with_delimiter(get_expenses_number).to_s
 
 
 

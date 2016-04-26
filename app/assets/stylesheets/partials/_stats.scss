@@ -27,6 +27,18 @@
 }
 a:hover .stat {
   border-top: 4px solid $pink;
+  color: $text-color;
+}
+a .stat-number,
+a .stat-stats,
+a .stat-stats-row-number {
+  color: $text-color;
+}
+a .stat-number.red {
+  color: $red;
+}
+a .stat-number.green {
+  color: $green;
 }
 
 .stat-label {
@@ -42,6 +54,9 @@ a:hover .stat {
   font-size: 18px;
   text-transform: lowercase;
   line-height: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .stat-stats {
@@ -53,9 +68,9 @@ a:hover .stat {
   margin-bottom: 3px;
 }
 .stat-stats-row-number {
-  width: 38px;
   display: inline-block;
   font-weight: bold;
+  margin-right: 5px;
 }
 .stat-stats-row-label {
   display: inline-block;

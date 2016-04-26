@@ -22,14 +22,14 @@
               .stat-label 
                 =product_type.product_type
                 Rev
-              .stat-number
-                = "$" + product_type.get_revenue.to_s 
+              .stat-number.green
+                = "$" + number_with_delimiter(product_type.get_revenue).to_s 
           .stat-container
             .stat
               .stat-label 
                 Average Per
                 =product_type.product_type
-              .stat-number
+              .stat-number.green
                 = "$" + product_type.get_average_revenue_per_item.to_s + "/" + product_type.product_type
 
 
@@ -62,11 +62,11 @@
               %tr
                 %td.border-right
                   = product.product_type.product_type
-                  = link_to edit_admin_product_type_url(product_type) do
+                  = link_to edit_admin_product_type_url(product_type), target: "_blank" do
                     %span.glyphicon.glyphicon-pencil.edit-icon
                 %td.border-right
                   = product.description
-                  = link_to edit_admin_product_url(product) do
+                  = link_to edit_admin_product_url(product), target: "_blank" do
                     %span.glyphicon.glyphicon-pencil.edit-icon
                 %td= product.get_order_items_count
                 %td= "$" + product.get_total_sales.to_s

@@ -2,7 +2,7 @@ module RevenueHelper
   # Total Revenue ##############
   def get_revenue(order_type=nil)
     if order_type
-      (Order.where(refund: nil, order_type: order_type).sum(:order_net) + Order.where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
+      (Order.where(refund: nil, order_type: order_type).sum(:order_net) + Order.where.not(refund:nil).where(order_type: order_type).sum(:adjusted_net_order_amount)).round(2)
     else
       (Order.where(refund: nil).sum(:order_net) + Order.where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
     end
@@ -12,8 +12,8 @@ module RevenueHelper
   def get_average_revenue_per_item(order_type=nil)
     (get_revenue(order_type)/get_items_sold_count(order_type)).round(2)
   end
-  def get_average_monthly_revenue
-    (get_revenue/months).round(2)
+  def get_average_monthly_revenue(order_type=nil)
+    (get_revenue(order_type)/months(order_type)).round(2)
   end
 
   # Average Revenue Per ##############
@@ -31,10 +31,15 @@ module RevenueHelper
   end
 
   # Months ##############
-  def months
-    first_date = Order.all.order("sale_date").first.sale_date
-    last_date = Order.all.order("sale_date").last.sale_date
-    return (last_date.year * 12 + last_date.month) - (first_date.year * 12 + first_date.month)
+  def months(order_type=nil)
+    if order_type
+      first_date = Order.where(order_type: order_type).order("sale_date").first.sale_date
+      last_date = Order.where(order_type: order_type).order("sale_date").last.sale_date
+    else
+      first_date = Order.all.order("sale_date").first.sale_date
+      last_date = Order.all.order("sale_date").last.sale_date
+    end
+    return (last_date.year * 12 + last_date.month) - (first_date.year * 12 + first_date.month) + 1
   end
 
 

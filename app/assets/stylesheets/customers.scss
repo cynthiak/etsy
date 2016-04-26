@@ -1,3 +1,39 @@
-// Place all the styles related to the customers controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+/***************** ORDER PAGE ******************/
+.customer-title-tagline {
+  color: #9d9d9d;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+
+.customer-table {
+  width: 100%;
+}
+.customer-table td{
+  padding: 0 20px;
+  &:first-child {
+    padding-left: 0;
+  }
+}
+.customer-right {
+  border-right: 1px solid #ddd;
+}
+
+
+.customer-table-label {
+  font-weight: bold;
+  display: block;
+}
+.customer-table-border-top td {
+  border-top: 1px solid #dddddd;
+  padding-top: 5px;
+}
+.customer-table-align-right {
+  text-align: right;
+}
+
+.customer-table-net {
+  color: $green;
+  font-size: 3.0rem;
+  font-weight: 600;
+}

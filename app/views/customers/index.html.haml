@@ -39,8 +39,9 @@
         - get_customers("Wholesale").each do |customer|
           %tr
             %td
-              = customer.first_name
-              = customer.last_name
+              = link_to customer_url(customer) do
+                = customer.first_name
+                = customer.last_name
               = link_to edit_admin_customer_url(customer) do
                 %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right= customer.etsy_username
@@ -91,8 +92,9 @@
         - get_customers("Retail").each do |customer|
           %tr
             %td
-              = customer.first_name
-              = customer.last_name
+              = link_to customer_url(customer) do
+                = customer.first_name
+                = customer.last_name
               = link_to edit_admin_customer_url(customer), target: "_blank" do
                 %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right= customer.etsy_username

@@ -14,15 +14,24 @@
               = get_customers_count(order_type)
               customers
 
-      = link_to orders_url(order_type) do
-        .stat-container
-          .stat
-            .stat-label Total Orders
-            .stat-number
-              = get_orders_count(order_type)
-              orders
+      - if order_type == "Retail"
+        = link_to orders_url do
+          .stat-container
+            .stat
+              .stat-label Total Orders
+              .stat-number
+                = get_orders_count(order_type)
+                orders
+      - elsif order_type == "Wholesale"
+        = link_to wholesale_url do
+          .stat-container
+            .stat
+              .stat-label Total Orders
+              .stat-number
+                = get_orders_count(order_type)
+                orders
 
-      = link_to order_items_url(order_type) do
+      = link_to order_items_url do
         .stat-container
           .stat
             .stat-label Total Order Items
@@ -30,7 +39,7 @@
               = get_items_sold_count(order_type)
               items
 
-      = link_to order_items_url(order_type) do
+      = link_to order_items_url do
         .stat-container
           .stat
             .stat-label Orders Left to Ship
@@ -38,7 +47,7 @@
               = get_unshipped_orders_count(order_type)
               orders
 
-      = link_to order_items_url(order_type) do
+      = link_to order_items_url do
         .stat-container
           .stat
             .stat-label Items Left to Ship

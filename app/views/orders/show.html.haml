@@ -13,9 +13,8 @@
         = " - " + @order.order_number.to_s
       - else
         = " - " + @order.id.to_s
-      \ -
       =link_to customer_url(@order.customer) do
-        = @order.customer.first_name + " " + @order.customer.last_name
+        = " - " + @order.customer.first_name + " " + @order.customer.last_name
       =link_to edit_admin_order_url(@order), target: "_blank" do
         %span.glyphicon.glyphicon-pencil.edit-icon
       .order-title-tagline
@@ -28,8 +27,8 @@
           %span.order-table-label Order Number
           %span.order-table-info
             =link_to order_url(@order) do
-              - if @order.order_number != ""
-                = @order.order_number.to_s
+              - if !@order.order_number.nil?
+                = @order.order_number
               - else
                 = @order.id
           %br
@@ -132,26 +131,40 @@
             %br
             = @order.order_source
         %td
-          %span.order-table-label
+          %span.customer-table-label
             =link_to customer_url(@order.customer) do
               = @order.customer.first_name + " " + @order.customer.last_name
-          %span.order-table-info.secondary
-            = @order.customer.etsy_username
-            %br
-            - if @order.customer.email
-              = @order.customer.email
+            - if @order.customer.company != ""
               %br
-          %span.order-table-info
+              = @order.customer.company
+              %br
+          %span.customer-table-info.secondary
+            = "(" + @order.customer.etsy_username + ")"
+            %br
+          - if @order.customer.email
+            %a{href: "mailto:" + @order.customer.email}
+              = @order.customer.email
+            %br
+          - if @order.customer.instagram != "" || @order.customer.instagram != nil
+            %a{href: "http://www.instagram.com/" + @order.customer.instagram.to_s, target: "_blank"}
+              = "@" + @order.customer.instagram.to_s
+            %br
+        %td
+          %span.customer-table-label Shipping Address
+          %span.customer-table-info
             = @order.customer.ship_name
             %br
             = @order.customer.ship_address1
             %br
-            - if @order.customer.ship_address2 != "" || @order.customer.ship_address2 != nil
+            - if @order.customer.ship_address2 != "" || !@order.customer.ship_address2.nil?
               = @order.customer.ship_address2
               %br
             = @order.customer.ship_city + ", " + @order.customer.ship_state + " " + @order.customer.ship_zipcode
             %br
             = @order.customer.ship_country
+
+
+
 
   .page-content-body-section
     %table#table-order-items.stripe.order-column

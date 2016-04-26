@@ -13,8 +13,8 @@
         %span.glyphicon.glyphicon-pencil.edit-icon
       .order-title-tagline
         =@customer.customer_type
-        - if @customer.source != ""
-          = " - " + @customer.source
+        - if !@customer.source.nil?
+          = " - " + @customer.source.to_s
 
   .page-content-body-section-box
     %table.customer-table
@@ -33,13 +33,11 @@
             items/order
           %br
           %br
-          %br
           %span.customer-table-label Average Items Per Order
           %span.customer-table-info= @customer.get_average_items_per_order
         %td.border-right
           %span.customer-table-label Total Revenue
           %span.customer-table-info.customer-table-net= "$" + @customer.get_total_spend.to_s
-          %br
           %br
           %span.customer-table-label Average Revenue Per Order
           %span.customer-table-info= "$" + @customer.get_average_spend_per_order.to_s

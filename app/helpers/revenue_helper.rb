@@ -8,12 +8,21 @@ module RevenueHelper
     end
   end
 
+  # Percentage Revenue ##############
+  def get_revenue_percentage(order_type=nil)
+    ((get_revenue(order_type)/get_revenue)*100).round(0)
+  end
+
+
   # Average Revenue ##############
   def get_average_revenue_per_item(order_type=nil)
     (get_revenue(order_type)/get_items_sold_count(order_type)).round(2)
   end
   def get_average_monthly_revenue(order_type=nil)
     (get_revenue(order_type)/months(order_type)).round(2)
+  end
+  def get_average_monthly_revenue_percentage(order_type=nil)
+    ((get_average_monthly_revenue(order_type)/get_average_monthly_revenue)*100).round(0)
   end
 
   # Average Revenue Per ##############

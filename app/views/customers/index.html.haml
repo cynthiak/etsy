@@ -29,7 +29,9 @@
       %thead
         %tr
           %th Name
-          %th Username
+          %th Company
+          %th Instagram
+          %th Source
           %th First Purchase
           %th Last Purchase
           %th Orders
@@ -38,13 +40,18 @@
       %tbody
         - get_customers("Wholesale").each do |customer|
           %tr
-            %td
+            %td.border-right
               = link_to customer_url(customer) do
                 = customer.first_name
                 = customer.last_name
               = link_to edit_admin_customer_url(customer) do
                 %span.glyphicon.glyphicon-pencil.edit-icon
-            %td.border-right= customer.etsy_username
+            %td.border-right= customer.company
+            %td.border-right
+              - if customer.instagram
+                %a{href: "http://www.instagram.com/" + customer.instagram, target: "_blank"}
+                  = customer.instagram
+            %td.border-right= customer.source
             %td= customer.get_first_purchase_date
             %td.border-right= customer.get_last_purchase_date
             %td= customer.get_total_order_count
@@ -83,6 +90,8 @@
         %tr
           %th Name
           %th Etsy Username
+          %th Instagram
+          %th Source
           %th First Purchase
           %th Last Purchase
           %th Orders
@@ -91,13 +100,18 @@
       %tbody
         - get_customers("Retail").each do |customer|
           %tr
-            %td
+            %td.border-right
               = link_to customer_url(customer) do
                 = customer.first_name
                 = customer.last_name
               = link_to edit_admin_customer_url(customer), target: "_blank" do
                 %span.glyphicon.glyphicon-pencil.edit-icon
             %td.border-right= customer.etsy_username
+            %td.border-right
+              - if customer.instagram
+                %a{href: "http://www.instagram.com/" + customer.instagram, target: "_blank"}
+                  = customer.instagram
+            %td.border-right= customer.source
             %td= customer.get_first_purchase_date
             %td.border-right= customer.get_last_purchase_date
             %td= customer.get_total_order_count
@@ -110,13 +124,13 @@
   $("#table-wholesale-customers").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
-    order: [4, 'desc'],
+    order: [6, 'desc'],
     orderClasses: true
   });
 
   $("#table-retail-customers").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
-    order: [4, 'desc'],
+    order: [5, 'desc'],
     orderClasses: true
   });

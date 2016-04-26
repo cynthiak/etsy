@@ -1,7 +1,7 @@
 .page-customer.page-content-body{class: "#page-customer-" + @customer.id.to_s}
   .page-content-body-section
     .page-navigation
-      = link_to customer_path do
+      = link_to customers_url do
         « Back to customers
     %h1.order-title
       =link_to customer_url(@customer) do
@@ -13,6 +13,8 @@
         %span.glyphicon.glyphicon-pencil.edit-icon
       .order-title-tagline
         =@customer.customer_type
+        - if @customer.source != ""
+          = " - " + @customer.source
 
   .page-content-body-section-box
     %table.customer-table
@@ -52,18 +54,29 @@
           %span.customer-table-label
             =link_to customer_url(@customer) do
               = @customer.first_name + " " + @customer.last_name
-          %span.customer-table-info.secondary
-            = @customer.etsy_username
-            %br
-            - if @customer.email
-              = @customer.email
+            - if @customer.company != ""
               %br
+              = @customer.company
+              %br
+          %span.customer-table-info.secondary
+            = "(" + @customer.etsy_username + ")"
+            %br
+          - if @customer.email
+            %a{href: "mailto:" + @customer.email}
+              = @customer.email
+            %br
+          - if @customer.instagram != "" || @customer.instagram != nil
+            %a{href: "http://www.instagram.com/" + @customer.instagram.to_s}
+              = "@" + @customer.instagram.to_s
+            %br
+        %td
+          %span.customer-table-label Shipping Address
           %span.customer-table-info
             = @customer.ship_name
             %br
             = @customer.ship_address1
             %br
-            - if @customer.ship_address2
+            - if @customer.ship_address2 != "" || @customer.ship_address2 != nil
               = @customer.ship_address2
               %br
             = @customer.ship_city + ", " + @customer.ship_state + " " + @customer.ship_zipcode

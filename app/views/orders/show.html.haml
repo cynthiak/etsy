@@ -64,9 +64,9 @@
               %td.order-table-align-right
                 %span.secondary= '+$' + @order.sales_tax.to_s
             - if @order.inperson_discount
-              %tr.order-table-border-top
+              %tr
                 %td 
-                  %strong In Person Discount
+                  %span.secondary - In Person Discount
                 %td.order-table-align-right
                   = '-$' +  @order.inperson_discount.to_s
             %tr.order-table-border-top

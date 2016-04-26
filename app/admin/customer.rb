@@ -20,7 +20,9 @@ ActiveAdmin.register Customer do
       f.input :etsy_username, :as => :string
       f.input :email, :as => :string
       f.input :customer_type, :as => :string
+      f.input :company, :as => :string
       f.input :source, :as => :string
+      f.input :instagram, :as => :string
       f.input :ship_name, :as => :string
       f.input :ship_address1, :as => :string
       f.input :ship_address2, :as => :string

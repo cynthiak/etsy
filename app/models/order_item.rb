@@ -20,17 +20,20 @@ class OrderItem < ActiveRecord::Base
     CSV.foreach(file.path, headers:true) do |row|
       order_item = OrderItem.find_by(transaction_number: row[12])
 
+      # PO's matching with Order ID's
+      pos = {
+        "1093444835" => "PO#30116814"
+      }
+
       # Find order
       order = Order.find_by(order_number: row[23])
       if !(order)
-        order = Order.find_by(sale_date: row[0], username: row[2])
-        if order
-          order_id = order.id
-        else
-          order_id = nil
-        end
-      else
+        order = Order.find_by(order_number: pos[row[23]])
+      end
+      if order
         order_id = order.id
+      else
+        order_id = nil
       end
 
       # Find listing

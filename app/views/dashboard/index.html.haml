@@ -182,22 +182,22 @@
       .stat-container
         .stat
           .stat-label Total Revenue
-          .stat-number
+          .stat-number.green
             = "$" + number_with_delimiter(get_revenue).to_s
       .stat-container
         .stat
           .stat-label Average Rev / Order
-          .stat-number
+          .stat-number.green
             = "$" + number_with_delimiter(get_average_revenue_per_order).to_s + "/order"
       .stat-container
         .stat
           .stat-label Average Rev / Item
-          .stat-number
+          .stat-number.green
             = "$" + number_with_delimiter(get_average_revenue_per_order_item).to_s + "/item"
       .stat-container
         .stat
           .stat-label Average Rev / Customer
-          .stat-number
+          .stat-number.green
             = "$" + number_with_delimiter(get_average_revenue_per_customer).to_s + "/customer"
 
     #chart-cumulative-revenue-by-day-of-month.chart

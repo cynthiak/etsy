@@ -32,6 +32,7 @@ class OrderItem < ActiveRecord::Base
       end
       if order
         order_id = order.id
+        order.update(:date_paid=> row[14].nil? ? nil : (DateTime.strptime row[14], "%m/%d/%Y").strftime("%Y/%m/%d"))
       else
         order_id = nil
       end
@@ -66,7 +67,6 @@ class OrderItem < ActiveRecord::Base
         :currency=> row[11],
         :transaction_number=> row[12],
         :listing_number=> row[13],
-        :date_paid=> row[14].nil? ? nil : (DateTime.strptime row[14], "%m/%d/%Y").strftime("%Y/%m/%d"),
         :date_shipped => row[15].nil? ? nil : (DateTime.strptime row[15], "%m/%d/%Y").strftime("%Y/%m/%d"),
         :order_number=> row[23],
         :variations=> row[24],

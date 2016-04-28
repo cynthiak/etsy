@@ -23,19 +23,19 @@
   .page-content-body-section-box
     %table.order-table
       %tr
-        %td.border-right
+        %td.border-right{width: 135}
           %span.order-table-label Order Number
           %span.order-table-info
             =link_to order_url(@order) do
-              - if !@order.order_number.nil?
-                = @order.order_number
+              - if @order.order_number != ""
+                = @order.order_number.to_s
               - else
-                = @order.id
+                = @order.id.to_s
           %br
           %br
           %span.order-table-label Number Of Items
           %span.order-table-info= @order.number_of_items
-        %td.border-right
+        %td.border-right{width: 120}
           %span.order-table-label Sale Date
           %span.order-table-info= @order.sale_date
           %br
@@ -46,6 +46,14 @@
               = @order.date_shipped
             - else
               %span.red Not shipped yet
+          %br
+          %br
+          %span.order-table-label Date Paid
+          %span.order-table-info
+            - if @order.date_paid
+              = @order.date_paid
+            - else
+              %span.red Not paid yet
         %td.border-right
           %table
             %tr
@@ -74,7 +82,7 @@
               %td.order-table-align-right
                 = '$' +  @order.order_total.to_s
             %tr
-              %td
+              %td{width: 200}
                 %span.secondary - Card Processing Fees
               %td.order-table-align-right
                 %span.secondary= '-$' + @order.card_processing_fees.to_s
@@ -149,7 +157,7 @@
             %a{href: "http://www.instagram.com/" + @order.customer.instagram.to_s, target: "_blank"}
               = "@" + @order.customer.instagram.to_s
             %br
-        %td
+        %td{width: 200}
           %span.customer-table-label Shipping Address
           %span.customer-table-info
             = @order.customer.ship_name
@@ -170,9 +178,9 @@
     %table#table-order-items.stripe.order-column
       %thead
         %tr
-          %th Product ID
+          %th Order Item ID
 
-          %th Product
+          %th Order Item
           %th Variation
 
           %th Quantity
@@ -185,8 +193,10 @@
         - @order_items.each do |order_item|
           %tr
             %td.border-right
-              =link_to edit_admin_product_url(order_item.product), target: "_blank" do
-                = order_item.product.id
+              =link_to edit_admin_order_item_url(order_item), target: "_blank" do
+                = order_item.id
+              = link_to edit_admin_order_item_url(order_item.product), target: "_blank" do
+                %span.glyphicon.glyphicon-pencil.edit-icon
             %td
               = order_item.product.description
               = link_to edit_admin_product_url(order_item.product), target: "_blank" do

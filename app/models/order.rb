@@ -151,6 +151,7 @@ class Order < ActiveRecord::Base
       else
         order_params = {
           :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
+          :date_paid=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
           :order_number=> row[21],
           :username=> square_username,
           :full_name=> "Square Customer",

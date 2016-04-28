@@ -21,6 +21,20 @@
             .stat-label Total Items To Ship
             .stat-number.red
               #{pluralize(get_unshipped_items_count, 'item')}
+    .stats
+      = link_to orders_path do
+        .stat-container
+          .stat
+            .stat-label Retail Orders Needing Payment
+            .stat-number{class: get_unpaid_orders_count("Retail") > 0 ? "red" : ""}
+              #{pluralize(get_unpaid_orders_count("Retail"), 'order')}
+      
+      = link_to wholesale_path do
+        .stat-container
+          .stat
+            .stat-label Wholesale Orders Needing Payment
+            .stat-number{class: get_unpaid_orders_count("Wholesale") > 0 ? "red" : ""}
+              #{pluralize(get_unpaid_orders_count("Wholesale"), 'order')}
 
   .page-content-body-section
     %h1 Orders

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426025601) do
+ActiveRecord::Schema.define(version: 20160428041338) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 20160426025601) do
     t.string   "coupon_details"
     t.string   "inperson_discount"
     t.string   "inperson_location"
+    t.date     "date_paid"
   end
 
   add_index "orders", ["customer_id"], name: "index_customer_id"

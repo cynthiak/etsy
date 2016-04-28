@@ -103,6 +103,7 @@
 
   .page-content-body-section
     %h1 Profit
+    // TOTAL NUMBERS ------------------------------------------------ //
     .stats
       .stat-container
         .stat
@@ -123,11 +124,11 @@
           .stat-stats
             .stat-stats-row
               %span.stat-stats-row-percentage= get_revenue_percentage("Retail").to_s + "%"
-              %span.stat-stats-row-number= "$" + number_with_delimiter(get_revenue("Retail")).to_s
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_revenue("Retail", @start_date, @end_date)).to_s
               %span.stat-stats-row-label retail
             .stat-stats-row
               %span.stat-stats-row-percentage= number_with_delimiter(get_revenue_percentage("Wholesale")).to_s + "%"
-              %span.stat-stats-row-number= "$" + number_with_delimiter(get_revenue("Wholesale")).to_s
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_revenue("Wholesale", @start_date, @end_date)).to_s
               %span.stat-stats-row-label whole
       = link_to expenses_url do
         .stat-container
@@ -146,14 +147,13 @@
               .stat-label= product_type
               .stat-number
                 #{pluralize(get_number_of_items_to_sell_by_type(product_type), product_type)}
+    // AVERAGE MONTHLY NUMBERS ------------------------------------------------ //
     .stats
       .stat-container
         .stat
           .stat-label Avg Monthly Profit
-          -if get_profit < 0
-            .stat-number.red= "$" + number_with_delimiter(get_average_monthly_profit).to_s
-          -else
-            .stat-number= "$" + number_with_delimiter(get_average_monthly_profit).to_s
+          .stat-number{class: get_profit < 0 ? "red" : ""}
+            = "$" + number_with_delimiter(get_average_monthly_profit).to_s
           .stat-stats
             .stat-stats-row &nbsp;
             .stat-stats-row &nbsp;
@@ -177,6 +177,72 @@
           .stat-stats
             .stat-stats-row &nbsp;
             .stat-stats-row &nbsp;
+
+
+
+    // RECENT AVERAGE MONTHLY NUMBERS ------------------------------------------------ //
+    .stats
+      .stat-container
+        .stat
+          .stat-label Recent Avg Monthly Profit
+          .stat-number{class: get_profit < 0 ? "red" : ""}
+            = "$" + number_with_delimiter(get_average_monthly_profit(@recent_period_start_date, @recent_period_end_date)).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+      .stat-container
+        .stat
+          .stat-label Recent Avg Monthly Revenue
+          .stat-number.green= "$" + number_with_delimiter(get_average_monthly_revenue(nil, @recent_period_start_date, @recent_period_end_date)).to_s
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-percentage= get_average_monthly_revenue_percentage("Retail", @recent_period_start_date, @recent_period_end_Date).to_s + "%"
+              %span.stat-stats-row-number= "$" + get_average_monthly_revenue("Retail", @recent_period_start_date, @recent_period_end_date).to_s
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-percentage= get_average_monthly_revenue_percentage("Wholesale", @recent_period_start_date, @recent_period_end_Date).to_s + "%"
+              %span.stat-stats-row-number= "$" + get_average_monthly_revenue("Wholesale", @recent_period_start_date, @recent_period_end_date).to_s
+              %span.stat-stats-row-label whole
+      .stat-container
+        .stat.red
+          .stat-label Recent Avg Monthly Expenses
+          .stat-number= "$" + number_with_delimiter(get_average_monthly_expenses(@recent_period_start_date, @recent_period_end_date)).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+
+    // THIS MONTH'S NUMBERS ------------------------------------------------ //
+    .stats
+      .stat-container
+        .stat
+          .stat-label This Month's Profit
+          .stat-number{class: get_profit < 0 ? "red" : ""}
+            = "$" + number_with_delimiter(get_profit(@current_month_start_date, @current_month_end_date)).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+      .stat-container
+        .stat
+          .stat-label This Month's Revenue
+          .stat-number.green= "$" + number_with_delimiter(get_revenue(nil, @current_month_start_date, @current_month_end_date)).to_s
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-percentage= get_average_monthly_revenue_percentage("Retail", @current_month_start_date, @current_month_end_date).to_s + "%"
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_monthly_revenue("Retail", @current_month_start_date, @current_month_end_date)).to_s
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-percentage= number_with_delimiter(get_average_monthly_revenue_percentage("Wholesale", @current_month_start_date, @current_month_end_date)).to_s + "%"
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_monthly_revenue("Wholesale", @current_month_start_date, @current_month_end_date)).to_s
+              %span.stat-stats-row-label whole
+      .stat-container
+        .stat.red
+          .stat-label This Month's Expenses
+          .stat-number= "$" + number_with_delimiter(get_expenses_number(@current_month_start_date, @current_month_end_date)).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+
+
 
     #chart-profit-by-month.chart
 

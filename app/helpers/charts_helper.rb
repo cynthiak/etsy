@@ -24,7 +24,7 @@ module ChartsHelper
   def get_revenue_by_month(month)
     start_date = month
     end_date = Date.civil(month.year, month.month, -1)
-    return (Order.where(refund: nil, sale_date: start_date..end_date).sum(:order_net) + Order.where(sale_date: start_date..end_date).where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
+    return (Order.where(adjusted_net_order_amount: nil, sale_date: start_date..end_date).sum(:order_net) + Order.where.not(adjusted_net_order_amount:nil).where(sale_date: start_date..end_date).sum(:adjusted_net_order_amount)).round(2)
   end
 
   def get_revenue_array_by_months

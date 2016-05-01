@@ -177,12 +177,12 @@
           .stat-number.green= "$" + number_with_delimiter(get_average_monthly_revenue).to_s
           .stat-stats
             .stat-stats-row
-              %span.stat-stats-row-percentage= get_average_monthly_revenue_percentage("Retail").to_s + "%"
-              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_monthly_revenue("Retail")).to_s
+              %span.stat-stats-row-percentage= get_average_monthly_revenue_percentage("Retail", @start_date, @end_date).to_s + "%"
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_monthly_revenue("Retail", @start_date, @end_date)).to_s
               %span.stat-stats-row-label retail
             .stat-stats-row
-              %span.stat-stats-row-percentage= number_with_delimiter(get_average_monthly_revenue_percentage("Wholesale")).to_s + "%"
-              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_monthly_revenue("Wholesale")).to_s
+              %span.stat-stats-row-percentage= number_with_delimiter(get_average_monthly_revenue_percentage("Wholesale", @start_date, @end_date)).to_s + "%"
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_monthly_revenue("Wholesale", @start_date, @end_date)).to_s
               %span.stat-stats-row-label whole
       .stat-container
         .stat.red

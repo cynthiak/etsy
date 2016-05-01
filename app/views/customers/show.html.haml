@@ -30,17 +30,20 @@
           %span.customer-table-label Total Items
           %span.customer-table-info
             = @customer.get_total_order_items_count
+            items
+          %br
+          %br
+          %span.customer-table-label Average Items
+          %span.customer-table-info
+            = @customer.get_average_items_per_order
             items/order
-          %br
-          %br
-          %span.customer-table-label Average Items Per Order
-          %span.customer-table-info= @customer.get_average_items_per_order
         %td.border-right
           %span.customer-table-label Total Revenue
           %span.customer-table-info.customer-table-net= "$" + @customer.get_total_spend.to_s
           %br
-          %span.customer-table-label Average Revenue Per Order
-          %span.customer-table-info= "$" + @customer.get_average_spend_per_order.to_s
+          %span.customer-table-label Average Revenue
+          %span.customer-table-info
+            = "$" + @customer.get_average_spend_per_order.to_s + "/order"
         %td.border-right
           %span.customer-table-label First Purchase
           %span.customer-table-info= @customer.get_first_purchase_date

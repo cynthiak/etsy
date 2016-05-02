@@ -37,6 +37,18 @@ module RevenueHelper
   def get_average_monthly_revenue_percentage(order_type=nil, start_date=nil, end_date=nil)
     (get_average_monthly_revenue(order_type, start_date, end_date)/(get_average_monthly_revenue(nil, start_date, end_date))*100).round(0)
   end
+  def get_average_daily_revenue(order_type=nil, start_date=nil, end_date=nil)
+    if start_date == nil 
+      start_date = get_first_sale_date(order_type)
+    end
+    if end_date == nil
+      end_date = get_last_sale_date(order_type)
+    end
+    (get_revenue(order_type, start_date, end_date)/days(order_type, start_date, end_date)).round(2)
+  end
+  def get_average_daily_revenue_percentage(order_type=nil, start_date=nil, end_date=nil)
+    (get_average_daily_revenue(order_type, start_date, end_date)/(get_average_daily_revenue(nil, start_date, end_date))*100).round(0)
+  end
 
   # Average Revenue Per ##############
   def get_average_revenue_per_order(order_type=nil)
@@ -70,6 +82,9 @@ module RevenueHelper
   end
   def get_average_monthly_profit(start_date=nil, end_date=nil)
     (get_profit(start_date, end_date)/months(nil, start_date, end_date)).round(2)
+  end
+  def get_average_daily_profit(start_date=nil, end_date=nil)
+    (get_profit(start_date, end_date)/days(nil, start_date, end_date)).round(2)
   end
 
 end

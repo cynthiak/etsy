@@ -192,6 +192,36 @@
             .stat-stats-row &nbsp;
             .stat-stats-row &nbsp;
 
+      // AVERAGE DAILY NUMBERS ------------------------------------------------ //
+      .stat-container
+        .stat
+          .stat-label Avg Daily Profit
+          .stat-number{class: get_profit < 0 ? "red" : ""}
+            = "$" + number_with_delimiter(get_average_daily_profit).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+      .stat-container
+        .stat
+          .stat-label Avg Daily Revenue
+          .stat-number.green= "$" + number_with_delimiter(get_average_daily_revenue).to_s
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-percentage= get_average_daily_revenue_percentage("Retail", @start_date, @end_date).to_s + "%"
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_daily_revenue("Retail", @start_date, @end_date)).to_s
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-percentage= number_with_delimiter(get_average_daily_revenue_percentage("Wholesale", @start_date, @end_date)).to_s + "%"
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_daily_revenue("Wholesale", @start_date, @end_date)).to_s
+              %span.stat-stats-row-label whole
+      .stat-container
+        .stat.red
+          .stat-label Avg Daily Expenses
+          .stat-number= "$" + number_with_delimiter(get_average_daily_expenses).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+
 
 
     // RECENT AVERAGE MONTHLY NUMBERS ------------------------------------------------ //
@@ -225,6 +255,35 @@
             .stat-stats-row &nbsp;
             .stat-stats-row &nbsp;
 
+      .stat-container
+        .stat
+          .stat-label Recent Avg Daily Profit
+          .stat-number{class: get_profit < 0 ? "red" : ""}
+            = "$" + number_with_delimiter(get_average_daily_profit(@recent_period_start_date, @recent_period_end_date)).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+      .stat-container
+        .stat
+          .stat-label Recent Avg Daily Revenue
+          .stat-number.green= "$" + number_with_delimiter(get_average_daily_revenue(nil, @recent_period_start_date, @recent_period_end_date)).to_s
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-percentage= get_average_daily_revenue_percentage("Retail", @recent_period_start_date, @recent_period_end_Date).to_s + "%"
+              %span.stat-stats-row-number= "$" + get_average_daily_revenue("Retail", @recent_period_start_date, @recent_period_end_date).to_s
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-percentage= get_average_daily_revenue_percentage("Wholesale", @recent_period_start_date, @recent_period_end_Date).to_s + "%"
+              %span.stat-stats-row-number= "$" + get_average_daily_revenue("Wholesale", @recent_period_start_date, @recent_period_end_date).to_s
+              %span.stat-stats-row-label whole
+      .stat-container
+        .stat.red
+          .stat-label Recent Avg Daily Expenses
+          .stat-number= "$" + number_with_delimiter(get_average_daily_expenses(@recent_period_start_date, @recent_period_end_date)).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+
     // THIS MONTH'S NUMBERS ------------------------------------------------ //
     .stats
       .stat-container
@@ -252,6 +311,36 @@
         .stat.red
           .stat-label This Month's Expenses
           .stat-number= "$" + number_with_delimiter(get_expenses_number(@current_month_start_date, @current_month_end_date)).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+
+
+      .stat-container
+        .stat
+          .stat-label This Month's Daily Avg Profit
+          .stat-number{class: get_profit < 0 ? "red" : ""}
+            = "$" + number_with_delimiter(get_average_daily_profit(@current_month_start_date, @current_month_end_date)).to_s
+          .stat-stats
+            .stat-stats-row &nbsp;
+            .stat-stats-row &nbsp;
+      .stat-container
+        .stat
+          .stat-label This Month's Daily Avg Revenue
+          .stat-number.green= "$" + number_with_delimiter(get_average_daily_revenue(nil, @current_month_start_date, @current_month_end_date)).to_s
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-percentage= get_average_daily_revenue_percentage("Retail", @current_month_start_date, @current_month_end_date).to_s + "%"
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_daily_revenue("Retail", @current_month_start_date, @current_month_end_date)).to_s
+              %span.stat-stats-row-label retail
+            .stat-stats-row
+              %span.stat-stats-row-percentage= number_with_delimiter(get_average_daily_revenue_percentage("Wholesale", @current_month_start_date, @current_month_end_date)).to_s + "%"
+              %span.stat-stats-row-number= "$" + number_with_delimiter(get_average_daily_revenue("Wholesale", @current_month_start_date, @current_month_end_date)).to_s
+              %span.stat-stats-row-label whole
+      .stat-container
+        .stat.red
+          .stat-label This Month's Daily Avg Expenses
+          .stat-number= "$" + number_with_delimiter(get_average_daily_expenses(@current_month_start_date, @current_month_end_date)).to_s
           .stat-stats
             .stat-stats-row &nbsp;
             .stat-stats-row &nbsp;

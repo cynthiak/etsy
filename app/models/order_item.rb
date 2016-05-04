@@ -22,7 +22,8 @@ class OrderItem < ActiveRecord::Base
 
       # PO's matching with Order ID's
       pos = {
-        "1093444835" => "PO#30116814"
+        "1093444835" => "PO#30116814",
+        "1095994338" => "PO#29904143"
       }
 
       # Find order

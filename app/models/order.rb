@@ -73,6 +73,7 @@ class Order < ActiveRecord::Base
       end
 
       order_params = {
+        #date_paid is marked by order item upload
         :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
         :order_number=> row[1],
         :username=> row[2],

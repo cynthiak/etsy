@@ -87,4 +87,13 @@ module RevenueHelper
     (get_profit(start_date, end_date)/days(nil, start_date, end_date)).round(2)
   end
 
+
+  # Funds ##############
+  def get_funds
+    Fund.all.sum(:funding_amount)
+  end
+  def get_total_funds
+    Fund.all.sum(:funding_amount) + get_profit
+  end
+
 end

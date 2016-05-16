@@ -121,6 +121,15 @@
     .stats
       .stat-container
         .stat
+          .stat-label Total Money Available
+          .stat-number= "$" + number_with_delimiter(get_total_funds)
+      .stat-container
+        .stat
+          .stat-label Miscellaneous Funding
+          .stat-number= "$" + number_with_delimiter(get_funds)
+    .stats
+      .stat-container
+        .stat
           .stat-label Profit
           -if get_profit < 0
             .stat-number.red

@@ -19,10 +19,11 @@
               = listing.product.product_type.product_type
             %td.border-right=listing.product.description
             - if listing.variation
-              %td=listing.variation.style
-              %td=listing.variation.gender
               %td
-                .color-swatch{style: "background-color: #{listing.variation.color}", title: "#{listing.variation.color}"}
+                = listing.variation.product_type.product_type
+                = listing.variation.style
+              %td=listing.variation.gender
+              %td=listing.variation.color
               %td.border-right=listing.variation.size
             - else
               %td

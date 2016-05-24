@@ -2,8 +2,9 @@ class Variation < ActiveRecord::Base
   #######################################################
   # Specifies Associations
   # Read more about Rails Associations here: http://guides.rubyonrails.org/association_basics.html
-  belongs_to :product
+  has_many :products
   has_many :listings
+  belongs_to :product_type
 
   #######################################################
   # Makes it so that when you print the object, you print a display name instead of the "#<ActiveRecord>blahblah" object name
@@ -11,11 +12,41 @@ class Variation < ActiveRecord::Base
 
   #######################################################
   # Makes it so that you can edit these database columns via ActiveAdmin and forms
-  attr_accessible :variation_name, :style, :gender, :color, :size, :product_id
+  attr_accessible :style, :gender, :color, :size, :quantity, :device, :product_type_id
 
   def display_name
-    product = Product.find_by_id(self.product_id)
-    return product.product_name + ' - ' + self.variation_name.to_s
+    display_name = []
+    if self.product_type != ""
+      display_name.push(self.product_type.product_type)
+    end
+    if self.style != ""
+      display_name.push(self.style)
+    end
+    if self.gender != ""
+      display_name.push(self.gender)
+    end
+    if self.color != ""
+      display_name.push(self.color)
+    end
+    if self.size != ""
+      display_name.push(self.size)
+    end
+    if self.quantity != nil
+      display_name.push(self.quantity.to_s)
+    end
+    if self.device != ""
+      display_name.push(self.device)
+    end
+
+    display = ""
+    display_name.each_with_index do |item, index|
+      if index != display_name.size - 1
+        display += item + " - "
+      else
+        display += item
+      end
+    end
+    return display
   end
 
   def get_unshipped_order_items_count

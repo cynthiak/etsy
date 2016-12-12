@@ -23,7 +23,8 @@ class OrderItem < ActiveRecord::Base
       # PO's matching with Order ID's
       pos = {
         "1093444835" => "PO#30116814",
-        "1095994338" => "PO#29904143"
+        "1095994338" => "PO#29904143",
+        "1101168959" => "PO#32472318"
       }
 
       # Find order
@@ -33,7 +34,7 @@ class OrderItem < ActiveRecord::Base
       end
       if order
         order_id = order.id
-        order.update(:date_paid=> row[14].nil? ? nil : (DateTime.strptime row[14], "%m/%d/%Y").strftime("%Y/%m/%d"))
+        order.update(:date_paid=> row[14].nil? ? nil : (DateTime.strptime(row[14], "%m/%d/%Y")).strftime("%Y/%m/%d"))
       else
         order_id = nil
       end

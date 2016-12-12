@@ -10,7 +10,7 @@ class OrderItemsController < ApplicationController
     })
     @orders = Order.all.order(:sale_date)
     @products = Product.all.order(:product_name)
-    @variations = Variation.all.order(:product_id)
+    @variations = Variation.all.order(:product_type_id)
   end
 
   def create

@@ -17,6 +17,12 @@
       .form-row
         = f.label :product_type, class: 'form-label'
         = f.collection_select(:product_type_id, @product_types, :id, :product_type, {:prompt => true}, {:required => false})
+      .form-row
+        = f.label :order, class: 'form-label'
+        = f.collection_select(:order_id, @orders, :id, :display_name, {:prompt => true}, {:required => false})
+      .form-row
+        = f.label :order_item, class: 'form-label'
+        = f.collection_select(:order_item_id, @order_items, :id, :display_name, {:prompt => true}, {:required => false})
 
       %br
 

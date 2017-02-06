@@ -4,6 +4,9 @@ class Expense < ActiveRecord::Base
   # Specifies Associations
   # Read more about Rails Associations here: http://guides.rubyonrails.org/association_basics.html
   belongs_to :product_type
+  belongs_to :order
+  belongs_to :order_item
+
 
   #######################################################
   # Makes it so that you can edit these database columns via ActiveAdmin and forms

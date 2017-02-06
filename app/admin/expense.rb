@@ -14,4 +14,21 @@ ActiveAdmin.register Expense do
 # end
 
 
+  form do |f|
+    f.inputs 'Expense' do
+      f.input :product_type, collection: ProductType.order('product_type ASC')
+      f.input :order, collection: Order.order('sale_date DESC')
+      f.input :order_item, collection: OrderItem.order('id DESC')
+      f.input :date
+      f.input :name
+      f.input :description
+      f.input :expense_type
+      f.input :vendor
+      f.input :amount
+    end
+    f.actions
+  end
+
+
+
 end

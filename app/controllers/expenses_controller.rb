@@ -8,6 +8,8 @@ class ExpensesController < ApplicationController
     vendor = "Amazon"
     @product_types = ProductType.all.order(:product_type)
     @expense_types = Expense.order(:expense_type).uniq.pluck(:expense_type)
+    @orders = Order.all.order(sale_date: :desc)
+    @order_items = OrderItem.where(date_shipped: nil)
 
     if params[:name]
       name = params[:name]
@@ -31,9 +33,9 @@ class ExpensesController < ApplicationController
     @expense = Expense.new(expense_params)
 
     if @expense.save
-      redirect_to new_expense_path, alert: "Expense added successfully. Add another expense."
+      redirect_to new_expense_path, alert: "Expense '" + @expense.name + "'' added successfully. Add another expense."
     else
-      redirect_to new_expense_path, alert: "Error creating expense."
+      redirect_to new_expense_path, alert: "Error creating expense" + @expense.name + "'."
     end
   end
 

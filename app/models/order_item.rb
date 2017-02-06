@@ -16,6 +16,16 @@ class OrderItem < ActiveRecord::Base
   # Makes it so that you can edit these database columns via ActiveAdmin and forms
   attr_accessible *column_names
 
+  def display_name
+    order = Order.find_by_id(self.order_id)
+    product = Product.find_by_id(self.product_id)
+    if product
+      return order.display_name.to_s + ' - ' + product.product_name
+    else
+      return order.display_name.to_s + ' - '
+    end
+  end
+
   def self.import(file)
     CSV.foreach(file.path, headers:true) do |row|
       order_item = OrderItem.find_by(transaction_number: row[12])

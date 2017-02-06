@@ -70,10 +70,14 @@
       = link_to new_expense_path + '?name=Shipping&expense_type=Shipping&vendor=USPS' do
         %span.glyphicon.glyphicon-plus
         New Shipping
-    %li{class: current_page?(controller: 'expenses', action: 'new') && params[:expense_type] == 'Materials' ? 'active' : ''}
+    %li{class: current_page?(controller: 'expenses', action: 'new') && params[:expense_type] == 'Materials' && params[:vendor] == 'Amazon' ? 'active' : ''}
       = link_to new_expense_path + '?name=&expense_type=Materials&vendor=Amazon' do
         %span.glyphicon.glyphicon-plus
         New Materials
+    %li{class: current_page?(controller: 'expenses', action: 'new') && params[:vendor] == 'Redbubble' ? 'active' : ''}
+      = link_to new_expense_path + '?name=&expense_type=Materials&vendor=Redbubble' do
+        %span.glyphicon.glyphicon-plus
+        New Redbubble
 
     %li{class: current_page?(controller: 'expenses', action: 'new') && !params[:expense_type] ? 'active' : ''}
       = link_to new_expense_path do

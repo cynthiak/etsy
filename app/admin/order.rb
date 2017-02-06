@@ -19,7 +19,7 @@ ActiveAdmin.register Order do
     end
     column :sale_date
     column :order_number
-    column :full_name
+    column :customer
     column :number_of_items
     column :order_net
     column :refund

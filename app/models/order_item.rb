@@ -65,39 +65,41 @@ class OrderItem < ActiveRecord::Base
         if (listing.variation)
           variation_id = listing.variation.id
         end
+        cost = listing.product.cost
+
+        # Set row parameters
+        order_item_params = {
+          :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
+          :item_name=> row[1],
+          :quantity=> row[3],
+          :price=> row[4],
+          :coupon_code=> row[5],
+          :coupon_details=> row[6],
+          :coupon_discount=> row[7],
+          :item_total=> row[10],
+          :currency=> row[11],
+          :transaction_number=> row[12],
+          :listing_number=> row[13],
+          :date_shipped => row[15].nil? ? nil : (DateTime.strptime row[15], "%m/%d/%Y").strftime("%Y/%m/%d"),
+          :order_number=> row[23],
+          :variations=> row[24],
+          :order_type=> row[25],
+          :etsy_listing_variation=> etsy_listing_variation,
+          :order_id => order_id,
+          :listing_id => listing.id,
+          :product_id => product_id,
+          :variation_id => variation_id,
+          :cost => cost
+        }
+
+        if (order_item)
+          order_item.update(order_item_params)
+        else
+          order_item = OrderItem.create(order_item_params)
+        end
+
+        order_item.save!
       end
-
-      # Set row parameters
-      order_item_params = {
-        :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
-        :item_name=> row[1],
-        :quantity=> row[3],
-        :price=> row[4],
-        :coupon_code=> row[5],
-        :coupon_details=> row[6],
-        :coupon_discount=> row[7],
-        :item_total=> row[10],
-        :currency=> row[11],
-        :transaction_number=> row[12],
-        :listing_number=> row[13],
-        :date_shipped => row[15].nil? ? nil : (DateTime.strptime row[15], "%m/%d/%Y").strftime("%Y/%m/%d"),
-        :order_number=> row[23],
-        :variations=> row[24],
-        :order_type=> row[25],
-        :etsy_listing_variation=> etsy_listing_variation,
-        :order_id => order_id,
-        :listing_id => listing.id,
-        :product_id => product_id,
-        :variation_id => variation_id
-      }
-
-      if (order_item)
-        order_item.update(order_item_params)
-      else
-        order_item = OrderItem.create(order_item_params)
-      end
-
-      order_item.save!
     end
   end
 

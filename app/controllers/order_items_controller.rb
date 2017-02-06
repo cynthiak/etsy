@@ -15,6 +15,8 @@ class OrderItemsController < ApplicationController
 
   def create
     order_item_params = params[:order_item]
+    product = Product.find_by_id(params[:order_item][:product_id])
+    order_item_params[:cost] = product.cost
     @order_item = OrderItem.new(order_item_params)
 
     if @order_item.save

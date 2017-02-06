@@ -19,15 +19,16 @@ ActiveAdmin.register OrderItem do
       link_to resource.id, resource_path(resource)
     end
     column :created_at
-    column :etsy_listing_variation
-    column :item_name
+    column "Order" do |resource|
+      resource.order
+    end
     column :product
     column :quantity
     column :price
     column :coupon_discount
     column :item_total
-    column :coupon_code
     column :date_shipped
+    column :cost
     column "" do |resource|
       links = ''.html_safe
       links += link_to I18n.t('active_admin.view'), resource_path(resource), :class => "member_link view_link"
@@ -36,19 +37,6 @@ ActiveAdmin.register OrderItem do
       links
     end
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 end

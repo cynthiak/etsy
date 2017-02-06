@@ -40,6 +40,7 @@ ActiveAdmin.register Listing do
       f.input :variation
       f.input :listing_type, :as => :string
       f.input :etsy_listing_variation, :as => :string
+      f.input :item_name, :as => :string
     end
     f.actions
   end

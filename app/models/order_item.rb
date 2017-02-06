@@ -47,7 +47,8 @@ class OrderItem < ActiveRecord::Base
       if !(listing)
         listing = Listing.create({
             :listing_type=> "etsy",
-            :etsy_listing_variation=>etsy_listing_variation
+            :etsy_listing_variation=>etsy_listing_variation,
+            :item_name=>item_name
           })
       else
         product_id = listing.product.id

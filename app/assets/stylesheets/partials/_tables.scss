@@ -1,3 +1,17 @@
+.border-right {
+  border-right: 1px solid #ddd;
+}
+.border-top,
+.border-top td,
+.border-top th {
+  border-top: 1px solid #ddd;
+}
+.border-bottom,
+.border-bottom td,
+.border-bottom th {
+  border-bottom: 1px solid #ddd;
+}
+
 /*Table*/
 
 table.dataTable {
@@ -5,7 +19,6 @@ table.dataTable {
 }
 table.dataTable thead th,
 table.dataTable thead td {
-  padding: 8px 10px;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
   &:last-child {

@@ -1,3 +1,5 @@
+/* STATS ---------------------------- */
+
 .stats {
   display: block;
   clear: both;
@@ -15,11 +17,30 @@
   margin-bottom: 10px;
   overflow: auto;
 }
-.stat-container:nth-child(6n) {
-  padding-right: 0;
-}
+  /* Tab size options */
+  .stats-5 .stat-container {
+    width: 20%;
+  }
+  .stats-4 .stat-container {
+    width: 25%;
+  }
+  .stats-3 .stat-container {
+    width: 33.333%;
+  }
+  .stats-2 .stat-container {
+    width: 50%;
+  }
+  .stat-container:nth-child(6n),
+  .stats-5 .stat-container:nth-child(5n),
+  .stats-4 .stat-container:nth-child(4n),
+  .stats-3 .stat-container:nth-child(3n),
+  .stats-2 .stat-container:nth-child(2n) {
+    padding-right: 0;
+  }
+
 .stat {
   border-top: 4px solid #ffffff;
+  border-bottom: 10px solid #f4f5f6;
   background: white;
   padding: 18px 20px 22px 20px;
   clear: both;
@@ -29,6 +50,35 @@ a:hover .stat {
   border-top: 4px solid $pink;
   color: $text-color;
 }
+
+/********** Stats Tabbed *********/
+.stats-tabbed .stat-container .stat{
+  border-top: 4px solid #dddddd;
+}
+.stats-tabbed .stat-container.active .stat{
+  border-top: 4px solid $pink;
+  border-bottom: 10px solid #ffffff;
+}
+.stats-tabbed .stat-container:hover .stat{
+  border-top: 4px solid $pink;
+}
+.stats-tabbed .stat-container {
+  margin-bottom: 0;
+}
+
+/********** Typography *********/
+a.stat-container,
+a.stat-container:hover,
+a.stat-container:hover .stat-label,
+a.stat-container:hover .stat-number,
+a.stat-container:hover .stat-stats,
+a.stat-container:visited,
+a.stat-container:visited .stat-label,
+a.stat-container:visited .stat-number,
+a.stat-container:visited .stat-stats {
+  text-decoration: none;
+}
+
 a .stat-number,
 a .stat-stats,
 a .stat-stats-row-number {
@@ -51,9 +101,9 @@ a .stat-number.green {
   overflow: hidden;
 }
 .stat-number {
-  font-size: 18px;
+  font-size: 24px;
   text-transform: lowercase;
-  line-height: 24px;
+  line-height: 30px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

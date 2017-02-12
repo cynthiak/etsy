@@ -52,6 +52,7 @@ class OrderItem < ActiveRecord::Base
       # Find listing
       etsy_listing_variation = row[24].nil? ? row[13] : row[13] + "_" + row[24]
       listing = Listing.find_by(etsy_listing_variation: etsy_listing_variation)
+      item_name = row[1]
       product_id = nil
       variation_id = nil
       if !(listing)

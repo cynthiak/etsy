@@ -65,11 +65,6 @@ module TimeHelper
     return (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month) + 1
   end
 
-  def get_months_array
-    date_months = get_months
-    date_months.map {|d| d.strftime "%b %Y" }
-  end
-
   def get_months(start_date=nil, end_date=nil)
     if start_date
       date_from = start_date
@@ -85,6 +80,25 @@ module TimeHelper
 
     date_months = date_range.map {|d| Date.new(d.year, d.month, 1) }.uniq
     return date_months
+  end
+
+  def get_months_array #for chart
+    date_months = get_months
+    date_months.map {|d| d.strftime "%b %Y" }
+  end
+
+  def get_month_names_array
+    ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  end
+
+  def get_months_by_year(year_input) #for chart
+    start_date = Date.new(year_input, 1, 1)
+    if year_input == get_last_sale_date.year
+      end_date = get_last_sale_date
+    else
+      end_date = Date.new(year_input, 12, 31)
+    end
+    date_months = get_months(start_date, end_date)
   end
 
   def get_months_left_in_year
@@ -139,6 +153,30 @@ module TimeHelper
     else
       Array(1...32)
     end
+  end
+
+  def get_last_x_dates_array(number_of_days=60) 
+    # for daily rev chart on dashboard
+    end_date = get_last_sale_date
+    start_date = end_date - number_of_days
+    last_x_dates_array = []
+    while start_date != (end_date + 1) do
+      last_x_dates_array.push(start_date)
+      start_date = start_date + 1
+    end
+    return last_x_dates_array
+  end
+
+  def get_last_x_dates_as_strings_array(number_of_days=60)
+    # for daily rev chart on dashboard
+    end_date = get_last_sale_date
+    start_date = end_date - number_of_days
+    last_x_dates_array = []
+    while start_date != (end_date + 1) do
+      last_x_dates_array.push(start_date.strftime("%b %d"))
+      start_date = start_date + 1
+    end
+    return last_x_dates_array
   end
 
 

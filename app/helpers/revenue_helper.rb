@@ -28,7 +28,11 @@ module RevenueHelper
   end
 
   def get_revenue_by_day(order_type=nil, date)
-    get_revenue(order_type, date, date)
+    if order_type
+      (Order.where(adjusted_net_order_amount: nil, order_type: order_type, sale_date: date).sum(:order_net) + Order.where.not(adjusted_net_order_amount:nil).where(order_type: order_type, sale_date: date).sum(:adjusted_net_order_amount)).round(2)
+    else
+      (Order.where(adjusted_net_order_amount: nil, sale_date: date).sum(:order_net) + Order.where.not(adjusted_net_order_amount:nil).where(sale_date: date).sum(:adjusted_net_order_amount)).round(2)
+    end
   end
 
   # Percentage Revenue ##############
@@ -49,6 +53,11 @@ module RevenueHelper
       end_date = get_last_sale_date(order_type)
     end
     (get_revenue(order_type, start_date, end_date)/months(order_type, start_date, end_date)).round(2)
+  end
+  def get_average_monthly_revenue_by_month(order_type=nil, month)
+    start_date = Date.new(month.year, month.month, 1)
+    end_date = Date.civil(month.year, month.month, -1)
+    return get_average_monthly_revenue(order_type, start_date, end_date)
   end
   def get_average_monthly_revenue_percentage(order_type=nil, start_date=nil, end_date=nil)
     (get_average_monthly_revenue(order_type, start_date, end_date)/(get_average_monthly_revenue(nil, start_date, end_date))*100).round(0)

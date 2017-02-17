@@ -8,7 +8,7 @@
     - today = get_last_sale_date
     .tabbed-charts
       .tabbed-charts-tabs.stats.stats-3.stats-tabbed{role: "tablist"}
-        %a.stat-container{"href" => "#chart-cumulative-revenue-by-month-of-year-container", "aria-controls" => "chart-cumulative-revenue-by-month-of-year-container", "role" => "tab", "data-toggle" => "tab"}
+        %a.stat-container.active{"href" => "#chart-cumulative-revenue-by-month-of-year-container", "aria-controls" => "chart-cumulative-revenue-by-month-of-year-container", "role" => "tab", "data-toggle" => "tab"}
           .stat
             .stat-label= today.strftime "%B %Y" + " Revenue"
             .stat-number= format_money(get_revenue_by_month(today))
@@ -20,7 +20,7 @@
                 %span.stat-stats-row-number= format_money(get_adjusted_year_revenue_goal)
                 %span.stat-stats-row-label= today.strftime "%Y" + " left"
 
-        %a.stat-container.active{"href" => "#chart-cumulative-revenue-by-day-of-month-container", "aria-controls" => "chart-cumulative-revenue-by-day-of-month-container", "role" => "tab", "data-toggle" => "tab"} 
+        %a.stat-container{"href" => "#chart-cumulative-revenue-by-day-of-month-container", "aria-controls" => "chart-cumulative-revenue-by-day-of-month-container", "role" => "tab", "data-toggle" => "tab"} 
           .stat
             .stat-label= today.strftime "%B %Y" + " Goal Reached As Of Today"
             .stat-number
@@ -51,15 +51,14 @@
 
       - # CHARTS #################################
       .tabbed-charts-content.tab-content
-        #chart-cumulative-revenue-by-month-of-year-container.tab-pane{"role" => "tabpanel"}
-          .chart show cumulative month by month revenue over the year // Am I on track to meet my revenue goal for the year?
+        #chart-cumulative-revenue-by-month-of-year-container.tab-pane.active{"role" => "tabpanel"}
+          #chart-cumulative-revenue-by-month-of-year.chart
 
-        #chart-cumulative-revenue-by-day-of-month-container.tab-pane.active{"role" => "tabpanel"}
+        #chart-cumulative-revenue-by-day-of-month-container.tab-pane{"role" => "tabpanel"}
           #chart-cumulative-revenue-by-day-of-month.chart
 
         #chart-daily-revenue-container.tab-pane{"role" => "tabpanel"}
           #chart-daily-revenue.chart 
-
 
     - # TABLE #################################
     %table#table-revenue-by-month.stripe.order-column
@@ -153,6 +152,69 @@
 
     // CHARTS //////////////////////////////////////
     
+    // #chart-cumulative-revenue-by-month-of-year
+    $(function () { 
+      $('#chart-cumulative-revenue-by-month-of-year').highcharts({
+        chart: {
+          spacing: [40, 30, 40, 30],
+          type: 'line',
+          background: '#ffffff',
+          style: {
+            fontFamily: 'Source Sans Pro'
+          }
+        },
+        title: {
+          text: 'Am I on track to meet my revenue goal for the year?'
+        },
+        legend: {
+          itemStyle: {
+            'fontSize': '13px', 
+            'fontWeight': 'normal',
+            'color': '#555555'
+          },
+          margin: 20,
+          verticalAlign: 'top',
+          layout: 'vertical',
+          align: 'left',
+          itemMarginBottom: 8
+        },
+        xAxis: {
+          categories: #{get_month_names_array},
+          title: {
+            text: 'Month'
+          },
+          labels: {
+            style: {
+              fontSize: '13px'
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Revenue ($)'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "${value}"
+          },
+          tickInterval: '2000'
+        },
+        tooltip: {
+          formatter: function () {
+            return this.x + ' ' + this.series.name + ': <b>$' + this.y + '</b>';
+            },
+          style: {
+            'padding': '20px 20px 15px 20px',
+            'fontSize': '15px'
+          }
+        },
+        series: #{get_cumulative_revenue_by_month_of_year_series}
+      });
+    });
+
     // #chart-cumulative-revenue-by-day-of-month
     $(function () { 
       $('#chart-cumulative-revenue-by-day-of-month').highcharts({
@@ -201,7 +263,7 @@
             },
             format: "${value}"
           },
-          tickInterval: '1000'
+          tickInterval: '2000'
         },
         tooltip: {
           
@@ -267,18 +329,19 @@
             },
             format: "${value}"
           },
-          tickInterval: '100'
+          tickInterval: '200'
         },
         tooltip: {
           formatter: function () {
-            return this.x + ': <b>$' + this.y + '</b>';
+            revenue = this.y + Math.round(#{get_daily_revenue_goal_by_month(Date.today)})
+            return '<b>' + this.x + ':</b><br> Delta: <b>$' + this.y + '</b><br>Revenue: <b>$' + revenue + '</b>';
             },
           style: {
             'padding': '20px 20px 15px 20px',
             'fontSize': '15px'
           }
         },
-        series: #{get_daily_revenue_chart_series}
+        series: #{get_daily_revenue_vs_target_chart_series}
       });
     });
     

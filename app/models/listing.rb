@@ -12,7 +12,7 @@ class Listing < ActiveRecord::Base
 
   #######################################################
   # Makes it so that you can edit these database columns via ActiveAdmin and forms
-  attr_accessible :listing_type, :etsy_listing_variation, :product_id, :variation_id
+  attr_accessible :listing_type, :etsy_listing_variation, :product_id, :variation_id, :item_name
 
   def get_order_items
     @order_items = OrderItem.where(etsy_listing_variation: self.etsy_listing_variation)

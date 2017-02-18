@@ -6,10 +6,20 @@
 .border-top th {
   border-top: 1px solid #ddd;
 }
+.border-top-thick,
+.border-top-thick td,
+.border-top-thick th {
+  border-top: 3px solid #ddd !important;
+}
 .border-bottom,
 .border-bottom td,
 .border-bottom th {
   border-bottom: 1px solid #ddd;
+}
+.border-bottom-thick,
+.border-bottom-thick td,
+.border-bottom-thick th {
+  border-bottom: 3px solid #ddd !important;
 }
 
 /*Table*/

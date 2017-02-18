@@ -81,12 +81,12 @@
             %td
             %td
       %tfoot
-        %tr
-          %th.border-right{rowspan: 2} Month
+        %tr.border-top-thick
+          %th.border-right.border-bottom-thick{rowspan: 2} Month
           %th.border-right{colspan: 3} Yearly Totals
           %th.border-right{colspan: 3} Monthly Average
           %th{colspan: 3} Daily Average
-        %tr
+        %tr.border-bottom-thick
           %th Profit
           %th Revenue
           %th.border-right Expenses
@@ -96,7 +96,6 @@
           %th Profit
           %th Revenue
           %th Expenses
-
         - get_years.each do |year|
           %tr
             %th.border-right
@@ -113,6 +112,20 @@
               =format_money(get_average_daily_profit_by_year(year))
             %th=format_money(get_average_daily_revenue_by_year(year))
             %th=format_money(get_average_daily_expenses_by_year(year))
+        %tr.border-top-thick.border-bottom-thick
+          %th.border-right Total All Time
+          %th{class: get_profit < 0 ? "red" : "green"}
+            =format_money(get_profit)
+          %th=format_money(get_revenue)
+          %th.border-right=format_money(get_expenses_number)
+          %th{class: get_average_monthly_profit < 0 ? "red" : "green"}
+            =format_money(get_average_monthly_profit)
+          %th=format_money(get_average_monthly_revenue)
+          %th.border-right=format_money(get_average_monthly_expenses)
+          %th{class: get_average_daily_profit < 0 ? "red" : "green"}
+            =format_money(get_average_daily_profit)
+          %th=format_money(get_average_daily_revenue)
+          %th=format_money(get_average_daily_expenses)
 
   .page-content-body-section
     %h1

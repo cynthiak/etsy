@@ -3,132 +3,6 @@
 #page-dashboard.page-content-body
   .page-content-body-section
     %h1
-      Profit
-      %span.subtitle What is my cashflow?
-
-    - # PROFIT: TABS #################################
-    .tabbed-charts
-      .tabbed-charts-tabs.stats.stats-2.stats-tabbed{role: "tablist"}
-        %a.stat-container{"href" => "#chart-profit-by-year-container", "aria-controls" => "#chart-profit-by-year-container", "role" => "tab", "data-toggle" => "tab"}
-          .stat
-            .stat-label Money In Bank
-            .stat-number= format_money(get_total_funds)
-            .stat-stats
-              .stat-stats-row
-                %span.stat-stats-row-number{class: get_profit < 0 ? "red" : ""}
-                  = format_money(get_profit)
-                %span.stat-stats-row-label Total Profit
-              .stat-stats-row
-                %span.stat-stats-row-number= format_money(get_funds)
-                %span.stat-stats-row-label Miscellaneous Funds
-
-        %a.stat-container.active{"href" => "#chart-profit-by-month-container", "aria-controls" => "#chart-profit-by-month-container", "role" => "tab", "data-toggle" => "tab"} 
-          .stat
-            .stat-label= today.strftime "%B %Y" + " Profit"
-            .stat-number
-              %span{class: get_profit_by_month(today) < 0 ? "red" : "green"}
-                = format_money(get_profit_by_month(today))
-            .stat-stats
-              .stat-stats-row
-                %span.stat-stats-row-number= format_money(get_expenses_number_by_month(today)) 
-                %span.stat-stats-row-label expenses
-              .stat-stats-row
-                %span.stat-stats-row-number
-                  X% of
-                  = format_money(get_revenue_by_month(today))
-                %span.stat-stats-row-label revenue
-
-      - # REVENUE: CHARTS #################################
-      .tabbed-charts-content.tab-content
-        #chart-profit-by-year-container.tab-pane{"role" => "tabpanel"}
-          #chart-profit-by-year.chart
-
-        #chart-profit-by-month-container.tab-pane.active{"role" => "tabpanel"}
-          #chart-profit-by-month.chart
-
-    - # REVENUE: TABLE #################################
-    %table#table-profit-by-month.stripe.order-column
-      %thead
-        %tr
-          %th{rowspan: 2} Month
-          %th{colspan: 3} This Month
-          %th{colspan: 3} Average Daily This Month
-          %th{colspan: 3} Last 3 Months Average Daily
-        %tr
-          %th Profit
-          %th Revenue
-          %th Expenses
-          %th Profit
-          %th Revenue
-          %th Expenses
-          %th Profit
-          %th Revenue
-          %th Expenses
-      %tbody
-        - get_months.each do |month|
-          %tr{class: month.month == 12 ? "border-bottom" : ""}
-            %td.border-right
-              %strong= month.strftime "%Y - %m - %b"
-            %td{class: get_profit_by_month(month) < 0 ? "red" : "green"}
-              =format_money(get_profit_by_month(month))
-            %td= format_money(get_revenue_by_month(month))
-            %td.border-right= format_money(get_expenses_number_by_month(month))
-            %td{class: get_average_daily_profit_by_month(month) < 0 ? "red" : "green"}
-              =format_money(get_average_daily_profit_by_month(month))
-            %td=format_money(get_average_daily_revenue_by_month(nil, month))
-            %td.border-right= format_money(get_average_daily_expenses_by_month(month))
-            %td
-            %td
-            %td
-      %tfoot
-        %tr.border-top-thick
-          %th.border-right.border-bottom-thick{rowspan: 2} Month
-          %th.border-right{colspan: 3} Yearly Totals
-          %th.border-right{colspan: 3} Monthly Average
-          %th{colspan: 3} Daily Average
-        %tr.border-bottom-thick
-          %th Profit
-          %th Revenue
-          %th.border-right Expenses
-          %th Profit
-          %th Revenue
-          %th.border-right Expenses
-          %th Profit
-          %th Revenue
-          %th Expenses
-        - get_years.each do |year|
-          %tr
-            %th.border-right
-              %strong= year
-            %th{class: get_profit_by_year(year) < 0 ? "red" : "green"}
-              = format_money(get_profit_by_year(year))
-            %th= format_money(get_revenue_by_year(year))
-            %th.border-right= format_money(get_expenses_number_by_year(year))
-            %th{class: get_average_monthly_profit_by_year(year) < 0 ? "red" : "green"}
-              =format_money(get_average_monthly_profit_by_year(year))
-            %th=format_money(get_average_monthly_revenue_by_year(year))
-            %th.border-right=format_money(get_average_monthly_expenses_by_year(year))
-            %th{class: get_average_daily_profit_by_year(year) < 0 ? "red" : "green"}
-              =format_money(get_average_daily_profit_by_year(year))
-            %th=format_money(get_average_daily_revenue_by_year(year))
-            %th=format_money(get_average_daily_expenses_by_year(year))
-        %tr.border-top-thick.border-bottom-thick
-          %th.border-right Total All Time
-          %th{class: get_profit < 0 ? "red" : "green"}
-            =format_money(get_profit)
-          %th=format_money(get_revenue)
-          %th.border-right=format_money(get_expenses_number)
-          %th{class: get_average_monthly_profit < 0 ? "red" : "green"}
-            =format_money(get_average_monthly_profit)
-          %th=format_money(get_average_monthly_revenue)
-          %th.border-right=format_money(get_average_monthly_expenses)
-          %th{class: get_average_daily_profit < 0 ? "red" : "green"}
-            =format_money(get_average_daily_profit)
-          %th=format_money(get_average_daily_revenue)
-          %th=format_money(get_average_daily_expenses)
-
-  .page-content-body-section
-    %h1
       Margin
       %span.subtitle Is the business healthy?
 
@@ -272,7 +146,145 @@
             %th
               - pct = get_daily_percentage_achieved_for_year(year)
               %span{class: pct > 100 ? 'green' : 'red'}= format_percentage(pct)
+        %tr.border-top-thick
+          %th.border-right 
+            %strong Total All Time
+          %th= format_money(get_revenue) 
+          %th
+          %th.border-right
+          %th.border-right= format_money(get_average_daily_revenue)
+          %th
+          %th.border-right
+          %th
+          %th
+
   
+
+  .page-content-body-section
+    %h1
+      Profit
+      %span.subtitle What is my cashflow?
+
+    - # PROFIT: TABS #################################
+    .tabbed-charts
+      .tabbed-charts-tabs.stats.stats-2.stats-tabbed{role: "tablist"}
+        %a.stat-container{"href" => "#chart-profit-by-year-container", "aria-controls" => "#chart-profit-by-year-container", "role" => "tab", "data-toggle" => "tab"}
+          .stat
+            .stat-label Money In Bank
+            .stat-number= format_money(get_total_funds)
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number{class: get_profit < 0 ? "red" : ""}
+                  = format_money(get_profit)
+                %span.stat-stats-row-label Total Profit
+              .stat-stats-row
+                %span.stat-stats-row-number= format_money(get_funds)
+                %span.stat-stats-row-label Miscellaneous Funds
+
+        %a.stat-container.active{"href" => "#chart-profit-by-month-container", "aria-controls" => "#chart-profit-by-month-container", "role" => "tab", "data-toggle" => "tab"} 
+          .stat
+            .stat-label= today.strftime "%B %Y" + " Profit"
+            .stat-number
+              %span{class: get_profit_by_month(today) < 0 ? "red" : "green"}
+                = format_money(get_profit_by_month(today))
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number= format_money(get_expenses_number_by_month(today)) 
+                %span.stat-stats-row-label expenses
+              .stat-stats-row
+                %span.stat-stats-row-number
+                  X% of
+                  = format_money(get_revenue_by_month(today))
+                %span.stat-stats-row-label revenue
+
+      - # REVENUE: CHARTS #################################
+      .tabbed-charts-content.tab-content
+        #chart-profit-by-year-container.tab-pane{"role" => "tabpanel"}
+          #chart-profit-by-year.chart
+
+        #chart-profit-by-month-container.tab-pane.active{"role" => "tabpanel"}
+          #chart-profit-by-month.chart
+
+    - # REVENUE: TABLE #################################
+    %table#table-profit-by-month.stripe.order-column
+      %thead
+        %tr
+          %th{rowspan: 2} Month
+          %th{colspan: 3} This Month
+          %th{colspan: 3} Average Daily This Month
+          %th{colspan: 3} Last 3 Months Average Daily
+        %tr
+          %th Profit
+          %th Revenue
+          %th Expenses
+          %th Profit
+          %th Revenue
+          %th Expenses
+          %th Profit
+          %th Revenue
+          %th Expenses
+      %tbody
+        - get_months.each do |month|
+          %tr{class: month.month == 12 ? "border-bottom" : ""}
+            %td.border-right
+              %strong= month.strftime "%Y - %m - %b"
+            %td{class: get_profit_by_month(month) < 0 ? "red" : "green"}
+              =format_money(get_profit_by_month(month))
+            %td= format_money(get_revenue_by_month(month))
+            %td.border-right= format_money(get_expenses_number_by_month(month))
+            %td{class: get_average_daily_profit_by_month(month) < 0 ? "red" : "green"}
+              =format_money(get_average_daily_profit_by_month(month))
+            %td=format_money(get_average_daily_revenue_by_month(nil, month))
+            %td.border-right= format_money(get_average_daily_expenses_by_month(month))
+            %td
+            %td
+            %td
+      %tfoot
+        %tr.border-top-thick
+          %th.border-right.border-bottom-thick{rowspan: 2} Month
+          %th.border-right{colspan: 3} Yearly Totals
+          %th.border-right{colspan: 3} Monthly Average
+          %th{colspan: 3} Daily Average
+        %tr.border-bottom-thick
+          %th Profit
+          %th Revenue
+          %th.border-right Expenses
+          %th Profit
+          %th Revenue
+          %th.border-right Expenses
+          %th Profit
+          %th Revenue
+          %th Expenses
+        - get_years.each do |year|
+          %tr
+            %th.border-right
+              %strong= year
+            %th{class: get_profit_by_year(year) < 0 ? "red" : "green"}
+              = format_money(get_profit_by_year(year))
+            %th= format_money(get_revenue_by_year(year))
+            %th.border-right= format_money(get_expenses_number_by_year(year))
+            %th{class: get_average_monthly_profit_by_year(year) < 0 ? "red" : "green"}
+              =format_money(get_average_monthly_profit_by_year(year))
+            %th=format_money(get_average_monthly_revenue_by_year(year))
+            %th.border-right=format_money(get_average_monthly_expenses_by_year(year))
+            %th{class: get_average_daily_profit_by_year(year) < 0 ? "red" : "green"}
+              =format_money(get_average_daily_profit_by_year(year))
+            %th=format_money(get_average_daily_revenue_by_year(year))
+            %th=format_money(get_average_daily_expenses_by_year(year))
+        %tr.border-top-thick.border-bottom-thick
+          %th.border-right Total All Time
+          %th{class: get_profit < 0 ? "red" : "green"}
+            =format_money(get_profit)
+          %th=format_money(get_revenue)
+          %th.border-right=format_money(get_expenses_number)
+          %th{class: get_average_monthly_profit < 0 ? "red" : "green"}
+            =format_money(get_average_monthly_profit)
+          %th=format_money(get_average_monthly_revenue)
+          %th.border-right=format_money(get_average_monthly_expenses)
+          %th{class: get_average_daily_profit < 0 ? "red" : "green"}
+            =format_money(get_average_daily_profit)
+          %th=format_money(get_average_daily_revenue)
+          %th=format_money(get_average_daily_expenses)
 
 :javascript
 
@@ -290,6 +302,87 @@
 
     // PROFIT CHARTS //////////////////////////////////////
     $(function () { 
+      // #chart-profit-by-year
+      $('#chart-profit-by-year').highcharts({
+        chart: {
+          spacing: [40, 30, 40, 30],
+          type: 'line',
+          background: '#ffffff',
+          style: {
+            fontFamily: 'Source Sans Pro'
+          }
+        },
+        title: {
+          text: ''
+        },
+        legend: {
+          itemStyle: {
+            'fontSize': '15px', 
+            'fontWeight': 'normal',
+            'color': '#555555'
+          },
+          margin: 20,
+          verticalAlign: 'top'
+        },
+        xAxis: {
+          categories: #{get_years},
+          labels: {
+            style: {
+              fontSize: '14px'
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Amount ($)'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "${value}"
+          },
+          tickInterval: '500'
+        },
+        tooltip: {
+          shared: true,
+          headerFormat: '<span style="font-size: 15px; font-weight: bold;">{point.key}</span><br/>',
+          style: {
+            'padding': '20px 20px 15px 20px',
+            'fontSize': '15px'
+          }
+        },
+        series: [
+          {
+            type: 'column',
+            name: 'Profit',
+            data: #{get_profit_array_by_years},
+            color: 'black',
+            negativeColor: 'red',
+            marker: {
+              enabled: false
+            },
+            fillOpacity: '0.25'
+          },
+          {
+            name: 'Cost',
+            data: #{get_cost_array_by_years},
+            color: '#FF4343',
+            marker: {
+              enabled: false
+            }
+          },
+          {
+            name: 'Revenue',
+            data: #{get_revenue_array_by_years},
+            color: '#70DE64',
+            marker: {
+              enabled: false
+            }
+          }
+        ]
+      });
       // #chart-profit-by-month
       $('#chart-profit-by-month').highcharts({
         chart: {

@@ -14,6 +14,10 @@ table.dataTable {
    * Body styles
    */
 }
+table.dataTable th,
+table.dataTable td {
+  vertical-align: middle;
+}
 table.dataTable thead th,
 table.dataTable tfoot th {
   font-weight: bold;

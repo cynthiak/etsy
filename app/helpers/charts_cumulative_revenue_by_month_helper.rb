@@ -1,4 +1,4 @@
-module ChartsCumulativeByMonthHelper
+module ChartsCumulativeRevenueByMonthHelper
   require 'json'
 
   # Cumulative Revenue By Day Of Month: Summary Series Only ########################
@@ -34,7 +34,7 @@ module ChartsCumulativeByMonthHelper
       'data' => current_year_revenue_by_month,
       'type' => 'column',
       'borderWidth' => 0,
-      'color' => '#E27AA0',
+      'color' => '#F0A4C0',
       'marker' => {
           'enabled' => false
         }

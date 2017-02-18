@@ -73,10 +73,10 @@
               #{pluralize(number_with_delimiter(get_items_sold_count), 'item')}
             .stat-stats
               .stat-stats-row
-                %span.stat-stats-row-number= get_items_sold_count("Retail")
+                %span.stat-stats-row-number= get_items_sold_count("Retail", nil, nil)
                 %span.stat-stats-row-label retail
               .stat-stats-row
-                %span.stat-stats-row-number= get_items_sold_count("Wholesale")
+                %span.stat-stats-row-number= get_items_sold_count("Wholesale", nil, nil)
                 %span.stat-stats-row-label wholesale
       .stat-container
         .stat

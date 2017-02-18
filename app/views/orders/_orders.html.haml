@@ -36,7 +36,7 @@
           .stat
             .stat-label Total Order Items
             .stat-number
-              = get_items_sold_count(order_type)
+              = get_items_sold_count(order_type, nil, nil)
               items
 
       = link_to order_items_url do

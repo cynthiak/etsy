@@ -43,7 +43,7 @@ module RevenueHelper
 
   # Average Revenue ##############
   def get_average_revenue_per_item(order_type=nil)
-    (get_revenue(order_type)/get_items_sold_count(order_type)).round(2)
+    (get_revenue(order_type)/get_items_sold_count(order_type, nil, nil)).round(2)
   end
   def get_average_monthly_revenue(order_type=nil, start_date=nil, end_date=nil)
     if start_date == nil 
@@ -98,7 +98,7 @@ module RevenueHelper
   end
 
   def get_average_revenue_per_order_item(order_type=nil)
-    (get_revenue(order_type)/get_items_sold_count(order_type)).round(2)
+    (get_revenue(order_type)/get_items_sold_count(order_type, nil, nil)).round(2)
   end
 
   def get_average_revenue_per_customer(order_type=nil)

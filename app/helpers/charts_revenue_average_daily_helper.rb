@@ -1,4 +1,4 @@
-module ChartsAverageDailyRevenueHelper
+module ChartsRevenueAverageDailyHelper
   require 'json'
 
   # Average Daily Revenue By Day ##########################################

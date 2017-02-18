@@ -2,19 +2,13 @@
 
 #page-dashboard.page-content-body
   .page-content-body-section
-    %h1
-      Margin
-      %span.subtitle Is the business healthy?
-
-
-  .page-content-body-section
     %h1 
       Revenue
       %span.subtitle Am I on track to meet my revenue goals?
 
     - # REVENUE: TABS #################################
     .tabbed-charts
-      .tabbed-charts-tabs.stats.stats-3.stats-tabbed{role: "tablist"}
+      .tabbed-charts-tabs-revenue.tabbed-charts-tabs.stats.stats-3.stats-tabbed{role: "tablist"}
         %a.stat-container{"href" => "#chart-cumulative-revenue-by-month-of-year-container", "aria-controls" => "chart-cumulative-revenue-by-month-of-year-container", "role" => "tab", "data-toggle" => "tab"}
           .stat
             .stat-label= today.strftime "%B %Y" + " Revenue"
@@ -158,8 +152,6 @@
           %th
           %th
 
-  
-
   .page-content-body-section
     %h1
       Profit
@@ -167,7 +159,7 @@
 
     - # PROFIT: TABS #################################
     .tabbed-charts
-      .tabbed-charts-tabs.stats.stats-2.stats-tabbed{role: "tablist"}
+      .tabbed-charts-tabs-profit.tabbed-charts-tabs.stats.stats-2.stats-tabbed{role: "tablist"}
         %a.stat-container{"href" => "#chart-profit-by-year-container", "aria-controls" => "#chart-profit-by-year-container", "role" => "tab", "data-toggle" => "tab"}
           .stat
             .stat-label Money In Bank
@@ -285,18 +277,371 @@
             =format_money(get_average_daily_profit)
           %th=format_money(get_average_daily_revenue)
           %th=format_money(get_average_daily_expenses)
+  
+  .page-content-body-section
+    %h1
+      Margin
+      %span.subtitle Is the business healthy?
+
+    - # MARGIN: TABS #################################
+    .tabbed-charts
+      .tabbed-charts-tabs-margin.tabbed-charts-tabs.stats.stats-2.stats-tabbed{role: "tablist"}
+        %a.stat-container.active{"href" => "#chart-margin-in-dollars-container", "aria-controls" => "chart-margin-in-dollars-container", "role" => "tab", "data-toggle" => "tab"}
+          .stat
+            .stat-label Total Margin
+            .stat-number=format_money(get_margin)
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number=format_money(get_margin("Retail")) 
+                %span.stat-stats-row-label 
+                  Retail
+                  = "(" + format_percentage(get_percentage_of_margin_that_is_order_type("Retail", nil, nil)) + ")"
+              .stat-stats-row
+                %span.stat-stats-row-number=format_money(get_margin("Wholesale")) 
+                %span.stat-stats-row-label 
+                  Wholesale
+                  = "(" + format_percentage(get_percentage_of_margin_that_is_order_type("Wholesale", nil, nil)) + ")"
+
+        %a.stat-container{"href" => "#chart-margin-in-percentage-container", "aria-controls" => "chart-margin-in-percentage-container", "role" => "tab", "data-toggle" => "tab"} 
+          .stat
+            .stat-label Total Margin
+            .stat-number=format_percentage(get_margin_percentage)
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number=format_percentage(get_margin_percentage("Retail", nil, nil))
+                %span.stat-stats-row-label Retail
+              .stat-stats-row
+                %span.stat-stats-row-number=format_percentage(get_margin_percentage("Wholesale", nil, nil))
+                %span.stat-stats-row-label Wholesale
+
+      - # MARGIN: CHARTS #################################
+      .tabbed-charts-content.tab-content
+        #chart-margin-in-dollars-container.tab-pane.active{"role" => "tabpanel"}
+          #chart-margin-in-dollars.chart
+
+        #chart-margin-in-percentage-container.tab-pane{"role" => "tabpanel"}
+          #chart-margin-in-percentage.chart
+
+    - # MARGIN: TABLE #################################
+    %table#table-margin-by-month.stripe.order-column
+      %thead
+        %tr
+          %th{rowspan: 2} Month
+          %th{colspan: 4} Total Margin
+          %th{colspan: 5} Retail Margin
+          %th{colspan: 5} Wholesale Margin
+        %tr
+          %th ($)
+          %th (%)
+          %th Per Item
+          %th Items
+
+          %th Of Total
+          %th ($)
+          %th (%)
+          %th Per Item
+          %th Items
+
+          %th Of Total
+          %th ($)
+          %th (%)
+          %th Per Item
+          %th Items
+      %tbody
+        - get_months.each do |month|
+          %tr{class: month.month == 12 ? "border-bottom" : ""}
+            %td.border-right
+              %strong= month.strftime "%Y - %m - %b"
+
+            %td=format_money(get_margin_by_month(nil, month))
+            %td=format_percentage(get_margin_percentage_by_month(nil, month))
+            %td=format_money(get_average_margin_per_item_by_month(nil, month))
+            %td.border-right=get_items_sold_count_by_month(nil, month)
+
+            %td.border-right= format_percentage(get_percentage_of_margin_that_is_order_type_by_month("Retail", month))
+            %td=format_money(get_margin_by_month("Retail", month))
+            %td=format_percentage(get_margin_percentage_by_month("Retail", month))
+            %td=format_money(get_average_margin_per_item_by_month("Retail", month))
+            %td.border-right=get_items_sold_count_by_month("Retail", month)
+
+            %td.border-right= format_percentage(get_percentage_of_margin_that_is_order_type_by_month("Wholesale", month))
+            %td=format_money(get_margin_by_month("Wholesale", month))
+            %td=format_percentage(get_margin_percentage_by_month("Wholesale", month))
+            %td=format_money(get_average_margin_per_item_by_month("Wholesale", month))
+            %td=get_items_sold_count_by_month("Wholesale", month)
+      %tfoot
+        %tr.border-top-thick
+          %th.border-right.border-bottom-thick{rowspan: 2} Month
+          %th{colspan: 4} Total Margin
+          %th.border-left{colspan: 5} Retail Margin
+          %th.border-left{colspan: 5} Wholesale Margin
+        %tr.border-bottom-thick
+          %th ($)
+          %th (%)
+          %th Per Item
+          %th.border-right Items
+
+          %th Of Total
+          %th ($)
+          %th (%)
+          %th Per Item
+          %th.border-right Items
+
+          %th Of Total
+          %th ($)
+          %th (%)
+          %th Per Item
+          %th Items
+        - get_years.each do |year|
+          %tr
+            %th.border-right
+              %strong
+                Total -
+                = year
+
+            %th.green=format_money(get_margin_by_year(nil, year))
+            %th=format_percentage(get_margin_percentage_by_year(nil, year))
+            %th=format_money(get_average_margin_per_item_by_year(nil, year))
+            %th.border-right=get_items_sold_count_by_year(nil, year)
+
+            %th.border-right= format_percentage(get_percentage_of_margin_that_is_order_type_by_year("Retail", year))
+            %th.green=format_money(get_margin_by_year("Retail", year))
+            %th=format_percentage(get_margin_percentage_by_year("Retail", year))
+            %th=format_money(get_average_margin_per_item_by_year("Retail", year))
+            %th.border-right=get_items_sold_count_by_year("Retail", year)
+
+            %th.border-right= format_percentage(get_percentage_of_margin_that_is_order_type_by_year("Wholesale", year))
+            %th.green=format_money(get_margin_by_year("Wholesale", year))
+            %th=format_percentage(get_margin_percentage_by_year("Wholesale", year))
+            %th=format_money(get_average_margin_per_item_by_year("Wholesale", year))
+            %th=get_items_sold_count_by_year("Wholesale", year)
+
+          
 
 :javascript
 
-    // CHART TABS //////////////////////////////////////
-    $('.tabbed-charts-tabs a').click(function (e) {
+    // ALL CHART TABS //////////////////////////////////////
+    $('.tabbed-charts-tabs-revenue a').click(function (e) {
       e.preventDefault();
       $(this).tab('show');
-      $('.tabbed-charts-tabs a').removeClass('active');
+      $('.tabbed-charts-tabs-revenue a').removeClass('active');
       $(this).addClass('active');
       jQuery(".chart").each(function() {
         var chart = jQuery(this).highcharts(); // target the chart itself
         chart.reflow(); // reflow that chart
+      });
+    });
+
+    $('.tabbed-charts-tabs-profit a').click(function (e) {
+      e.preventDefault();
+      $(this).tab('show');
+      $('.tabbed-charts-tabs-profit a').removeClass('active');
+      $(this).addClass('active');
+      jQuery(".chart").each(function() {
+        var chart = jQuery(this).highcharts(); // target the chart itself
+        chart.reflow(); // reflow that chart
+      });
+    });
+
+    $('.tabbed-charts-tabs-margin a').click(function (e) {
+      e.preventDefault();
+      $(this).tab('show');
+      $('.tabbed-charts-tabs-margin a').removeClass('active');
+      $(this).addClass('active');
+      jQuery(".chart").each(function() {
+        var chart = jQuery(this).highcharts(); // target the chart itself
+        chart.reflow(); // reflow that chart
+      });
+    });
+
+    
+    // REVENUE CHARTS //////////////////////////////////////
+    $(function () { 
+      // #chart-cumulative-revenue-by-month-of-year
+      $('#chart-cumulative-revenue-by-month-of-year').highcharts({
+        chart: {
+          spacing: [40, 30, 40, 30],
+          type: 'line',
+          background: '#ffffff',
+          style: {
+            fontFamily: 'Source Sans Pro'
+          }
+        },
+        title: {
+          text: 'Am I on track to meet my revenue goal for the year?'
+        },
+        legend: {
+          itemStyle: {
+            'fontSize': '13px', 
+            'fontWeight': 'normal',
+            'color': '#555555'
+          },
+          margin: 20,
+          verticalAlign: 'top',
+          layout: 'vertical',
+          align: 'left',
+          itemMarginBottom: 8
+        },
+        xAxis: {
+          categories: #{get_month_names_array},
+          title: {
+            text: 'Month'
+          },
+          labels: {
+            style: {
+              fontSize: '13px'
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Revenue ($)'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "${value}"
+          },
+          tickInterval: '5000'
+        },
+        tooltip: {
+          formatter: function () {
+            return this.x + ' ' + this.series.name + ': <b>$' + this.y + '</b>';
+            },
+          style: {
+            'padding': '20px 20px 15px 20px',
+            'fontSize': '15px'
+          }
+        },
+        series: #{get_cumulative_revenue_by_month_of_year_series}
+      });
+
+      // #chart-cumulative-revenue-by-day-of-month
+      $('#chart-cumulative-revenue-by-day-of-month').highcharts({
+        chart: {
+          spacing: [40, 30, 40, 30],
+          type: 'line',
+          background: '#ffffff',
+          style: {
+            fontFamily: 'Source Sans Pro'
+          }
+        },
+        title: {
+          text: 'Am I on track to meet my revenue goal for the month?'
+        },
+        legend: {
+          itemStyle: {
+            'fontSize': '13px', 
+            'fontWeight': 'normal',
+            'color': '#555555'
+          },
+          margin: 20,
+          verticalAlign: 'top',
+          layout: 'vertical',
+          align: 'left',
+          itemMarginBottom: 8
+        },
+        xAxis: {
+          categories: #{get_days_of_month_array},
+          title: {
+            text: 'Day Of Month'
+          },
+          labels: {
+            style: {
+              fontSize: '13px'
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Revenue ($)'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "${value}"
+          },
+          tickInterval: '2000'
+        },
+        tooltip: {
+          
+          headerFormat: '<span style="font-size: 15px; font-weight: bold;">Day {point.key}</span><br/>',
+          style: {
+            'padding': '20px 20px 15px 20px',
+            'fontSize': '15px'
+          }
+        },
+        series: #{get_cumulative_revenue_by_day_of_month_series_summary}
+      });
+
+      // #chart-daily-revenue
+      $('#chart-daily-revenue').highcharts({
+        chart: {
+          spacing: [40, 30, 40, 30],
+          type: 'line',
+          background: '#ffffff',
+          reflow: true,
+          style: {
+            fontFamily: 'Source Sans Pro'
+          }
+        },
+        title: {
+          text: 'Am I on track to meet my revenue goal today?'
+        },
+        legend: {
+          itemStyle: {
+            'fontSize': '13px', 
+            'fontWeight': 'normal',
+            'color': '#555555'
+          },
+          margin: 20,
+          verticalAlign: 'top',
+          layout: 'vertical',
+          align: 'left',
+          itemMarginBottom: 8
+        },
+        xAxis: {
+          categories: #{get_last_x_dates_as_strings_array},
+          title: {
+            text: 'Last 60 Days',
+            offset: 50
+          },
+          labels: {
+            autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90],
+            rotation: -90,
+            style: {
+              fontSize: '13px'
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Revenue ($)'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "${value}"
+          },
+          tickInterval: '200'
+        },
+        tooltip: {
+          formatter: function () {
+            revenue = this.y + Math.round(#{get_daily_revenue_goal_by_month(Date.today)})
+            return '<b>' + this.x + ':</b><br> Delta: <b>$' + this.y + '</b><br>Revenue: <b>$' + revenue + '</b>';
+            },
+          style: {
+            'padding': '20px 20px 15px 20px',
+            'fontSize': '15px'
+          }
+        },
+        series: #{get_daily_revenue_vs_target_chart_series}
       });
     });
 
@@ -466,6 +811,178 @@
       });
     });
 
+    // MARGIN CHARTS //////////////////////////////////////
+    $(function () { 
+      // #chart-margin-in-dollars
+      $('#chart-margin-in-dollars').highcharts({
+        chart: {
+          spacing: [40, 30, 40, 30],
+          type: 'line',
+          background: '#ffffff',
+          style: {
+            fontFamily: 'Source Sans Pro'
+          }
+        },
+        title: {
+          text: ''
+        },
+        legend: {
+          itemStyle: {
+            'fontSize': '15px', 
+            'fontWeight': 'normal',
+            'color': '#555555'
+          },
+          margin: 20,
+          verticalAlign: 'top'
+        },
+        xAxis: {
+          categories: #{get_months_array},
+          labels: {
+            style: {
+              fontSize: '14px'
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Total Margin ($)'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "${value}"
+          },
+          tickInterval: '1000'
+        },
+        tooltip: {
+          shared: true,
+          headerFormat: '<span style="font-size: 15px; font-weight: bold;">{point.key}</span><br/>',
+          style: {
+            'padding': '20px 20px 15px 20px',
+            'fontSize': '15px'
+          }
+        },
+        series: [
+          {
+            name: 'Retail',
+            data: #{get_margin_array_by_months("Retail")},
+            color: '#FFA67C',
+            marker: {
+              enabled: false
+            }
+          },
+          {
+            name: 'Wholesale',
+            data: #{get_margin_array_by_months("Wholesale")},
+            marker: {
+              enabled: false
+            }
+          },
+          {
+            type: 'area',
+            name: 'All',
+            color: '#F0A4C0',
+            data: #{get_margin_array_by_months},
+            marker: {
+              enabled: false
+            },
+            fillOpacity: '0.25'
+          }
+        ]
+      });
+
+      // #chart-margin-in-percentage
+      $('#chart-margin-in-percentage').highcharts({
+        chart: {
+          spacing: [40, 30, 40, 30],
+          type: 'line',
+          background: '#ffffff',
+          style: {
+            fontFamily: 'Source Sans Pro'
+          }
+        },
+        title: {
+          text: ''
+        },
+        legend: {
+          itemStyle: {
+            'fontSize': '15px', 
+            'fontWeight': 'normal',
+            'color': '#555555'
+          },
+          margin: 20,
+          verticalAlign: 'top'
+        },
+        xAxis: {
+          categories: #{get_months_array},
+          labels: {
+            style: {
+              fontSize: '14px'
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Margin (%)'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "{value}%"
+          },
+          tickInterval: '10'
+        },
+        tooltip: {
+          shared: true,
+          headerFormat: '<span style="font-size: 15px; font-weight: bold;">{point.key}</span><br/>',
+          style: {
+            'padding': '20px 20px 15px 20px',
+            'fontSize': '15px'
+          }
+        },
+        series: [
+          {
+            name: 'Retail',
+            data: #{get_margin_percentage_array_by_month("Retail")},
+            color: '#FFA67C',
+            marker: {
+              enabled: false
+            }
+          },
+          {
+            name: 'Wholesale',
+            data: #{get_margin_percentage_array_by_month("Wholesale")},
+            marker: {
+              enabled: false
+            }
+          },
+          {
+            type: 'area',
+            name: 'All',
+            data: #{get_margin_percentage_array_by_month},
+            color: '#F0A4C0',
+            marker: {
+              enabled: false
+            },
+            fillOpacity: '0.25'
+          }
+        ]
+      });
+    });
+
+
+    // REVENUE TABLE //////////////////////////////////////
+    $("#table-revenue-by-month").DataTable({
+      dom: 'iCfrtS',
+      pageLength: -1,
+      order: [0, 'asc'],
+      orderClasses: true
+    });
+
     // PROFIT TABLE //////////////////////////////////////
     $("#table-profit-by-month").DataTable({
       dom: 'iCfrtS',
@@ -474,198 +991,8 @@
       orderClasses: true
     });
 
-    // REVENUE CHARTS //////////////////////////////////////
-    $(function () { 
-      // #chart-cumulative-revenue-by-month-of-year
-      $('#chart-cumulative-revenue-by-month-of-year').highcharts({
-        chart: {
-          spacing: [40, 30, 40, 30],
-          type: 'line',
-          background: '#ffffff',
-          style: {
-            fontFamily: 'Source Sans Pro'
-          }
-        },
-        title: {
-          text: 'Am I on track to meet my revenue goal for the year?'
-        },
-        legend: {
-          itemStyle: {
-            'fontSize': '13px', 
-            'fontWeight': 'normal',
-            'color': '#555555'
-          },
-          margin: 20,
-          verticalAlign: 'top',
-          layout: 'vertical',
-          align: 'left',
-          itemMarginBottom: 8
-        },
-        xAxis: {
-          categories: #{get_month_names_array},
-          title: {
-            text: 'Month'
-          },
-          labels: {
-            style: {
-              fontSize: '13px'
-            }
-          }
-        },
-        yAxis: {
-          title: {
-            text: 'Revenue ($)'
-          },
-          opposite: true,
-          labels: {
-            style: {
-              fontSize: '13px'
-            },
-            format: "${value}"
-          },
-          tickInterval: '2000'
-        },
-        tooltip: {
-          formatter: function () {
-            return this.x + ' ' + this.series.name + ': <b>$' + this.y + '</b>';
-            },
-          style: {
-            'padding': '20px 20px 15px 20px',
-            'fontSize': '15px'
-          }
-        },
-        series: #{get_cumulative_revenue_by_month_of_year_series}
-      });
-
-      // #chart-cumulative-revenue-by-day-of-month
-      $('#chart-cumulative-revenue-by-day-of-month').highcharts({
-        chart: {
-          spacing: [40, 30, 40, 30],
-          type: 'line',
-          background: '#ffffff',
-          style: {
-            fontFamily: 'Source Sans Pro'
-          }
-        },
-        title: {
-          text: 'Am I on track to meet my revenue goal for the month?'
-        },
-        legend: {
-          itemStyle: {
-            'fontSize': '13px', 
-            'fontWeight': 'normal',
-            'color': '#555555'
-          },
-          margin: 20,
-          verticalAlign: 'top',
-          layout: 'vertical',
-          align: 'left',
-          itemMarginBottom: 8
-        },
-        xAxis: {
-          categories: #{get_days_of_month_array},
-          title: {
-            text: 'Day Of Month'
-          },
-          labels: {
-            style: {
-              fontSize: '13px'
-            }
-          }
-        },
-        yAxis: {
-          title: {
-            text: 'Revenue ($)'
-          },
-          opposite: true,
-          labels: {
-            style: {
-              fontSize: '13px'
-            },
-            format: "${value}"
-          },
-          tickInterval: '2000'
-        },
-        tooltip: {
-          
-          headerFormat: '<span style="font-size: 15px; font-weight: bold;">Day {point.key}</span><br/>',
-          style: {
-            'padding': '20px 20px 15px 20px',
-            'fontSize': '15px'
-          }
-        },
-        series: #{get_cumulative_revenue_by_day_of_month_series_summary}
-      });
-
-      // #chart-daily-revenue
-      $('#chart-daily-revenue').highcharts({
-        chart: {
-          spacing: [40, 30, 40, 30],
-          type: 'line',
-          background: '#ffffff',
-          reflow: true,
-          style: {
-            fontFamily: 'Source Sans Pro'
-          }
-        },
-        title: {
-          text: 'Am I on track to meet my revenue goal today?'
-        },
-        legend: {
-          itemStyle: {
-            'fontSize': '13px', 
-            'fontWeight': 'normal',
-            'color': '#555555'
-          },
-          margin: 20,
-          verticalAlign: 'top',
-          layout: 'vertical',
-          align: 'left',
-          itemMarginBottom: 8
-        },
-        xAxis: {
-          categories: #{get_last_x_dates_as_strings_array},
-          title: {
-            text: 'Last 60 Days',
-            offset: 50
-          },
-          labels: {
-            autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90],
-            rotation: -90,
-            style: {
-              fontSize: '13px'
-            }
-          }
-        },
-        yAxis: {
-          title: {
-            text: 'Revenue ($)'
-          },
-          opposite: true,
-          labels: {
-            style: {
-              fontSize: '13px'
-            },
-            format: "${value}"
-          },
-          tickInterval: '200'
-        },
-        tooltip: {
-          formatter: function () {
-            revenue = this.y + Math.round(#{get_daily_revenue_goal_by_month(Date.today)})
-            return '<b>' + this.x + ':</b><br> Delta: <b>$' + this.y + '</b><br>Revenue: <b>$' + revenue + '</b>';
-            },
-          style: {
-            'padding': '20px 20px 15px 20px',
-            'fontSize': '15px'
-          }
-        },
-        series: #{get_daily_revenue_vs_target_chart_series}
-      });
-    });
-
-    // REVENUE TABLE //////////////////////////////////////
-    $("#table-revenue-by-month").DataTable({
+    // MARGIN TABLE //////////////////////////////////////
+    $("#table-margin-by-month").DataTable({
       dom: 'iCfrtS',
       pageLength: -1,
       order: [0, 'asc'],

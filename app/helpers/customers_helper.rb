@@ -14,6 +14,6 @@ module CustomersHelper
     (get_orders_count(customer_type)/get_customers_count(customer_type)).round(0)
   end
   def get_average_order_items_per_customer(customer_type=nil)
-    (get_items_sold_count(customer_type)/get_customers_count(customer_type)).round(0)
+    (get_items_sold_count(customer_type, nil, nil)/get_customers_count(customer_type)).round(0)
   end
 end

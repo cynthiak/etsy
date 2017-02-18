@@ -1,4 +1,4 @@
-module ChartsCumulativeRevenueByMonthHelper
+module ChartsRevenueCumulativeByMonthHelper
   require 'json'
 
   # Cumulative Revenue By Day Of Month: Summary Series Only ########################

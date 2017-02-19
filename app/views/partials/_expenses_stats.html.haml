@@ -17,12 +17,45 @@
     - get_expense_types.each do |expense_type|
       %tr
         %td= expense_type
-        %td= "$" + number_with_delimiter(get_expenses_by_type(expense_type)).to_s
+        %td= "$" + number_with_delimiter(get_expenses_by_type(expense_type, nil, nil)).to_s
+
+
+%table#table-expense-categories-2.stripe.order-column
+  %thead
+    %tr
+      %th{rowspan: 2} Expense
+      %th{colspan: 2} All Time
+      -get_years.each do |year|
+        %th{colspan: 2}= year
+    %tr
+      %th ($)
+      %th (%)
+      -get_years.each do |year|
+        %th ($)
+        %th (%)
+  %tbody
+    - get_expense_types.each do |expense_type|
+      %tr
+        %td=expense_type
+        %td=format_money(get_expenses_by_type(expense_type, nil, nil))
+        %td=format_percentage(get_expenses_percentage_by_type(expense_type, nil, nil))
+        -get_years.each do |year|
+          %td=format_money(get_expenses_by_type_by_year(expense_type, year))
+          %td=format_percentage(get_expenses_percentage_by_type_by_year(expense_type, year))
+      
+        
+        
 
 
 
 :javascript
   $("#table-expense-categories").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'desc'],
+    orderClasses: true
+  });
+  $("#table-expense-categories-2").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [1, 'desc'],

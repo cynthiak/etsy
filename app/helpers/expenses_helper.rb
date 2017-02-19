@@ -1,4 +1,6 @@
 module ExpensesHelper
+
+  # Expenses ##############
   def get_expenses
     Expense.all
   end
@@ -23,6 +25,7 @@ module ExpensesHelper
     return get_expenses_number(start_date, end_date)
   end
 
+  # Average Monthly Expenses ##############
   def get_average_monthly_expenses(start_date=nil, end_date=nil)
     if start_date == nil 
       start_date = get_first_sale_date
@@ -38,6 +41,7 @@ module ExpensesHelper
     return get_average_monthly_expenses(start_date, end_date)
   end
 
+  # Average Daily Expenses ##############
   def get_average_daily_expenses(start_date=nil, end_date=nil)
     if start_date == nil 
       start_date = get_first_sale_date
@@ -58,12 +62,38 @@ module ExpensesHelper
     return get_average_daily_expenses(start_date, end_date)
   end
 
+  # By Expense Type ##############
   def get_expense_types
     Expense.order(:expense_type).pluck(:expense_type).uniq
   end
 
-  def get_expenses_by_type(expense_type)
-    Expense.where(expense_type: expense_type).sum(:amount).round(2)
+  def get_expenses_by_type(expense_type, start_date=nil, end_date=nil)
+    if start_date == nil 
+      start_date = get_first_sale_date
+    end
+    if end_date == nil
+      end_date = get_last_sale_date
+    end
+    Expense.where(date: start_date..end_date, expense_type: expense_type).sum(:amount).round(2)
+  end
+
+  def get_expenses_by_type_by_year(expense_type, year)
+    start_date = Date.new(year, 1, 1)
+    end_date = Date.civil(year, 12, -1)
+    get_expenses_by_type(expense_type, start_date, end_date)
+    Expense.where(date: start_date..end_date, expense_type: expense_type).sum(:amount).round(2)
+  end
+
+  def get_expenses_percentage_by_type(expense_type, start_date=nil, end_date=nil)
+    type = get_expenses_by_type(expense_type, start_date, end_date)
+    total = get_expenses_number(start_date, end_date)
+    return ((type/total)*100).round(2)
+  end
+
+  def get_expenses_percentage_by_type_by_year(expense_type, year)
+    start_date = Date.new(year, 1, 1)
+    end_date = Date.civil(year, 12, -1)
+    get_expenses_percentage_by_type(expense_type, start_date, end_date)
   end
 
 

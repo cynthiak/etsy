@@ -18,32 +18,38 @@
     %li{class: current_page?(controller: 'order_items', action: 'index') ? 'active' : ''}
       = link_to order_items_path do
         %span.glyphicon.glyphicon-th-list
-        Order Items
+        Fulfillment
+
+    %br
 
     %li{class: current_page?(controller: 'products', action: 'index') ? 'active' : ''}
       = link_to products_path do
         %span.glyphicon.glyphicon-th-large
         Products
-
-    %li{class: current_page?(controller: 'listings', action: 'index') ? 'active' : ''}
-      = link_to listings_path do
-        %span.glyphicon.glyphicon-th
-        Listings
+        %span.sidebar-menu-item-subtitle What do I design next?
   
     %li{class: current_page?(controller: 'customers', action: 'index') ? 'active' : ''}
       = link_to customers_path do
         %span.glyphicon.glyphicon-user
         Customers
+        %span.sidebar-menu-item-subtitle Where should I focus?
 
     %li{class: current_page?(controller: 'expenses', action: 'index') ? 'active' : ''}
       = link_to expenses_path do
         %span.glyphicon.glyphicon-usd
         Expenses
+        %span.sidebar-menu-item-subtitle Where can I cut costs?
 
     %li{class: current_page?(controller: 'giveaways', action: 'index') ? 'active' : ''}
       = link_to giveaways_path do
         %span.glyphicon.glyphicon-gift
         Giveaways
+        %span.sidebar-menu-item-subtitle Are giveaways working?
+
+    -# %li{class: current_page?(controller: 'listings', action: 'index') ? 'active' : ''}
+    -#   = link_to listings_path do
+    -#     %span.glyphicon.glyphicon-th
+    -#     Listings
 
     %br
 
@@ -78,8 +84,13 @@
       = link_to new_expense_path + '?name=&expense_type=Materials&vendor=Redbubble' do
         %span.glyphicon.glyphicon-plus
         New Redbubble
-
     %li{class: current_page?(controller: 'expenses', action: 'new') && !params[:expense_type] ? 'active' : ''}
       = link_to new_expense_path do
         %span.glyphicon.glyphicon-plus
         New Expense
+    %br
+
+    %li{class: current_page?(controller: 'giveaways', action: 'new') ? 'active' : ''}
+      = link_to new_admin_giveaway_path do
+        %span.glyphicon.glyphicon-plus
+        New Giveaway

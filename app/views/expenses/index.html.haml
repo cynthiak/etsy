@@ -6,99 +6,99 @@
       Expenses
       %span.subtitle Where can I cut costs?
 
-  - # PROFIT: TABS #################################
-  .tabbed-charts
-    .tabbed-charts-tabs-expenses.tabbed-charts-tabs.stats.stats-3.stats-tabbed{role: "tablist"}
-      %a.stat-container.active{"href" => "#chart-expenses-by-category-container", "aria-controls" => "#chart-expenses-by-category-container", "role" => "tab", "data-toggle" => "tab"}
-        .stat
-          .stat-label All Expenses
-          .stat-number= format_money(get_expenses)
-          .stat-stats
-            .stat-stats-row
-              %span.stat-stats-row-number= format_money(get_revenue)
-              %span.stat-stats-row-label revenue
-            .stat-stats-row
-              %span.stat-stats-row-number
-                %span{class: get_profit < 0 ? "red" : "green"}
-                  = format_money(get_profit)
-              %span.stat-stats-row-label 
-                profit
-                = "(" + format_percentage(get_profit_percentage_of_revenue) + " of revenue)"
+    - # PROFIT: TABS #################################
+    .tabbed-charts
+      .tabbed-charts-tabs-expenses.tabbed-charts-tabs.stats.stats-3.stats-tabbed{role: "tablist"}
+        %a.stat-container.active{"href" => "#chart-expenses-by-category-container", "aria-controls" => "#chart-expenses-by-category-container", "role" => "tab", "data-toggle" => "tab"}
+          .stat
+            .stat-label All Expenses
+            .stat-number= format_money(get_expenses)
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number= format_money(get_revenue)
+                %span.stat-stats-row-label revenue
+              .stat-stats-row
+                %span.stat-stats-row-number
+                  %span{class: get_profit < 0 ? "red" : "green"}
+                    = format_money(get_profit)
+                %span.stat-stats-row-label 
+                  profit
+                  = "(" + format_percentage(get_profit_percentage_of_revenue) + " of revenue)"
 
-      %a.stat-container{"href" => "#chart-expenses-by-year-container", "aria-controls" => "#chart-expenses-by-year-container", "role" => "tab", "data-toggle" => "tab"} 
-        .stat
-          .stat-label= today.strftime "%Y" + " Expenses"
-          .stat-number= format_money(get_expenses_by_year(nil, today.year))
-          .stat-stats
-            .stat-stats-row
-              %span.stat-stats-row-number= format_money(get_revenue_by_year(today.year))
-              %span.stat-stats-row-label revenue
-            .stat-stats-row
-              %span.stat-stats-row-number
-                %span{class: get_profit_by_year(today.year) < 0 ? "red" : "green"}
-                  = format_money(get_profit_by_year(today.year))
-              %span.stat-stats-row-label 
-                profit
-                = "(" + format_percentage(get_profit_percentage_of_revenue_by_year(today.year)) + " of revenue)"
+        %a.stat-container{"href" => "#chart-expenses-by-year-container", "aria-controls" => "#chart-expenses-by-year-container", "role" => "tab", "data-toggle" => "tab"} 
+          .stat
+            .stat-label= today.strftime "%Y" + " Expenses"
+            .stat-number= format_money(get_expenses_by_year(nil, today.year))
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number= format_money(get_revenue_by_year(today.year))
+                %span.stat-stats-row-label revenue
+              .stat-stats-row
+                %span.stat-stats-row-number
+                  %span{class: get_profit_by_year(today.year) < 0 ? "red" : "green"}
+                    = format_money(get_profit_by_year(today.year))
+                %span.stat-stats-row-label 
+                  profit
+                  = "(" + format_percentage(get_profit_percentage_of_revenue_by_year(today.year)) + " of revenue)"
 
-      %a.stat-container{"href" => "#chart-expenses-by-month-container", "aria-controls" => "#chart-expenses-by-month-container", "role" => "tab", "data-toggle" => "tab"} 
-        .stat
-          .stat-label= today.strftime "%B %Y" + " Expenses"
-          .stat-number= format_money(get_expenses_by_month(nil, today))
-          .stat-stats
-            .stat-stats-row
-              %span.stat-stats-row-number= format_money(get_revenue_by_month(today))
-              %span.stat-stats-row-label revenue
-            .stat-stats-row
-              %span.stat-stats-row-number
-                %span{class: get_profit_by_month(today) < 0 ? "red" : "green"}
-                  = format_money(get_profit_by_month(today))
-              %span.stat-stats-row-label 
-                profit 
-                = "(" + format_percentage(get_profit_percentage_of_revenue_by_month(today)) + " of revenue)"
+        %a.stat-container{"href" => "#chart-expenses-by-month-container", "aria-controls" => "#chart-expenses-by-month-container", "role" => "tab", "data-toggle" => "tab"} 
+          .stat
+            .stat-label= today.strftime "%B %Y" + " Expenses"
+            .stat-number= format_money(get_expenses_by_month(nil, today))
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number= format_money(get_revenue_by_month(today))
+                %span.stat-stats-row-label revenue
+              .stat-stats-row
+                %span.stat-stats-row-number
+                  %span{class: get_profit_by_month(today) < 0 ? "red" : "green"}
+                    = format_money(get_profit_by_month(today))
+                %span.stat-stats-row-label 
+                  profit 
+                  = "(" + format_percentage(get_profit_percentage_of_revenue_by_month(today)) + " of revenue)"
 
 
-    - # REVENUE: CHARTS #################################
-    .tabbed-charts-content.tab-content
-      #chart-expenses-by-category-container.tab-pane.active{"role" => "tabpanel"}
-        #chart-expenses-by-category.chart
+      - # REVENUE: CHARTS #################################
+      .tabbed-charts-content.tab-content
+        #chart-expenses-by-category-container.tab-pane.active{"role" => "tabpanel"}
+          #chart-expenses-by-category.chart
 
-      #chart-expenses-by-year-container.tab-pane{"role" => "tabpanel"}
-        #chart-expenses-by-year.chart
+        #chart-expenses-by-year-container.tab-pane{"role" => "tabpanel"}
+          #chart-expenses-by-year.chart
 
-      #chart-expenses-by-month-container.tab-pane{"role" => "tabpanel"}
-        #chart-expenses-by-month.chart
+        #chart-expenses-by-month-container.tab-pane{"role" => "tabpanel"}
+          #chart-expenses-by-month.chart
 
-    %table#table-expense-categories.stripe.order-column
-      %thead
-        %tr
-          %th{rowspan: 2} Expense
-          %th{colspan: 2} All Time
-          -get_years.each do |year|
-            %th{colspan: 2}= year
-        %tr
-          %th ($)
-          %th (%)
-          -get_years.each do |year|
+      %table#table-expense-categories.stripe.order-column
+        %thead
+          %tr
+            %th{rowspan: 2} Expense
+            %th{colspan: 2} All Time
+            -get_years.each do |year|
+              %th{colspan: 2}= year
+          %tr
             %th ($)
             %th (%)
-      %tbody
-        - get_expense_types.each do |expense_type|
-          %tr
-            %td=expense_type
-            %td.border-left=format_money(get_expenses(expense_type, nil, nil))
-            %td=format_percentage(get_expenses_percentage_by_type(expense_type, nil, nil))
             -get_years.each do |year|
-              %td.border-left=format_money(get_expenses_by_year(expense_type, year))
-              %td=format_percentage(get_expenses_percentage_by_type_by_year(expense_type, year))
-      %tfoot
-        %tr
-          %th All Time
-          %th.border-left= format_money(get_expenses)
-          %th
-          -get_years.each do |year|
-            %th.border-left=format_money(get_expenses_by_year(nil, year))
+              %th ($)
+              %th (%)
+        %tbody
+          - get_expense_types.each do |expense_type|
+            %tr
+              %td=expense_type
+              %td.border-left=format_money(get_expenses(expense_type, nil, nil))
+              %td=format_percentage(get_expenses_percentage_by_type(expense_type, nil, nil))
+              -get_years.each do |year|
+                %td.border-left=format_money(get_expenses_by_year(expense_type, year))
+                %td=format_percentage(get_expenses_percentage_by_type_by_year(expense_type, year))
+        %tfoot
+          %tr
+            %th All Time
+            %th.border-left= format_money(get_expenses)
             %th
+            -get_years.each do |year|
+              %th.border-left=format_money(get_expenses_by_year(nil, year))
+              %th
 
   .page-content-body-section
     %h1 All Expenses

@@ -105,7 +105,6 @@ module RevenueHelper
     (get_revenue(order_type)/get_customers_count(order_type)).round(2)
   end
 
-
   # Funds ##############
   def get_funds
     Fund.all.sum(:funding_amount)

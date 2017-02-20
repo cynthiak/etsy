@@ -2,11 +2,59 @@
   .page-content-body-section.page-content-body-section-products
     %h1 Products
 
+    - # PRODUCTS: TABS #################################
+    .tabbed-charts
+      .tabbed-charts-tabs-products.tabbed-charts-tabs.stats.stats-3.stats-tabbed{role: "tablist"}
+        %a.stat-container{"href" => "#chart-revenue-by-product-line-container", "aria-controls" => "chart-revenue-by-product-line-container", "role" => "tab", "data-toggle" => "tab"}
+          .stat
+            .stat-label Total Revenue
+            .stat-number= format_money(get_revenue)
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number=get_products_count
+                %span.stat-stats-row-label products
+
+        %a.stat-container.active{"href" => "#chart-margin-by-product-line-container", "aria-controls" => "chart-margin-by-product-line-container", "role" => "tab", "data-toggle" => "tab"} 
+          .stat
+            .stat-label Total Margin
+            .stat-number= format_money(get_margin)
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number=format_percentage(get_margin_percentage)
+                %span.stat-stats-row-label margin
+        
+        %a.stat-container{"href" => "#chart-items-sold-by-product-line-container", "aria-controls" => "#chart-items-sold-by-product-line-container", "role" => "tab", "data-toggle" => "tab"}
+          .stat
+            .stat-label Average Revenue Per Item
+            .stat-number= format_money(get_average_revenue_per_item) + "/item"
+            .stat-stats
+              .stat-stats-row
+                %span.stat-stats-row-number= format_number(get_items_sold_count)
+                %span.stat-stats-row-label total items sold
+
+
+      - # PRODUCTS: CHARTS #################################
+      .tabbed-charts-content.tab-content
+        #chart-revenue-by-product-line-container.tab-pane{"role" => "tabpanel"}
+          #chart-revenue-by-product-line.chart
+          1
+
+        #chart-margin-by-product-line-container.tab-pane.active{"role" => "tabpanel"}
+          #chart-margin-by-product-line.chart
+          2
+
+        #chart-items-sold-by-product-line-container.tab-pane{"role" => "tabpanel"}
+          #chart-items-sold-by-product-line.chart 
+          3
+
     = render partial: 'partials/product_stats'
 
   - get_product_types.each do |product_type|
     .page-content-body-section
-      %h1=product_type.product_type
+      %h1
+        =product_type.product_type
+        = link_to edit_admin_product_type_url(product_type), target: "_blank" do
+          %span.glyphicon.glyphicon-pencil.edit-icon
 
       .stats
         -if product_type.get_order_items_count > 0
@@ -14,24 +62,23 @@
             .stat
               .stat-label 
                 =product_type.product_type
-                Sold
+                Items Sold
               .stat-number
-                = product_type.get_order_items_count
+                = format_number(product_type.get_order_items_count)
           .stat-container
             .stat
               .stat-label 
                 =product_type.product_type
-                Rev
+                Revenue
               .stat-number.green
-                = "$" + number_with_delimiter(product_type.get_revenue).to_s 
+                = format_money(product_type.get_revenue)
           .stat-container
             .stat
               .stat-label 
                 Average Per
                 =product_type.product_type
               .stat-number.green
-                = "$" + product_type.get_average_revenue_per_item.to_s + "/" + product_type.product_type
-
+                = format_money(product_type.get_average_revenue_per_item) + "/" + product_type.product_type
 
       -if product_type == "T-shirt"
         %table.stripe.order-column{class: 'table-product-type-' + product_type.id.to_s}
@@ -52,25 +99,34 @@
         %table.stripe.order-column{class: 'table-product-type-' + product_type.id.to_s}
           %thead
             %tr
-              %th Type
+              %th Design
               %th Item
-              %th Sold
+              %th Items Sold
               %th Revenue
-              %th Average
+              %th Cost
+              %th Margin ($)
+              %th Margin (%)
+              %th Avg Rev/Item
+              %th Avg Cost/Item
+              %th Avg Margin/Item
           %tbody
             - product_type.get_products.each do |product|
               %tr
-                %td.border-right
-                  = product.product_type.product_type
-                  = link_to edit_admin_product_type_url(product_type), target: "_blank" do
-                    %span.glyphicon.glyphicon-pencil.edit-icon
-                %td.border-right
+                %td.border-right= product.occasion
+                %td.border-right-thick
                   = product.description
                   = link_to edit_admin_product_url(product), target: "_blank" do
                     %span.glyphicon.glyphicon-pencil.edit-icon
-                %td= product.get_order_items_count
-                %td= "$" + product.get_total_sales.to_s
-                %td= "$" + product.get_average_sales.to_s
+                %td.border-right-thick= product.get_order_items_count
+                %td.border-right.green
+                  %strong= format_money(product.get_total_revenue)
+                %td.border-right= format_money(product.get_total_cost_of_sold)
+                %td.green
+                  %strong= format_money(product.get_margin_of_sold)
+                %td.border-right-thick= format_percentage(product.get_margin_percentage_of_sold)
+                %td.green= format_money(product.get_average_revenue)
+                %td.red= format_money(product.get_average_cost)
+                %td.green= format_money(product.get_average_margin)
 
 
 - get_product_types.each do |product_type|
@@ -78,6 +134,20 @@
     $(".table-product-type-#{product_type.id.to_s}").DataTable({
       dom: 'iCfrtS',
       pageLength: -1,
-      order: [2, 'desc'],
+      order: [3, 'desc'],
       orderClasses: true
     });
+
+
+:javascript
+  // ALL CHART TABS //////////////////////////////////////
+  $('.tabbed-charts-tabs-products a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+    $('.tabbed-charts-tabs-products a').removeClass('active');
+    $(this).addClass('active');
+    jQuery(".chart").each(function() {
+      var chart = jQuery(this).highcharts(); // target the chart itself
+      chart.reflow(); // reflow that chart
+    });
+  });

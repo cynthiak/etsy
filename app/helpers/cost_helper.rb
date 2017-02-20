@@ -14,8 +14,4 @@ module CostHelper
 
     return cost
   end
-
-
-
-
 end

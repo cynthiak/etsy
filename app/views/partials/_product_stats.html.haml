@@ -1,21 +1,3 @@
-.stats
-  = link_to order_items_url do
-    .stat-container
-      .stat
-        .stat-label Items Sold
-        .stat-number
-          = get_items_sold_count
-  .stat-container
-    .stat
-      .stat-label Total Rev
-      .stat-number.green
-        = "$" + number_with_delimiter(get_revenue).to_s
-  .stat-container
-    .stat
-      .stat-label Average Rev / Item
-      .stat-number.green
-        = "$" + number_with_delimiter(get_average_revenue_per_item).to_s + "/item"
-
 %table#table-products.stripe.order-column
   %thead
     %tr
@@ -23,40 +5,37 @@
       %th Items Sold
 
       %th Revenue
-      %th Materials
+      %th Materials Bought
       %th Cost Of Sold
 
       %th Profit
       %th Margin
 
       %th Avg Rev/Item
-      %th Avg Cost Of Sold
+      %th Avg Cost/Item
       %th Avg Margin/Item
 
   %tbody
     - get_product_types.each do |product_type|
       %tr
-        %td.border-right
+        %td.border-right-thick
           =product_type.product_type
           =link_to edit_admin_product_type_url(product_type), target: "_blank" do
             %span.glyphicon.glyphicon-pencil.edit-icon
-                        
-        %td.border-right=product_type.get_order_items_count
+        %td.border-right-thick=product_type.get_order_items_count
 
-        %td
+        %td.green.border-right
           %strong=format_money(product_type.get_revenue)
         %td=format_money(product_type.get_expenses)
         %td.border-right=format_money(product_type.get_cost_of_sold)
         
         %td{class: product_type.get_profit < 0 ? "red" : "green"}
-          = format_money(product_type.get_profit)
-        
-        %td{class: product_type.get_margin < 0 ? "border-right red" : "border-right green"}
-          =format_money(product_type.get_margin)
+          %strong= format_money(product_type.get_profit)
+        %td{class: product_type.get_margin < 0 ? "red border-right-thick" : "green border-right-thick"}
+          %strong=format_money(product_type.get_margin)
 
         %td.green=format_money(product_type.get_average_revenue_per_item)
         %td.red=format_money(product_type.get_average_cost_of_sold)
-
         %td{class: product_type.get_average_margin < 0 ? "border-right red" : "border-right green"}
           = format_money(product_type.get_average_margin)
 

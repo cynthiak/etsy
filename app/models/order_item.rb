@@ -26,7 +26,7 @@ class OrderItem < ActiveRecord::Base
     end
   end
 
-  def self.import(file)
+  def self.import_etsy(file)
     CSV.foreach(file.path, headers:true) do |row|
       order_item = OrderItem.find_by(transaction_number: row[12])
 

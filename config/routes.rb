@@ -11,21 +11,20 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#version2', as: :dashboard
 
   # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  get 'upload' => 'upload#index', as: :upload
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
-  # resources :products
   resources :orders do
-    collection { post :import }
+    collection { post :import_etsy }
     collection { post :import_square }
   end
   get 'wholesale_orders' => 'orders#wholesale', as: :wholesale
 
   resources :order_items do
-    collection { post :import }
+    collection { post :import_etsy }
     collection { post :import_square }
   end
 

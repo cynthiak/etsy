@@ -39,14 +39,14 @@ class OrdersController < ApplicationController
     end
   end
 
-  def import
-    Order.import(params[:file])
-    redirect_to orders_url(anchor: "import_order_items"), notice: "Orders imported."
+  def import_etsy
+    Order.import_etsy(params[:file])
+    redirect_to upload_path, notice: "Orders imported. Upload your order items now."
   end
 
   def import_square
     Order.import_square(params[:file])
-    redirect_to orders_url, notice: "Orders imported."
+    redirect_to upload_path, notice: "Orders imported. Upload your order items now.."
   end
 
 end

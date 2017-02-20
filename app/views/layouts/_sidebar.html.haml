@@ -32,7 +32,7 @@
       = link_to customers_path do
         %span.glyphicon.glyphicon-user
         Customers
-        %span.sidebar-menu-item-subtitle Where should I focus?
+        %span.sidebar-menu-item-subtitle How do I acquire more?
 
     %li{class: current_page?(controller: 'expenses', action: 'index') ? 'active' : ''}
       = link_to expenses_path do
@@ -53,10 +53,10 @@
 
     %br
 
-    %li
-      = link_to orders_path(anchor: "import_orders") do
+    %li{class: current_page?(controller: 'upload', action: 'index') ? 'active' : ''}
+      = link_to upload_path do
         %span.glyphicon.glyphicon-plus
-        Upload Orders
+        Upload Files
 
     %br
 

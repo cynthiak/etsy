@@ -73,23 +73,6 @@
 
 
 
-
-  %hr
-
-  .page-content-body-section#import_order_items
-    %h1 Import Order Items from Etsy
-    = form_tag import_order_items_path, multipart: true do
-      = file_field_tag :file
-      = submit_tag "Import from Etsy"
-
-
-  .page-content-body-section
-    %h1 Import Order Items from Square
-    = form_tag import_square_order_items_path, multipart: true do
-      = file_field_tag :file
-      = submit_tag "Import from Square"
-
-
 - get_product_types.each do |product_type|
   -if product_type.get_unshipped_items_count > 0
     :javascript

@@ -23,7 +23,7 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def self.import(file)
+  def self.import_etsy(file)
     CSV.foreach(file.path, headers:true) do |row|
       order = Order.find_by(order_number: row[1])
 

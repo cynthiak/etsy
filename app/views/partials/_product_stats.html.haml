@@ -44,32 +44,21 @@
         %td.border-right=product_type.get_order_items_count
 
         %td
-          %strong= "$" + number_with_delimiter(product_type.get_revenue).to_s
-        %td= "($" + number_with_delimiter(product_type.get_expenses).to_s + ")"
-        %td.border-right= "$" + number_with_delimiter(product_type.get_cost_of_sold).to_s
+          %strong=format_money(product_type.get_revenue)
+        %td=format_money(product_type.get_expenses)
+        %td.border-right=format_money(product_type.get_cost_of_sold)
         
-        -if product_type.get_profit < 0
-          %td.red
-            = "-$" + number_with_delimiter(product_type.get_profit.abs).to_s
-        -else
-          %td.green
-            = "$" + number_with_delimiter(product_type.get_profit).to_s
-        -if product_type.get_margin < 0
-          %td.border-right.red
-            = "-$" + number_with_delimiter(product_type.get_margin.abs).to_s
-        -else
-          %td.border-right.green
-            = "$" + number_with_delimiter(product_type.get_margin).to_s
+        %td{class: product_type.get_profit < 0 ? "red" : "green"}
+          = format_money(product_type.get_profit)
+        
+        %td{class: product_type.get_margin < 0 ? "border-right red" : "border-right green"}
+          =format_money(product_type.get_margin)
 
-        %td.green= "$" + number_with_delimiter(product_type.get_average_revenue_per_item).to_s
-        %td.red= "$" + number_with_delimiter(product_type.get_average_cost_of_sold).to_s
+        %td.green=format_money(product_type.get_average_revenue_per_item)
+        %td.red=format_money(product_type.get_average_cost_of_sold)
 
-        -if product_type.get_average_margin < 0
-          %td.border-right.red
-            = "-$" + number_with_delimiter(product_type.get_average_margin.abs).to_s
-        -else
-          %td.border-right.green
-            = "$" + number_with_delimiter(product_type.get_average_margin).to_s
+        %td{class: product_type.get_average_margin < 0 ? "border-right red" : "border-right green"}
+          = format_money(product_type.get_average_margin)
 
 
 :javascript

@@ -48,15 +48,9 @@ class ProductType < ActiveRecord::Base
     total_cost = 0.0
 
     if order_items
-      order_items.each do |order_item|
-        if order_item.product.cost
-          total_cost = total_cost + order_item.product.cost
-        end
-      end
-      return total_cost.round(2)
-    else
-      0
+      total_cost = order_items.sum(:cost)
     end
+    return total_cost.round(2)
   end
 
   def get_average_cost_of_sold

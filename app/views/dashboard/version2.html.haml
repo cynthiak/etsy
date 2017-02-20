@@ -128,12 +128,12 @@
           %tr
             %th.border-right 
               %strong Total - #{year}
-            %th= format_money(get_revenue_by_year(year)) 
+            %th.green= format_money(get_revenue_by_year(year)) 
             %th= format_money(get_revenue_goal_by_year(year))
             %th.border-right
               - pct = get_percentage_achieved_by_year(year)
               %span{class: pct > 100 ? 'green' : 'red'}= format_percentage(pct)
-            %th.border-right= format_money(get_average_daily_revenue_by_year(year))
+            %th.green.border-right= format_money(get_average_daily_revenue_by_year(year))
             %th
             %th.border-right
             %th= format_money(get_daily_revenue_goal_by_year(year))
@@ -143,10 +143,10 @@
         %tr.border-top-thick
           %th.border-right 
             %strong Total All Time
-          %th= format_money(get_revenue) 
+          %th.green= format_money(get_revenue) 
           %th
           %th.border-right
-          %th.border-right= format_money(get_average_daily_revenue)
+          %th.green.border-right= format_money(get_average_daily_revenue)
           %th
           %th.border-right
           %th

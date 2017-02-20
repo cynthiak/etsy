@@ -14,7 +14,7 @@ module ChartsProfitHelper
   def get_cost_array_by_months
     cost_array = []
     get_months.each do |month|
-      cost_array.push(get_expenses_number_by_month(month))
+      cost_array.push(get_expenses_by_month(month))
     end
     return cost_array
   end
@@ -43,7 +43,7 @@ module ChartsProfitHelper
   def get_cost_array_by_years
     cost_array = []
     get_years.each do |year|
-      cost_array.push(get_expenses_number_by_year(year))
+      cost_array.push(get_expenses_by_year(year))
     end
     return cost_array
   end

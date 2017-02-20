@@ -102,9 +102,6 @@ module ChartsRevenueCumulativeByDayHelper
     return revenue_by_day_of_month_series.to_json
   end
 
-
-
-
   # Cumulative Revenue By Day Of Month ################################
   def get_cumulative_revenue_by_day_of_month(day_of_month, month)
     start_date = month
@@ -115,6 +112,5 @@ module ChartsRevenueCumulativeByDayHelper
     end
     return (Order.where(refund: nil, sale_date: start_date..end_date).sum(:order_net) + Order.where(sale_date: start_date..end_date).where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
   end
-
 
 end

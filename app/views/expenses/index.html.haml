@@ -1,10 +1,107 @@
+-today = Date.today
+
 #page-expenses.page-content-body
   .page-content-body-section
-    %h1 Expenses
+    %h1 
+      Expenses
+      %span.subtitle Where can I cut costs?
 
-    = render partial: 'partials/expenses_stats'
+  - # PROFIT: TABS #################################
+  .tabbed-charts
+    .tabbed-charts-tabs-expenses.tabbed-charts-tabs.stats.stats-3.stats-tabbed{role: "tablist"}
+      %a.stat-container.active{"href" => "#chart-expenses-by-category-container", "aria-controls" => "#chart-expenses-by-category-container", "role" => "tab", "data-toggle" => "tab"}
+        .stat
+          .stat-label All Expenses
+          .stat-number= format_money(get_expenses)
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= format_money(get_revenue)
+              %span.stat-stats-row-label revenue
+            .stat-stats-row
+              %span.stat-stats-row-number
+                %span{class: get_profit < 0 ? "red" : "green"}
+                  = format_money(get_profit)
+              %span.stat-stats-row-label 
+                profit
+                = "(" + format_percentage(get_profit_percentage_of_revenue) + " of revenue)"
+
+      %a.stat-container{"href" => "#chart-expenses-by-year-container", "aria-controls" => "#chart-expenses-by-year-container", "role" => "tab", "data-toggle" => "tab"} 
+        .stat
+          .stat-label= today.strftime "%Y" + " Expenses"
+          .stat-number= format_money(get_expenses_by_year(nil, today.year))
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= format_money(get_revenue_by_year(today.year))
+              %span.stat-stats-row-label revenue
+            .stat-stats-row
+              %span.stat-stats-row-number
+                %span{class: get_profit_by_year(today.year) < 0 ? "red" : "green"}
+                  = format_money(get_profit_by_year(today.year))
+              %span.stat-stats-row-label 
+                profit
+                = "(" + format_percentage(get_profit_percentage_of_revenue_by_year(today.year)) + " of revenue)"
+
+      %a.stat-container{"href" => "#chart-expenses-by-month-container", "aria-controls" => "#chart-expenses-by-month-container", "role" => "tab", "data-toggle" => "tab"} 
+        .stat
+          .stat-label= today.strftime "%B %Y" + " Expenses"
+          .stat-number= format_money(get_expenses_by_month(nil, today))
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= format_money(get_revenue_by_month(today))
+              %span.stat-stats-row-label revenue
+            .stat-stats-row
+              %span.stat-stats-row-number
+                %span{class: get_profit_by_month(today) < 0 ? "red" : "green"}
+                  = format_money(get_profit_by_month(today))
+              %span.stat-stats-row-label 
+                profit 
+                = "(" + format_percentage(get_profit_percentage_of_revenue_by_month(today)) + " of revenue)"
+
+
+    - # REVENUE: CHARTS #################################
+    .tabbed-charts-content.tab-content
+      #chart-expenses-by-category-container.tab-pane.active{"role" => "tabpanel"}
+        #chart-expenses-by-category.chart
+
+      #chart-expenses-by-year-container.tab-pane{"role" => "tabpanel"}
+        #chart-expenses-by-year.chart
+
+      #chart-expenses-by-month-container.tab-pane{"role" => "tabpanel"}
+        #chart-expenses-by-month.chart
+
+    %table#table-expense-categories.stripe.order-column
+      %thead
+        %tr
+          %th{rowspan: 2} Expense
+          %th{colspan: 2} All Time
+          -get_years.each do |year|
+            %th{colspan: 2}= year
+        %tr
+          %th ($)
+          %th (%)
+          -get_years.each do |year|
+            %th ($)
+            %th (%)
+      %tbody
+        - get_expense_types.each do |expense_type|
+          %tr
+            %td=expense_type
+            %td.border-left=format_money(get_expenses(expense_type, nil, nil))
+            %td=format_percentage(get_expenses_percentage_by_type(expense_type, nil, nil))
+            -get_years.each do |year|
+              %td.border-left=format_money(get_expenses_by_year(expense_type, year))
+              %td=format_percentage(get_expenses_percentage_by_type_by_year(expense_type, year))
+      %tfoot
+        %tr
+          %th All Time
+          %th.border-left= format_money(get_expenses)
+          %th
+          -get_years.each do |year|
+            %th.border-left=format_money(get_expenses_by_year(nil, year))
+            %th
 
   .page-content-body-section
+    %h1 All Expenses
     %table#table-expenses.stripe.order-column
       %thead
         %tr
@@ -14,7 +111,7 @@
           %th Vendor
           %th Amount
       %tbody
-        - get_expenses.each do |expense|
+        - get_expenses_array.each do |expense|
           %tr
             %td= expense.date
             %td.table-expenses-name
@@ -38,9 +135,234 @@
 
 
 :javascript
+
+  // CHART TABS //////////////////////////////////////
+  $('.tabbed-charts-tabs-expenses a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+    $('.tabbed-charts-tabs-expenses a').removeClass('active');
+    $(this).addClass('active');
+    jQuery(".chart").each(function() {
+      var chart = jQuery(this).highcharts(); // target the chart itself
+      chart.reflow(); // reflow that chart
+    });
+  });
+
+  // EXPENSES CHARTS //////////////////////////////////////
+  $(function () { 
+    // #chart-expenses-by-category
+    $('#chart-expenses-by-category').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        reflow: true,
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: 'Where does my money go?'
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '13px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top',
+        layout: 'vertical',
+        align: 'left',
+        itemMarginBottom: 8
+      },
+      xAxis: {
+        categories: #{get_expense_types},
+        title: {
+          text: '',
+          offset: 50
+        },
+        labels: {
+          autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90],
+          rotation: -90,
+          style: {
+            fontSize: '13px'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Expenses ($)'
+        },
+        opposite: true,
+        labels: {
+          style: {
+            fontSize: '13px'
+          },
+          format: "${value}"
+        },
+        tickInterval: '5000'
+      },
+      tooltip: {
+        formatter: function () {
+          return this.x + ': <b>$' + this.y + '</b>';
+          },
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: [
+          {
+            type: 'column',
+            name: 'Expenses',
+            data: #{get_expenses_by_type_series},
+            stacking: 'normal',
+            color: '#F0A4C0',
+            marker: {
+              enabled: false
+            }
+          }
+        ]
+    });
+
+    // #chart-expenses-by-year
+    $('#chart-expenses-by-year').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: 'What am I spending money on each year?'
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '13px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top',
+        layout: 'vertical',
+        align: 'left',
+        itemMarginBottom: 8
+      },
+      xAxis: {
+        categories: #{get_years},
+        title: {
+          text: 'Month'
+        },
+        labels: {
+          style: {
+            fontSize: '13px'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Expenses ($)'
+        },
+        opposite: true,
+        labels: {
+          style: {
+            fontSize: '13px'
+          },
+          format: "${value}"
+        },
+        tickInterval: '5000'
+      },
+      tooltip: {
+        formatter: function () {
+          return this.x + ' ' + this.series.name + ': <b>$' + this.y + '</b>';
+          },
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: #{get_expenses_by_type_by_year_series}
+    });
+    // #chart-expenses-by-month
+    $('#chart-expenses-by-month').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: 'What am I spending money on each month?'
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '13px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top',
+        layout: 'vertical',
+        align: 'left',
+        itemMarginBottom: 8
+      },
+      xAxis: {
+        categories: #{get_months_array},
+        title: {
+          text: 'Month'
+        },
+        labels: {
+          style: {
+            fontSize: '13px'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Expenses ($)'
+        },
+        opposite: true,
+        labels: {
+          style: {
+            fontSize: '13px'
+          },
+          format: "${value}"
+        },
+        tickInterval: '5000'
+      },
+      tooltip: {
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: #{get_expenses_by_type_by_month_series}
+    });
+  });
+
+
+
+  // EXPENSE TABLES //////////////////////////////////////
+  $("#table-expense-categories").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [1, 'desc'],
+    orderClasses: true
+  });
+
   $("#table-expenses").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [0, 'desc'],
     orderClasses: true
   });
+
+
+
+
+

@@ -1,26 +1,53 @@
+- # PROFIT: TABS #################################
+  .tabbed-charts
+    .tabbed-charts-tabs-profit.tabbed-charts-tabs.stats.stats-2.stats-tabbed{role: "tablist"}
+      %a.stat-container{"href" => "#chart-profit-by-year-container", "aria-controls" => "#chart-profit-by-year-container", "role" => "tab", "data-toggle" => "tab"}
+        .stat
+          .stat-label Money In Bank
+          .stat-number= format_money(get_total_funds)
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number{class: get_profit < 0 ? "red" : ""}
+                = format_money(get_profit)
+              %span.stat-stats-row-label Total Profit
+            .stat-stats-row
+              %span.stat-stats-row-number= format_money(get_funds)
+              %span.stat-stats-row-label Miscellaneous Funds
+
+      %a.stat-container.active{"href" => "#chart-profit-by-month-container", "aria-controls" => "#chart-profit-by-month-container", "role" => "tab", "data-toggle" => "tab"} 
+        .stat
+          .stat-label= today.strftime "%B %Y" + " Profit"
+          .stat-number
+            %span{class: get_profit_by_month(today) < 0 ? "red" : "green"}
+              = format_money(get_profit_by_month(today))
+          .stat-stats
+            .stat-stats-row
+              %span.stat-stats-row-number= format_money(get_expenses_by_month(nil, today)) 
+              %span.stat-stats-row-label expenses
+            .stat-stats-row
+              %span.stat-stats-row-number
+                X% of
+                = format_money(get_revenue_by_month(today))
+              %span.stat-stats-row-label revenue
+
+    - # REVENUE: CHARTS #################################
+    .tabbed-charts-content.tab-content
+      #chart-profit-by-year-container.tab-pane{"role" => "tabpanel"}
+        #chart-profit-by-year.chart
+
+      #chart-profit-by-month-container.tab-pane.active{"role" => "tabpanel"}
+        #chart-profit-by-month.chart
+
+
 .stats
   = link_to expenses_url do
     .stat-container
       .stat
         .stat-label Total Expenses
         .stat-number.red
-          = "$" + number_with_delimiter(get_expenses_number).to_s
-
-
+          = "$" + number_with_delimiter(get_expenses).to_s
 
 %table#table-expense-categories.stripe.order-column
-  %thead
-    %tr
-      %th Expense
-      %th Spent
-  %tbody
-    - get_expense_types.each do |expense_type|
-      %tr
-        %td= expense_type
-        %td= "$" + number_with_delimiter(get_expenses_by_type(expense_type, nil, nil)).to_s
-
-
-%table#table-expense-categories-2.stripe.order-column
   %thead
     %tr
       %th{rowspan: 2} Expense
@@ -37,25 +64,23 @@
     - get_expense_types.each do |expense_type|
       %tr
         %td=expense_type
-        %td=format_money(get_expenses_by_type(expense_type, nil, nil))
+        %td.border-left=format_money(get_expenses(expense_type, nil, nil))
         %td=format_percentage(get_expenses_percentage_by_type(expense_type, nil, nil))
         -get_years.each do |year|
-          %td=format_money(get_expenses_by_type_by_year(expense_type, year))
+          %td.border-left=format_money(get_expenses_by_year(expense_type, year))
           %td=format_percentage(get_expenses_percentage_by_type_by_year(expense_type, year))
-      
-        
-        
-
+  %tfoot
+    %tr
+      %th All Time
+      %th.border-left= format_money(get_expenses)
+      %th
+      -get_years.each do |year|
+        %th.border-left=format_money(get_expenses_by_year(nil, year))
+        %th
 
 
 :javascript
   $("#table-expense-categories").DataTable({
-    dom: 'iCfrtS',
-    pageLength: -1,
-    order: [1, 'desc'],
-    orderClasses: true
-  });
-  $("#table-expense-categories-2").DataTable({
     dom: 'iCfrtS',
     pageLength: -1,
     order: [1, 'desc'],

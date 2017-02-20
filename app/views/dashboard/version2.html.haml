@@ -181,11 +181,12 @@
                 = format_money(get_profit_by_month(today))
             .stat-stats
               .stat-stats-row
-                %span.stat-stats-row-number= format_money(get_expenses_number_by_month(today)) 
+                %span.stat-stats-row-number= format_money(get_expenses_by_month(nil, today)) 
                 %span.stat-stats-row-label expenses
               .stat-stats-row
                 %span.stat-stats-row-number
-                  X% of
+                  = format_percentage(get_profit_percentage_of_revenue_by_month( today))
+                  of
                   = format_money(get_revenue_by_month(today))
                 %span.stat-stats-row-label revenue
 
@@ -223,7 +224,7 @@
             %td{class: get_profit_by_month(month) < 0 ? "red" : "green"}
               =format_money(get_profit_by_month(month))
             %td= format_money(get_revenue_by_month(month))
-            %td.border-right= format_money(get_expenses_number_by_month(month))
+            %td.border-right= format_money(get_expenses_by_month(nil, month))
             %td{class: get_average_daily_profit_by_month(month) < 0 ? "red" : "green"}
               =format_money(get_average_daily_profit_by_month(month))
             %td=format_money(get_average_daily_revenue_by_month(nil, month))
@@ -254,7 +255,7 @@
             %th{class: get_profit_by_year(year) < 0 ? "red" : "green"}
               = format_money(get_profit_by_year(year))
             %th= format_money(get_revenue_by_year(year))
-            %th.border-right= format_money(get_expenses_number_by_year(year))
+            %th.border-right= format_money(get_expenses_by_year(nil, year))
             %th{class: get_average_monthly_profit_by_year(year) < 0 ? "red" : "green"}
               =format_money(get_average_monthly_profit_by_year(year))
             %th=format_money(get_average_monthly_revenue_by_year(year))
@@ -268,7 +269,7 @@
           %th{class: get_profit < 0 ? "red" : "green"}
             =format_money(get_profit)
           %th=format_money(get_revenue)
-          %th.border-right=format_money(get_expenses_number)
+          %th.border-right=format_money(get_expenses)
           %th{class: get_average_monthly_profit < 0 ? "red" : "green"}
             =format_money(get_average_monthly_profit)
           %th=format_money(get_average_monthly_revenue)

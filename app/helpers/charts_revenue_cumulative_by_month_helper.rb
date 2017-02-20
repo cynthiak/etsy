@@ -61,7 +61,6 @@ module ChartsRevenueCumulativeByMonthHelper
       }
     })
 
-
     # Project Current Year Ideal Trajectory
     ideal_revenue_by_month = []
     ideal_revenue = 0.0
@@ -80,8 +79,6 @@ module ChartsRevenueCumulativeByMonthHelper
       }
     })
 
-
-
     return revenue_by_month_of_year_series.to_json
   end
 
@@ -93,24 +90,4 @@ module ChartsRevenueCumulativeByMonthHelper
     return (Order.where(refund: nil, sale_date: start_date..end_date).sum(:order_net) + Order.where(sale_date: start_date..end_date).where.not(refund:nil).sum(:adjusted_net_order_amount)).round(2)
   end
 
-
-
 end
-
-
-
-# current_month = Date.new(get_last_sale_date.year, get_last_sale_date.month, 1)
-# current_month_revenue_by_day_of_month = []
-# get_days_of_month_array_by_month(current_month).each do |day|
-#   current_month_revenue_by_day_of_month.push(get_cumulative_revenue_by_day_of_month(day, current_month))
-# end
-# revenue_by_day_of_month_series.push({
-#   'name' => current_month.strftime("%b %Y"), 
-#   'data' => current_month_revenue_by_day_of_month,
-#   'type' => 'column',
-#   'borderWidth' => 0,
-#   'color' => '#E27AA0',
-#   'marker' => {
-#       'enabled' => false
-#     }
-#   })

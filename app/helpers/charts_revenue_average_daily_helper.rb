@@ -42,7 +42,4 @@ module ChartsRevenueAverageDailyHelper
     return daily_revenue_chart_series.to_json
   end
 
-
-
-
 end

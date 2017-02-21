@@ -37,15 +37,12 @@
       .tabbed-charts-content.tab-content
         #chart-revenue-by-product-line-container.tab-pane{"role" => "tabpanel"}
           #chart-revenue-by-product-line.chart
-          1
 
         #chart-margin-by-product-line-container.tab-pane.active{"role" => "tabpanel"}
           #chart-margin-by-product-line.chart
-          2
 
         #chart-items-sold-by-product-line-container.tab-pane{"role" => "tabpanel"}
           #chart-items-sold-by-product-line.chart 
-          3
 
     = render partial: 'partials/product_stats'
 
@@ -149,5 +146,184 @@
     jQuery(".chart").each(function() {
       var chart = jQuery(this).highcharts(); // target the chart itself
       chart.reflow(); // reflow that chart
+    });
+  });
+
+
+  // REVENUE CHARTS //////////////////////////////////////
+  $(function () { 
+    // #chart-revenue-by-product-line
+    $('#chart-revenue-by-product-line').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: 'How are my core product lines doing?'
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '13px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top',
+        layout: 'vertical',
+        align: 'left',
+        itemMarginBottom: 8
+      },
+      xAxis: {
+        categories: #{get_months_array},
+        title: {
+          text: 'Month'
+        },
+        labels: {
+          style: {
+            fontSize: '13px'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Revenue ($)'
+        },
+        opposite: true,
+        labels: {
+          style: {
+            fontSize: '13px'
+          },
+          format: "${value}"
+        },
+        tickInterval: '500'
+      },
+      tooltip: {
+        split: true,
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: #{get_product_type_revenue_array_by_months}
+    });
+    // #chart-margin-by-product-line
+    $('#chart-margin-by-product-line').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: 'Which product lines are making me the most money?'
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '13px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top',
+        layout: 'vertical',
+        align: 'left',
+        itemMarginBottom: 8
+      },
+      xAxis: {
+        categories: #{get_months_array},
+        title: {
+          text: 'Month'
+        },
+        labels: {
+          style: {
+            fontSize: '13px'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Revenue ($)'
+        },
+        opposite: true,
+        labels: {
+          style: {
+            fontSize: '13px'
+          },
+          format: "${value}"
+        },
+        tickInterval: '500'
+      },
+      tooltip: {
+        split: true,
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: #{get_product_type_margin_array_by_months}
+    });
+    // #chart-items-sold-by-product-line
+    $('#chart-items-sold-by-product-line').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: 'Which product lines are selling the most?'
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '13px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top',
+        layout: 'vertical',
+        align: 'left',
+        itemMarginBottom: 8
+      },
+      xAxis: {
+        categories: #{get_months_array},
+        title: {
+          text: 'Month'
+        },
+        labels: {
+          style: {
+            fontSize: '13px'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Items Sold'
+        },
+        opposite: true,
+        labels: {
+          style: {
+            fontSize: '13px'
+          },
+          format: "{value}"
+        },
+        tickInterval: '200'
+      },
+      tooltip: {
+        split: true,
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: #{get_product_type_items_sold_array_by_months}
     });
   });

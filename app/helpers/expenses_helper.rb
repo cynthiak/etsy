@@ -17,10 +17,10 @@ module ExpensesHelper
 
   def get_expenses(expense_type=nil, start_date=nil, end_date=nil)
     if start_date == nil 
-      start_date = get_first_sale_date
+      start_date = Expense.all.order("date").first.date
     end
     if end_date == nil
-      end_date = get_last_sale_date
+      end_date = Expense.all.order("date").last.date
     end
     if expense_type
       Expense.where(expense_type: expense_type, date: start_date..end_date).sum(:amount).round(2)

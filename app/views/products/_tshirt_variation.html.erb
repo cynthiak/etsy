@@ -3,7 +3,7 @@
   <tr>
   	<td><%= tshirt.description %></td>
     <td class="border-right"><%= variation.gender %> <%= variation.style %></td>
-    <td><%= get_sales_by_style_and_gender(variation.style, variation.gender) %></td>
+    <td><%= get_items_sold_by_style_and_gender(variation.style, variation.gender) %></td>
     <td>$<%= get_revenue_by_style_and_gender(variation.style, variation.gender) %></td>
 <% else %>
 <% end %>

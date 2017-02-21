@@ -19,22 +19,27 @@ module ProductsHelper
       Product.all
     end
   end
-
   def get_products_count(product_type=nil)
     get_products(product_type).count
   end
 
-
   # Sold #################
-  def get_sales_by_variation(variation)
+  def get_items_sold_by_variation(variation)
     OrderItem.joins(:variation).where(variation: variation).sum(:quantity)
   end
 
-  def get_sales_by_style_and_gender(style, gender)
+  def get_items_sold_by_style_and_gender(style, gender)
   	OrderItem.joins(:variation).where(variations: {style: style, gender: gender}).sum(:quantity)
   end
 
   # Revenue #################
+  def get_revenue_by_product_type(product_type)
+    product_type.get_revenue
+  end
+  def get_revenue_by_product_type_by_month(product_type, month)
+  end
+
+
   def get_revenue_by_variation(variation)
     OrderItem.joins(:variation).where(variation: variation).sum(:item_total)
   end

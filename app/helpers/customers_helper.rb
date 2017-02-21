@@ -6,6 +6,8 @@ module CustomersHelper
       Customer.all
     end
   end
+
+  # Customer Count ##########
   def get_customers_count(customer_type=nil, start_date=nil, end_date=nil)
     if start_date == nil 
       start_date = get_first_sale_date(customer_type)

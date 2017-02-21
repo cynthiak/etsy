@@ -44,18 +44,18 @@
         %a.stat-container{"href" => "#chart-average-revenue-by-order-container", "aria-controls" => "chart-average-revenue-by-order-container", "role" => "tab", "data-toggle" => "tab"}
           .stat
             .stat-label Revenue/Order
-            .stat-number.green=format_money(get_average_revenue_per_order(order_type))  + "/order"
+            .stat-number.green=format_money(get_average_revenue_per_order(order_type, nil, nil))  + "/order"
             .stat-stats
               .stat-stats-row
                 %span.stat-stats-row-number.green=format_money(get_revenue(order_type))
                 %span.stat-stats-row-label revenue
               .stat-stats-row
-                %span.stat-stats-row-number= get_orders_count(order_type)
+                %span.stat-stats-row-number= get_orders_count(order_type, nil, nil)
                 %span.stat-stats-row-label orders
         %a.stat-container{"href" => "#chart-average-revenue-by-order-item-container", "aria-controls" => "chart-average-revenue-by-order-item-container", "role" => "tab", "data-toggle" => "tab"}
           .stat
             .stat-label Revenue/Order Item
-            .stat-number.green=format_money(get_average_revenue_per_order_item(order_type))  + "/item"
+            .stat-number.green=format_money(get_average_revenue_per_order_item(order_type, nil, nil))  + "/item"
             .stat-stats
               .stat-stats-row
                 %span.stat-stats-row-number.green=format_money(get_revenue(order_type))
@@ -72,7 +72,7 @@
                 %span.stat-stats-row-number= get_items_sold_count(order_type, nil, nil)
                 %span.stat-stats-row-label order items
               .stat-stats-row
-                %span.stat-stats-row-number= get_orders_count(order_type)
+                %span.stat-stats-row-number= get_orders_count(order_type, nil, nil)
                 %span.stat-stats-row-label orders
 
       - # PRODUCTS: CHARTS #################################
@@ -254,21 +254,15 @@
 
         #chart-average-revenue-by-customer-container.tab-pane{"role" => "tabpanel"}
           #chart-average-revenue-by-customer.chart
-          rev by customer
 
         #chart-average-revenue-by-order-container.tab-pane{"role" => "tabpanel"}
           #chart-average-revenue-by-order.chart
-          rev by order
 
         #chart-average-revenue-by-order-item-container.tab-pane{"role" => "tabpanel"}
           #chart-average-revenue-by-order-item.chart
-          rev by order item
 
         #chart-average-order-items-by-order-container.tab-pane{"role" => "tabpanel"}
           #chart-average-order-items-by-order.chart
-          order items by order
-
-
 
 :javascript
   // CHART TABS //////////////////////////////////////
@@ -385,6 +379,257 @@
         }
       ]
     });
+
+    // #chart-average-revenue-by-order
+    $('#chart-average-revenue-by-order').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: ''
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '15px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top'
+      },
+      xAxis: {
+        categories: #{get_months_array},
+        labels: {
+          style: {
+            fontSize: '14px'
+          }
+        }
+      },
+      yAxis: [
+        {
+          title: {
+            text: 'Revenue Per Order ($)'
+          },
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "${value}"
+          }
+        },
+        {
+          title: {
+            text: 'Orders'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "{value}"
+          }
+        }
+      ],
+      tooltip: {
+        shared: true,
+        headerFormat: '<span style="font-size: 15px; font-weight: bold;">{point.key}</span><br/>',
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: [
+        {
+          name: 'Orders',
+          yAxis: 1,
+          data: #{get_orders_array_by_months(order_type)},
+          marker: {
+            enabled: false
+          }
+        },
+        {
+          name: 'Average Revenue Per Order',
+          data: #{get_revenue_per_order_array_by_months(order_type)},
+          marker: {
+            enabled: false
+          }
+        }
+
+      ]
+    });
+
+    // #chart-average-revenue-by-order-item
+    $('#chart-average-revenue-by-order-item').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: ''
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '15px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top'
+      },
+      xAxis: {
+        categories: #{get_months_array},
+        labels: {
+          style: {
+            fontSize: '14px'
+          }
+        }
+      },
+      yAxis: [
+        {
+          title: {
+            text: 'Revenue Per Order ($)'
+          },
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "${value}"
+          }
+        },
+        {
+          title: {
+            text: 'Order Items'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "{value}"
+          }
+        }
+      ],
+      tooltip: {
+        shared: true,
+        headerFormat: '<span style="font-size: 15px; font-weight: bold;">{point.key}</span><br/>',
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: [
+        {
+          name: 'Order Items',
+          yAxis: 1,
+          data: #{get_order_items_array_by_months(order_type)},
+          marker: {
+            enabled: false
+          }
+        },
+        {
+          name: 'Average Revenue Per Order Item',
+          data: #{get_revenue_per_order_item_array_by_months(order_type)},
+          marker: {
+            enabled: false
+          }
+        }
+
+      ]
+    });
+
+    // #chart-average-order-items-by-order
+    $('#chart-average-order-items-by-order').highcharts({
+      chart: {
+        spacing: [40, 30, 40, 30],
+        type: 'line',
+        background: '#ffffff',
+        style: {
+          fontFamily: 'Source Sans Pro'
+        }
+      },
+      title: {
+        text: ''
+      },
+      legend: {
+        itemStyle: {
+          'fontSize': '15px', 
+          'fontWeight': 'normal',
+          'color': '#555555'
+        },
+        margin: 20,
+        verticalAlign: 'top'
+      },
+      xAxis: {
+        categories: #{get_months_array},
+        labels: {
+          style: {
+            fontSize: '14px'
+          }
+        }
+      },
+      yAxis: [
+        {
+          title: {
+            text: 'Order Items'
+          },
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "{value}"
+          }
+        },
+        {
+          title: {
+            text: 'Orders'
+          },
+          opposite: true,
+          labels: {
+            style: {
+              fontSize: '13px'
+            },
+            format: "{value}"
+          }
+        }
+      ],
+      tooltip: {
+        shared: true,
+        headerFormat: '<span style="font-size: 15px; font-weight: bold;">{point.key}</span><br/>',
+        style: {
+          'padding': '20px 20px 15px 20px',
+          'fontSize': '15px'
+        }
+      },
+      series: [
+        {
+          name: 'Orders',
+          yAxis: 1,
+          data: #{get_orders_array_by_months(order_type)},
+          marker: {
+            enabled: false
+          }
+        },
+        {
+          name: 'Average Order Items Per Order',
+          data: #{get_order_items_per_order_array_by_months(order_type)},
+          marker: {
+            enabled: false
+          }
+        }
+
+      ]
+    });
+
+
   });
 
 

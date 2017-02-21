@@ -12,7 +12,7 @@
         %a.stat-container{"href" => "#chart-cumulative-revenue-by-month-of-year-container", "aria-controls" => "chart-cumulative-revenue-by-month-of-year-container", "role" => "tab", "data-toggle" => "tab"}
           .stat
             .stat-label= today.strftime "%B %Y" + " Revenue"
-            .stat-number= format_money(get_revenue_by_month(today))
+            .stat-number= format_money(get_revenue_by_month(nil, today))
             .stat-stats
               .stat-stats-row
                 %span.stat-stats-row-number= format_money(get_revenue_goal_by_month(today))
@@ -83,7 +83,7 @@
           %tr{class: month.month == 12 ? "border-bottom" : ""}
             %td.border-right
               %strong= month.strftime "%Y - %m - %b"
-            %td= format_money(get_revenue_by_month(month))
+            %td= format_money(get_revenue_by_month(nil, month))
             %td= format_money(get_revenue_goal_by_month(month))
             %td.border-right
               - pct = get_percentage_achieved_for_month(month)
@@ -128,7 +128,7 @@
           %tr
             %th.border-right 
               %strong Total - #{year}
-            %th.green= format_money(get_revenue_by_year(year)) 
+            %th.green= format_money(get_revenue_by_year(nil, year)) 
             %th= format_money(get_revenue_goal_by_year(year))
             %th.border-right
               - pct = get_percentage_achieved_by_year(year)
@@ -187,7 +187,7 @@
                 %span.stat-stats-row-number
                   = format_percentage(get_profit_percentage_of_revenue_by_month( today))
                   of
-                  = format_money(get_revenue_by_month(today))
+                  = format_money(get_revenue_by_month(nil, today))
                 %span.stat-stats-row-label revenue
 
       - # REVENUE: CHARTS #################################
@@ -223,7 +223,7 @@
               %strong= month.strftime "%Y - %m - %b"
             %td{class: get_profit_by_month(month) < 0 ? "red" : "green"}
               =format_money(get_profit_by_month(month))
-            %td= format_money(get_revenue_by_month(month))
+            %td= format_money(get_revenue_by_month(nil, month))
             %td.border-right= format_money(get_expenses_by_month(nil, month))
             %td{class: get_average_daily_profit_by_month(month) < 0 ? "red" : "green"}
               =format_money(get_average_daily_profit_by_month(month))
@@ -254,7 +254,7 @@
               %strong= year
             %th{class: get_profit_by_year(year) < 0 ? "red" : "green"}
               = format_money(get_profit_by_year(year))
-            %th= format_money(get_revenue_by_year(year))
+            %th= format_money(get_revenue_by_year(nil, year))
             %th.border-right= format_money(get_expenses_by_year(nil, year))
             %th{class: get_average_monthly_profit_by_year(year) < 0 ? "red" : "green"}
               =format_money(get_average_monthly_profit_by_year(year))

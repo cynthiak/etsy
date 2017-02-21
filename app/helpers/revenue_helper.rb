@@ -14,15 +14,15 @@ module RevenueHelper
       (Order.where(adjusted_net_order_amount: nil, sale_date: start_date..end_date).sum(:order_net) + Order.where.not(adjusted_net_order_amount:nil).where(sale_date: start_date..end_date).sum(:adjusted_net_order_amount)).round(2)
     end
   end
-  def get_revenue_by_year(year)
+  def get_revenue_by_year(order_type=nil, year)
     start_date = Date.new(year, 1, 1)
     end_date = Date.new(year, 12, 31)
-    return get_revenue(nil, start_date, end_date)
+    return get_revenue(order_type, start_date, end_date)
   end
-  def get_revenue_by_month(month)
+  def get_revenue_by_month(order_type=nil, month)
     start_date = Date.new(month.year, month.month, 1)
     end_date = Date.civil(month.year, month.month, -1)
-    return get_revenue(nil, start_date, end_date)
+    return get_revenue(order_type, start_date, end_date)
   end
   def get_revenue_by_day(order_type=nil, date)
     if order_type

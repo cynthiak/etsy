@@ -264,6 +264,71 @@
         #chart-average-order-items-by-order-container.tab-pane{"role" => "tabpanel"}
           #chart-average-order-items-by-order.chart
 
+    - # MARGIN: TABLE #################################
+    %table#table-orders-by-month.stripe.order-column
+      %thead
+        %tr
+          %th Month
+          
+          %th Customers
+          %th Revenue
+          %th Orders
+          %th Order Items
+
+          %th Revenue/Customer
+          %th Revenue/Order
+          %th Revenue/Order Items
+          %th Order Items/Order
+      %tbody
+        -get_months.each do |month|
+          %tr{class: month.month == 12 ? "border-bottom" : ""}
+            %td.border-right-thick
+              %strong= month.strftime "%Y - %m - %b"
+
+            %td=get_customers_count_by_month(order_type, month)
+            %td.green
+              %strong=format_money(get_revenue_by_month(order_type, month))
+            %td=get_orders_count_by_month(order_type, month)
+            %td.border-right-thick=get_items_sold_count_by_month(order_type, month)
+
+            %td.green=format_money(get_average_revenue_per_customer_by_month(order_type, month))
+            %td.green=format_money(get_average_revenue_per_order_by_month(order_type, month))
+            %td.green=format_money(get_average_revenue_per_order_item_by_month(order_type, month))
+            %td=get_average_items_per_order_by_month(order_type, month)
+      %tfoot
+        %tr.border-top-thick.border-bottom-thick
+          %th.border-right-thick Year
+          
+          %th Customers
+          %th Revenue
+          %th Orders
+          %th.border-right-thick Order Items
+
+          %th Revenue/Customer
+          %th Revenue/Order
+          %th Revenue/Order Items
+          %th Order Items/Order
+        -get_years.each do |year|
+          %tr
+            %th.border-right-thick
+              %strong
+                Total -
+                = year
+            
+            %th=get_customers_count_by_year(order_type, year)
+            %th.green
+              %strong=format_money(get_revenue_by_year(order_type, year))
+            %th=get_orders_count_by_year(order_type, year)
+            %th.border-right-thick=get_items_sold_count_by_year(order_type, year)
+
+            %th.green=format_money(get_average_revenue_per_customer_by_year(order_type, year))
+            %th.green=format_money(get_average_revenue_per_order_by_year(order_type, year))
+            %th.green=format_money(get_average_revenue_per_order_item_by_year(order_type, year))
+            %th=get_average_items_per_order_by_year(order_type, year)
+
+          
+          
+
 :javascript
   // CHART TABS //////////////////////////////////////
   $('.tabbed-charts-tabs-orders a').click(function (e) {
@@ -294,6 +359,12 @@
     dom: 'iCfrtS',
     pageLength: -1,
     order: [1, 'desc'],
+    orderClasses: true
+  });
+  $("#table-orders-by-month").DataTable({
+    dom: 'iCfrtS',
+    pageLength: -1,
+    order: [0, 'asc'],
     orderClasses: true
   });
 

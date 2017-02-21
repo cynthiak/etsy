@@ -16,7 +16,7 @@ module GoalsHelper
   end
 
   def get_percentage_achieved_by_year(year)
-    revenue = get_revenue_by_year(year)
+    revenue = get_revenue_by_year(nil, year)
     goal = get_revenue_goal_by_year(year)
     percentage = ((revenue/goal)*100).round(1)
     return percentage
@@ -59,7 +59,7 @@ module GoalsHelper
   end
 
   def get_percentage_achieved_for_month(date)
-    revenue = get_revenue_by_month(date)
+    revenue = get_revenue_by_month(nil, date)
     goal = get_revenue_goal_by_month(date)
     percentage = ((revenue/goal)*100).round(1)
     return percentage

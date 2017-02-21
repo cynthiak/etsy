@@ -61,7 +61,7 @@ module ProfitHelper
   end
   def get_profit_percentage_of_revenue_by_year(year)
     profit = get_profit_by_year(year)
-    revenue = get_revenue_by_year(year)
+    revenue = get_revenue_by_year(nil, year)
     return ((profit/revenue)*100).round(0)
   end
   def get_profit_percentage_of_revenue_by_month(month)

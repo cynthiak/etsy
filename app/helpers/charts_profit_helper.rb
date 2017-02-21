@@ -5,7 +5,7 @@ module ChartsProfitHelper
   def get_revenue_array_by_months
     revenue_array = []
     get_months.each do |month|
-      revenue_array.push(get_revenue_by_month(month))
+      revenue_array.push(get_revenue_by_month(nil, month))
     end
     return revenue_array
   end
@@ -34,7 +34,7 @@ module ChartsProfitHelper
   def get_revenue_array_by_years
     revenue_array = []
     get_years.each do |year|
-      revenue_array.push(get_revenue_by_year(year))
+      revenue_array.push(get_revenue_by_year(nil, year))
     end
     return revenue_array
   end

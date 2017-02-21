@@ -26,5 +26,10 @@ module CustomersHelper
     end_date = Date.civil(month.year, month.month, -1)
     return get_customers_count(customer_type, start_date, end_date)
   end
+  def get_customers_count_by_year(customer_type=nil, year)
+    start_date = Date.new(year, 1, 1)
+    end_date = Date.civil(year, 12, -1)
+    return get_customers_count(customer_type, start_date, end_date)
+  end
 
 end

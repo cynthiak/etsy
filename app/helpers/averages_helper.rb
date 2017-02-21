@@ -15,6 +15,11 @@ module AveragesHelper
     end_date = Date.civil(month.year, month.month, -1)
     return get_average_revenue_per_customer(order_type, start_date, end_date)
   end
+  def get_average_revenue_per_customer_by_year(order_type=nil, year)
+    start_date = Date.new(year, 1, 1)
+    end_date = Date.new(year, 12, 31)
+    return get_average_revenue_per_customer(order_type, start_date, end_date)
+  end
 
   # Average Revenue Per Order ##############
   def get_average_revenue_per_order(order_type=nil, start_date=nil, end_date=nil)
@@ -26,6 +31,11 @@ module AveragesHelper
     end_date = Date.civil(month.year, month.month, -1)
     return get_average_revenue_per_order(order_type, start_date, end_date)
   end
+  def get_average_revenue_per_order_by_year(order_type=nil, year)
+    start_date = Date.new(year, 1, 1)
+    end_date = Date.new(year, 12, 31)
+    return get_average_revenue_per_order(order_type, start_date, end_date)
+  end
 
     # Average Revenue Per Order Item ##############
   def get_average_revenue_per_order_item(order_type=nil, start_date=nil, end_date=nil)
@@ -34,6 +44,11 @@ module AveragesHelper
   def get_average_revenue_per_order_item_by_month(order_type=nil, month)
     start_date = Date.new(month.year, month.month, 1)
     end_date = Date.civil(month.year, month.month, -1)
+    return get_average_revenue_per_order_item(order_type, start_date, end_date)
+  end
+  def get_average_revenue_per_order_item_by_year(order_type=nil, year)
+    start_date = Date.new(year, 1, 1)
+    end_date = Date.new(year, 12, 31)
     return get_average_revenue_per_order_item(order_type, start_date, end_date)
   end
 
@@ -58,6 +73,11 @@ module AveragesHelper
   def get_average_items_per_order_by_month(order_type=nil, month)
     start_date = Date.new(month.year, month.month, 1)
     end_date = Date.civil(month.year, month.month, -1)
+    return get_average_items_per_order(order_type, start_date, end_date)
+  end
+  def get_average_items_per_order_by_year(order_type=nil, year)
+    start_date = Date.new(year, 1, 1)
+    end_date = Date.new(year, 12, 31)
     return get_average_items_per_order(order_type, start_date, end_date)
   end
 

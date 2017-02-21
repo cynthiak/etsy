@@ -393,7 +393,7 @@
         - get_months.each do |month|
           %tr
             %td= month.strftime "%Y - %m - %B "
-            %td= "$" + number_with_delimiter(get_revenue_by_month(month)).to_s
+            %td= "$" + number_with_delimiter(get_revenue_by_month(nil, month)).to_s
 
 
   .page-content-body-section

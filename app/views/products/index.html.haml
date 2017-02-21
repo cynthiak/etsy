@@ -26,7 +26,7 @@
         %a.stat-container{"href" => "#chart-items-sold-by-product-line-container", "aria-controls" => "#chart-items-sold-by-product-line-container", "role" => "tab", "data-toggle" => "tab"}
           .stat
             .stat-label Average Revenue Per Item
-            .stat-number= format_money(get_average_revenue_per_item) + "/item"
+            .stat-number= format_money(get_average_revenue_per_order_item) + "/item"
             .stat-stats
               .stat-stats-row
                 %span.stat-stats-row-number= format_number(get_items_sold_count)
@@ -44,7 +44,47 @@
         #chart-items-sold-by-product-line-container.tab-pane{"role" => "tabpanel"}
           #chart-items-sold-by-product-line.chart 
 
-    = render partial: 'partials/product_stats'
+    - # PRODUCTS: TABLE #################################
+    %table#table-products.stripe.order-column
+      %thead
+        %tr
+          %th Product
+          %th Items Sold
+
+          %th Revenue
+          %th Materials Bought
+          %th Cost Of Sold
+
+          %th Profit
+          %th Margin
+
+          %th Avg Rev/Item
+          %th Avg Cost/Item
+          %th Avg Margin/Item
+
+      %tbody
+        - get_product_types.each do |product_type|
+          %tr
+            %td.border-right-thick
+              =product_type.product_type
+              =link_to edit_admin_product_type_url(product_type), target: "_blank" do
+                %span.glyphicon.glyphicon-pencil.edit-icon
+            %td.border-right-thick=product_type.get_order_items_count
+
+            %td.green.border-right
+              %strong=format_money(product_type.get_revenue)
+            %td=format_money(product_type.get_expenses)
+            %td.border-right=format_money(product_type.get_cost_of_sold)
+            
+            %td{class: product_type.get_profit < 0 ? "red" : "green"}
+              %strong= format_money(product_type.get_profit)
+            %td{class: product_type.get_margin < 0 ? "red border-right-thick" : "green border-right-thick"}
+              %strong=format_money(product_type.get_margin)
+
+            %td.green=format_money(product_type.get_average_revenue_per_order_item)
+            %td.red=format_money(product_type.get_average_cost_of_sold)
+            %td{class: product_type.get_average_margin < 0 ? "border-right red" : "border-right green"}
+              = format_money(product_type.get_average_margin)
 
   - get_product_types.each do |product_type|
     .page-content-body-section
@@ -75,7 +115,7 @@
                 Average Per
                 =product_type.product_type
               .stat-number.green
-                = format_money(product_type.get_average_revenue_per_item) + "/" + product_type.product_type
+                = format_money(product_type.get_average_revenue_per_order_item) + "/" + product_type.product_type
 
       -if product_type == "T-shirt"
         %table.stripe.order-column{class: 'table-product-type-' + product_type.id.to_s}
@@ -137,7 +177,8 @@
 
 
 :javascript
-  // ALL CHART TABS //////////////////////////////////////
+
+  // CHART TABS //////////////////////////////////////
   $('.tabbed-charts-tabs-products a').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
@@ -150,7 +191,7 @@
   });
 
 
-  // REVENUE CHARTS //////////////////////////////////////
+  // PRODUCT CHARTS //////////////////////////////////////
   $(function () { 
     // #chart-revenue-by-product-line
     $('#chart-revenue-by-product-line').highcharts({
@@ -325,5 +366,13 @@
         }
       },
       series: #{get_product_type_items_sold_array_by_months}
+    });
+
+    // TABLE //////////////////////////////////////
+    $("#table-products").DataTable({
+      dom: 'iCfrtS',
+      pageLength: -1,
+      order: [1, 'desc'],
+      orderClasses: true
     });
   });

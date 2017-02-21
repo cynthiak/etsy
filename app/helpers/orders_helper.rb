@@ -52,13 +52,4 @@ module OrdersHelper
     get_unpaid_orders(order_type).count
   end
 
-
-  # Average Items Per Order
-  def get_average_items_per_order(order_type=nil)
-    if order_type
-      (get_items_sold_count(order_type, nil, nil)/get_orders_count(order_type)).round(0)
-    else
-      (get_items_sold_count/get_orders_count).round(0)
-    end
-  end
 end

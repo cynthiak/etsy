@@ -60,7 +60,7 @@ class ProductType < ActiveRecord::Base
     return get_revenue(start_date, end_date)
   end
 
-  def get_average_revenue_per_item
+  def get_average_revenue_per_order_item
     if self.get_revenue > 0
       (self.get_revenue / self.get_order_items_count).round(2)
     else

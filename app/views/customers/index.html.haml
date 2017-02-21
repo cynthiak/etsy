@@ -13,7 +13,7 @@
         .stat
           .stat-label Average Rev Per Customer
           .stat-number
-            = "$" + get_average_revenue_per_customer("Wholesale").to_s + "/customer"
+            = "$" + get_average_revenue_per_customer("Wholesale", nil, nil).to_s + "/customer"
       .stat-container
         .stat
           .stat-label Average Orders Per Customer
@@ -73,7 +73,7 @@
         .stat
           .stat-label Average Rev Per Customer
           .stat-number
-            = "$" + get_average_revenue_per_customer("Retail").to_s + "/customer"
+            = "$" + get_average_revenue_per_customer("Retail", nil, nil).to_s + "/customer"
       .stat-container
         .stat
           .stat-label Average Orders Per Customer

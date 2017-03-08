@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'dashboard#index'
-  get 'dashboard' => 'dashboard#version2', as: :dashboard
+  root 'dashboard#version2'
+  get 'dashboard2' => 'dashboard#index', as: :dashboard
 
   # Example of regular route:
   get 'upload' => 'upload#index', as: :upload
@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   end
 
   resources :products
-  resources :customers 
+  resources :customers
   resources :listings
   resources :variations
   resources :giveaways

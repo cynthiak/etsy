@@ -141,7 +141,7 @@ class OrderItem < ActiveRecord::Base
       # Set row parameters
       order_item_params = {
         :sale_date=> (DateTime.strptime row[0], "%m/%d/%y").strftime("%Y/%m/%d"),
-        :item_name=> row[4],
+        :item_name=> row[4] + ' ' + row[6],
         :quantity=> row[5],
         :coupon_discount=> row[10].delete('$').to_f.abs,
         :order_shipping=> "0.0",

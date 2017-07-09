@@ -8,7 +8,7 @@ class Variation < ActiveRecord::Base
 
   #######################################################
   # Makes it so that when you print the object, you print a display name instead of the "#<ActiveRecord>blahblah" object name
-  alias_attribute :name, :variation_name
+  alias_attribute :name, :display_name
 
   #######################################################
   # Makes it so that you can edit these database columns via ActiveAdmin and forms

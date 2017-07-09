@@ -21,6 +21,7 @@ ActiveAdmin.register Listing do
     column :etsy_listing_variation
     column :product
     column :variation
+    column :item_name
     column "" do |resource|
       links = ''.html_safe
       links += link_to I18n.t('active_admin.view'), resource_path(resource), :class => "member_link view_link"

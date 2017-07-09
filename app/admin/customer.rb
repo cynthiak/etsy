@@ -21,7 +21,12 @@ ActiveAdmin.register Customer do
     column :created_at
     column :full_name do |resource|
       name = ''.html_safe
-      name += resource.first_name + " " + resource.last_name
+      if resource.first_name
+        name += resource.first_name + " " 
+      end
+      if resource.last_name
+        name += resource.last_name
+      end
       name
     end
     column :etsy_username

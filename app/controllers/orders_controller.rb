@@ -46,7 +46,7 @@ class OrdersController < ApplicationController
 
   def import_square
     Order.import_square(params[:file])
-    redirect_to upload_path, notice: "Orders imported. Upload your order items now.."
+    redirect_to upload_path, notice: "Orders imported. Upload your order items now."
   end
 
 end

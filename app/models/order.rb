@@ -87,21 +87,21 @@ class Order < ActiveRecord::Base
         :order_value=> row[16],
         :coupon_code=> row[17],
         :coupon_details=> row[18],
-        :shipping=> row[19],
-        :sales_tax=> row[20],
-        :order_total=> row[21],
-        :card_processing_fees=> row[23],
-        :order_net=> row[24],
-        :adjusted_order_total=> row[25],
-        :adjusted_card_processing_fees=> row[26],
-        :adjusted_net_order_amount=> row[27],
+        :shipping=> row[21],
+        :sales_tax=> row[22],
+        :order_total=> row[23],
+        :card_processing_fees=> row[25],
+        :order_net=> row[26],
+        :adjusted_order_total=> row[27],
+        :adjusted_card_processing_fees=> row[28],
+        :adjusted_net_order_amount=> row[29],
         :order_type=> order_type,
         :payment_type=> payment_type,
-        :inperson_discount=> row[31],
-        :inperson_location=> row[32],
+        :inperson_discount=> row[33],
+        :inperson_location=> row[34],
         :order_source=> "Etsy",
         :customer_id=>customer.id,
-        :refund=> row[25].nil? ? nil : (row[21].to_f - row[25].to_f).round(2)
+        :refund=> row[27].nil? ? nil : (row[23].to_f - row[27].to_f).round(2)
       }
 
       if (order)

@@ -28,7 +28,7 @@ class OrderItem < ActiveRecord::Base
 
   def self.import_etsy(file)
     CSV.foreach(file.path, headers:true) do |row|
-      order_item = OrderItem.find_by(transaction_number: row[12])
+      order_item = OrderItem.find_by(transaction_number: row[13])
 
       # PO's matching with Order ID's
       pos = {
@@ -38,19 +38,19 @@ class OrderItem < ActiveRecord::Base
       }
 
       # Find order
-      order = Order.find_by(order_number: row[23])
+      order = Order.find_by(order_number: row[24])
       if !(order)
-        order = Order.find_by(order_number: pos[row[23]])
+        order = Order.find_by(order_number: pos[row[24]])
       end
       if order
         order_id = order.id
-        order.update(:date_paid=> row[14].nil? ? nil : (DateTime.strptime(row[14], "%m/%d/%Y")).strftime("%Y/%m/%d"))
+        order.update(:date_paid=> row[15].nil? ? nil : (DateTime.strptime(row[15], "%m/%d/%Y")).strftime("%Y/%m/%d"))
       else
         order_id = nil
       end
 
       # Find listing
-      etsy_listing_variation = row[24].nil? ? row[13] : row[13] + "_" + row[24]
+      etsy_listing_variation = row[25].nil? ? row[14] : row[14] + "_" + row[25]
       listing = Listing.find_by(etsy_listing_variation: etsy_listing_variation)
       item_name = row[1]
       product_id = nil
@@ -77,14 +77,14 @@ class OrderItem < ActiveRecord::Base
           :coupon_code=> row[5],
           :coupon_details=> row[6],
           :coupon_discount=> row[7],
-          :item_total=> row[10],
-          :currency=> row[11],
-          :transaction_number=> row[12],
-          :listing_number=> row[13],
-          :date_shipped => row[15].nil? ? nil : (DateTime.strptime row[15], "%m/%d/%Y").strftime("%Y/%m/%d"),
-          :order_number=> row[23],
-          :variations=> row[24],
-          :order_type=> row[25],
+          :item_total=> row[11],
+          :currency=> row[12],
+          :transaction_number=> row[13],
+          :listing_number=> row[14],
+          :date_shipped => row[16].nil? ? nil : (DateTime.strptime row[16], "%m/%d/%Y").strftime("%Y/%m/%d"),
+          :order_number=> row[24],
+          :variations=> row[25],
+          :order_type=> row[26],
           :etsy_listing_variation=> etsy_listing_variation,
           :order_id => order_id,
           :listing_id => listing.id,

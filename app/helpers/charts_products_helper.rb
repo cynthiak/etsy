@@ -4,7 +4,7 @@ module ChartsProductsHelper
   # Revenue By Month ###################################################################
   def get_product_type_revenue_array_by_months
     product_type_revenue_array_series = []
-    product_types = ["Planner Stickers", "Washi", "Card", "Laptop Sticker", "Stamps", "Notebooks"]
+    product_types = ["Planner Stickers", "Washi", "Cards", "Laptop Stickers", "Stamps", "Notebooks", "Keychains", "Bundles"]
 
     product_types.each do |product_type|
       product_type_revenue_by_month = []
@@ -27,7 +27,7 @@ module ChartsProductsHelper
   # Margin By Month ###################################################################
   def get_product_type_margin_array_by_months
     product_type_margin_array_series = []
-    product_types = ["Planner Stickers", "Washi", "Card", "Laptop Sticker", "Stamps", "Notebooks"]
+    product_types = ["Planner Stickers", "Washi", "Cards", "Laptop Stickers", "Stamps", "Notebooks", "Keychains", "Bundles"]
 
     product_types.each do |product_type|
       product_type_margin_by_month = []
@@ -50,7 +50,7 @@ module ChartsProductsHelper
   # Items Sold By Month ###################################################################
   def get_product_type_items_sold_array_by_months
     product_type_items_sold_array_series = []
-    product_types = ["Planner Stickers", "Washi", "Card", "Laptop Sticker", "Stamps", "Notebooks"]
+    product_types = ["Planner Stickers", "Washi", "Cards", "Laptop Stickers", "Stamps", "Notebooks", "Keychains", "Bundles"]
 
     product_types.each do |product_type|
       product_type_items_sold_by_month = []
